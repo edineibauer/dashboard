@@ -1,0 +1,21 @@
+{
+  "name": "conn/dashboard",
+  "description": "Gerencia as telas que cada usuário logado deverá ver, apresenta a home para um usuário logado",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Edinei J. Bauer",
+      "email": "edineibauer@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.0",
+    "conn/table": "^1.0"
+  },
+  "autoload": {
+    "psr-0": {
+      "Dashboard": "src/"
+    }
+  }
+}
