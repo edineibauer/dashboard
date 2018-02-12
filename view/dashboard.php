@@ -8,17 +8,32 @@ if (!LOGGED)
     <div class="bar theme-d2 left-align font-large">
         <a class="bar-item button hide-medium hide-large right padding-large color-hover-white font-large theme-d2"
            href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-        <a href="#" class="bar-item button padding-large theme-d4 upper">
-            <?php
-            if (FAVICON && !empty(FAVICON))
-                echo '<img src="' . FAVICON . '" style="height: 30px; width: auto" height="30" />';
-            else
-                echo '<i class="material-icons left padding-right">home</i>';
-            ?>
-            <span class="left">
-            <?= SITENAME ?>
-            </span>
-        </a>
+        <div class="bar-item padding-small theme-d4 upper" style="width: 300px">
+            <a href="#" class="button upper padding-small">
+                <?php
+                if (LOGO && !empty(LOGO)) {
+                    echo '<img src="' . LOGO . '" class="left" style="height: 35px; width: auto" height="35" />';
+
+                } else {
+                    if (FAVICON && !empty(FAVICON))
+                        echo '<img src="' . FAVICON . '" class="left padding-right" style="height: 35px; width: auto" height="35" />';
+                    else
+                        echo '<i class="material-icons left padding-small">home</i>';
+
+                    echo '<span class="left padding-small">' . SITENAME . '</span>';
+                }
+                ?>
+            </a>
+
+            <div class="right">
+                <a href="<?= HOME ?>logout" rel="nofollow"
+                   class="right color-white opacity hover-shadow margin-0 hover-opacity-off btn-floating">
+                    <i class="material-icons color-hover-text-red">power_settings_new</i>
+                </a>
+            </div>
+        </div>
+
+        <!--
         <a href="#" class="bar-item button hide-small padding-large hover-white" title="News"><i
                     class="fa fa-globe"></i></a>
         <a href="#" class="bar-item button hide-small padding-large hover-white" title="Messages"><i
@@ -34,26 +49,23 @@ if (!LOGGED)
                 <a href="#" class="bar-item button">Jane likes your post</a>
             </div>
         </div>
+        -->
     </div>
 </div>
 
 <!-- Sidebar/menu -->
-<nav class="sidebar card collapse color-white animate-left" style="z-index:3;width:300px;top: 50px;" id="mySidebar"><br>
+<nav class="sidebar card collapse color-white animate-left" style="z-index:3;width:300px;top: 49px;" id="mySidebar"><br>
     <div class="container row">
         <?php
         if (isset($_SESSION['userlogin']['imagem']) && !empty($_SESSION['userlogin']['imagem'])) {
-            echo '<div class="col s4"><img src="' . $_SESSION['userlogin']['imagem'] . '" class="card radius-small margin-right"></div><div class="col s8 bar">';
+            echo '<div class="col s4"><img src="' . $_SESSION['userlogin']['imagem'] . '" style="margin-bottom:0!important" class="card radius-small margin-right"></div><div class="col s8 bar">';
         } else {
             echo '<div class="col s12 bar">';
         }
         ?>
 
         <strong class="padding"><?= $_SESSION['userlogin']['nome'] ?></strong><br>
-        <div class="row padding-bottom">
-            <a href="<?= HOME ?>logout" rel="nofollow"
-               class="right color-white opacity hover-shadow hover-opacity-off btn-floating">
-                <i class="material-icons color-hover-text-red">power_settings_new</i>
-            </a>
+        <div class="row" style="padding-bottom:15px">
             <button id="btn-editLogin" class="right color-white opacity hover-shadow hover-opacity-off btn-floating">
                 <i class="material-icons">edit</i>
             </button>
@@ -64,7 +76,8 @@ if (!LOGGED)
     <div class="bar-block">
         <a href="#" class="bar-item button padding-16 hide-large dark-grey color-hover-black" onclick="w3_close()"
            title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
-        <button id="btn-geral" class="bar-item hover-theme button z-depth-0 padding"><i class="material-icons left padding-right">timeline</i><span
+        <button id="btn-geral" class="bar-item hover-theme button z-depth-0 padding"><i
+                    class="material-icons left padding-right">timeline</i><span
                     class="left">Geral</span></button>
 
         <?php
@@ -89,7 +102,7 @@ if (!LOGGED)
      id="myOverlay"></div>
 
 <!-- !PAGE CONTENT! -->
-<div class="main color-grey-light" style="margin-left:300px;margin-top:50px;">
+<div class="main color-grey-light" style="margin-left:300px;margin-top:48px;">
 
     <div id="dashboard" class="dashboard-tab panel row">
         <?php include_once 'inc/geral.php' ?>

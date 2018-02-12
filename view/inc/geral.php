@@ -1,11 +1,14 @@
-
-
 <!-- Header -->
-<header class="container" style="padding-top:22px">
-    <h5><b><i class="material-icons left padding-right">dashboard</i> <span class="left">My Dashboard</span></b>
+<header class="container">
+    <h5>
+        <b><i class="material-icons left padding-right">dashboard</i> <span class="left">Meu Painel</span></b>
     </h5>
 </header>
+<div class="row padding-32 align-center">
+    <h2>Seja Bem-Vindo(a) <?=$_SESSION['userlogin']['nome']?></h2>
+</div>
 
+<!--
 <div class="row-padding margin-bottom">
     <div class="quarter">
         <div class="container color-red padding-16">
@@ -110,3 +113,4 @@
         </div>
     </div>
 </div>
+-->
