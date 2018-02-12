@@ -81,12 +81,13 @@ if (!LOGGED)
                     class="left">Geral</span></button>
 
         <?php
-
-        foreach (\Helpers\Helper::listFolder(PATH_HOME . "entity/cache") as $item) {
-            if ($item !== "login_attempt.json" && $item !== "info" && preg_match('/\.json$/i', $item))
-                echo "<button class='btn-entity hover-theme bar-item button z-depth-0 padding' data-entity='" . str_replace('.json', '', $item) . "'><i class='material-icons left padding-right'>account_balance_wallet</i><span class='left'>" . ucwords(trim(str_replace(['.json', '-', '_'], ['', ' ', ' '], $item))) . "</span></button>";
+        switch ($_SESSION['userlogin']['setor']) {
+            case 1:
+                include_once 'inc/setor/admin.php';
+                break;
+            default:
+                include_once 'inc/setor/usuario.php';
         }
-
         ?>
 
         <button id="btn-settings" class="bar-item hover-theme button z-depth-0 padding"><i
