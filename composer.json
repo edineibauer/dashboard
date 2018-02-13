@@ -1,6 +1,22 @@
 {
+    "name": "conn/dashboard",
+    "description": "Controle do Login de usuários no sistema. Tela de boas vindas, resumo e administração",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Edinei J. Bauer",
+            "email": "edineibauer@gmail.com"
+        }
+    ],
     "require": {
-        "conn/table": "^1.0",
-        "conn/session-control": "^1.4"
+        "php": "^7.0",
+        "conn/session-control": "^1",
+        "conn/table": "^1"
+    },
+    "autoload": {
+        "psr-0": {
+            "Dashboard": "src/"
+        }
     }
 }
