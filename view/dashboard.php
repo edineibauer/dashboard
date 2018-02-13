@@ -6,8 +6,8 @@ if (!LOGGED)
 <!-- Navbar -->
 <div class="top card" style="z-index: 3">
     <div class="bar theme-d2 left-align font-large">
-        <a class="bar-item button hide-medium hide-large right padding-large color-hover-white font-large theme-d2"
-           href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+        <button class="bar-item z-depth-0 button hide-large right padding-large color-hover-white font-large theme-d2"
+                href="javascript:void(0);" onclick="w3_open()"><i class="fa fa-bars"></i></button>
         <div class="bar-item padding-small theme-d4 upper" style="width: 300px">
             <a href="#" class="button upper padding-small">
                 <?php

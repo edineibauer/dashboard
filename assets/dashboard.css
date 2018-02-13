@@ -2,3 +2,14 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 body {
     background: #f1f1f1;
 }
+
+.dashboard-logo {
+    width: 300px;height: 49px
+}
+.dashboard-nav {
+    z-index:3;width:300px;top: 49px;
+}
+
+.dashboard-main {
+    margin-left:300px;margin-top:48px;
+}
