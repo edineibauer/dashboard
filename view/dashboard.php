@@ -35,9 +35,9 @@ if (!LOGGED)
                 ?>
             </a>
 
-            <button class="right btn hover-shadow opacity theme-d4 hover-opacity-off" style="padding: 10px 15px 5px 15px!important;margin-right: 0;">
+            <a href="<?=HOME?>" target="_blank" class="right btn hover-shadow opacity theme-d4 hover-opacity-off" style="padding: 10px 15px 5px 15px!important;margin-right: 0;">
                 <i class="material-icons">launch</i>
-            </button>
+            </a>
         </div>
 
         <!--
