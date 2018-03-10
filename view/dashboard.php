@@ -6,9 +6,19 @@ if (!LOGGED)
 <!-- Navbar -->
 <div class="top card" style="z-index: 3">
     <div class="bar theme-d2 left-align font-large">
+
+        <div class="right padding-tiny">
+            <a href="<?= HOME ?>logout" style="height: 38px;width: 38px; margin:1px 10px 0 0!important" rel="nofollow"
+               class="right color-white opacity hover-shadow margin-0 hover-opacity-off btn-floating">
+                <i class="material-icons color-hover-text-red" style="font-size:0.9em">power_settings_new</i>
+            </a>
+        </div>
         <button class="bar-item z-depth-0 button hide-large right padding-large color-hover-white font-large theme-d2"
-                href="javascript:void(0);" onclick="w3_open()"><i class="fa fa-bars"></i></button>
-        <div class="bar-item padding-small theme-d4 upper" style="width: 300px">
+                href="javascript:void(0);" onclick="w3_open()">
+            <i class="fa fa-bars"></i>
+        </button>
+
+        <div class="bar-item theme-d4 padding-0 upper" style="width: 300px;">
             <a href="#" class="button upper padding-small">
                 <?php
                 if (LOGO && !empty(LOGO)) {
@@ -25,12 +35,9 @@ if (!LOGGED)
                 ?>
             </a>
 
-            <div class="right">
-                <a href="<?= HOME ?>logout" rel="nofollow"
-                   class="right color-white opacity hover-shadow margin-0 hover-opacity-off btn-floating">
-                    <i class="material-icons color-hover-text-red">power_settings_new</i>
-                </a>
-            </div>
+            <button class="right btn hover-shadow opacity theme-d4 hover-opacity-off" style="padding: 10px 15px 5px 15px!important;margin-right: 0;">
+                <i class="material-icons">launch</i>
+            </button>
         </div>
 
         <!--
@@ -54,7 +61,7 @@ if (!LOGGED)
 </div>
 
 <!-- Sidebar/menu -->
-<nav class="sidebar card collapse color-white animate-left" style="z-index:3;width:300px;top: 49px;" id="mySidebar"><br>
+<nav class="sidebar card collapse color-white animate-left" style="z-index:3;width:300px;top: 47px;" id="mySidebar"><br>
     <div class="container row">
         <?php
         if (isset($_SESSION['userlogin']['imagem']) && !empty($_SESSION['userlogin']['imagem'])) {
@@ -103,7 +110,7 @@ if (!LOGGED)
      id="myOverlay"></div>
 
 <!-- !PAGE CONTENT! -->
-<div class="main color-grey-light" style="margin-left:300px;margin-top:48px;">
+<div class="main color-grey-light" style="margin-left:300px;margin-top:47px;">
 
     <div id="dashboard" class="dashboard-tab panel row">
         <?php include_once 'inc/geral.php' ?>
