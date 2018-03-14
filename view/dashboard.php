@@ -8,10 +8,9 @@ if (!LOGGED)
     <div class="bar theme-d2 left-align font-large">
 
         <div class="right padding-tiny">
-            <a href="<?= HOME ?>logout" style="height: 38px;width: 38px; margin:1px 10px 0 0!important" rel="nofollow"
-               class="right color-white opacity hover-shadow margin-0 hover-opacity-off btn-floating">
+            <button onclick="logoutDashboard();" style="height: 38px;width: 38px; margin:1px 10px 0 0!important" class="right color-white opacity hover-shadow margin-0 hover-opacity-off btn-floating">
                 <i class="material-icons color-hover-text-red" style="font-size:0.9em">power_settings_new</i>
-            </a>
+            </button>
         </div>
         <button class="bar-item z-depth-0 button hide-large right padding-large color-hover-white font-large theme-d2"
                 href="javascript:void(0);" onclick="w3_open()">

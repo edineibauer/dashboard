@@ -1,3 +1,8 @@
+function logoutDashboard(){
+    if(confirm("Desconectar?"))
+        window.location = HOME + "logout";
+}
+
 $(function () {
     $(".btn-entity").on("click", function () {
         $(".dashboard-tab").addClass("hide");
