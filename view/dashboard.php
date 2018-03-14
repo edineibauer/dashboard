@@ -87,6 +87,7 @@ if (!LOGGED)
                     class="left">Geral</span></button>
 
         <?php
+
         switch ($_SESSION['userlogin']['setor']) {
             case 1:
                 include_once 'inc/setor/admin.php';

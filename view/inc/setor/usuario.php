@@ -1,4 +1,3 @@
 <?php
 
-$restrict = ["login_attempt", "login"];
-
+$restrict = ["login"];
