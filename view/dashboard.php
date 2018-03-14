@@ -91,9 +91,14 @@ if (!LOGGED)
             case 1:
                 include_once 'inc/setor/admin.php';
                 break;
+            case 2:
+                include_once 'inc/setor/gerente.php';
+                break;
             default:
                 include_once 'inc/setor/usuario.php';
         }
+
+        require_once 'inc/menu.php';
         ?>
 
         <button id="btn-settings" class="bar-item hover-theme button z-depth-0 padding"><i
