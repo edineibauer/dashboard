@@ -1,5 +1,6 @@
 <?php
-if($_SESSION['userlogin']['setor'] === 1 && $_SESSION['userlogin']['nivel'] === 1) {
+
+if($_SESSION['userlogin']['setor'] === '1' && $_SESSION['userlogin']['nivel'] === '1') {
 
     $tpl = new \Helpers\Template("dashboard");
     $routesAll = [];
@@ -64,6 +65,5 @@ if($_SESSION['userlogin']['setor'] === 1 && $_SESSION['userlogin']['nivel'] === 
         </header>
     </section>
 
-    <?
+    <?php
 }
-    ?>
