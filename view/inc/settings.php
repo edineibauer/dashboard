@@ -4,9 +4,8 @@ if($_SESSION['userlogin']['setor'] === '1' && $_SESSION['userlogin']['nivel'] ==
 
     $tpl = new \Helpers\Template("dashboard");
     $routesAll = [];
-    foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn") as $item) {
+    foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn") as $item)
         $routesAll[] = $item;
-    }
 
     $routes = json_decode(file_get_contents(PATH_HOME . "_config/route.json"), true);
     ?>
@@ -24,8 +23,15 @@ if($_SESSION['userlogin']['setor'] === '1' && $_SESSION['userlogin']['nivel'] ==
 
         <div id="routes-settings">
             <?php
-            foreach ($routesAll as $item)
-                $tpl->show("checkbox", ["item" => $item, "nome" => ucwords(str_replace(["_", "-", "  "], [" ", " ", " "], $item)), "value" => in_array($item, $routes)]);
+            foreach ($routesAll as $item) {
+                $data = [
+                    "item" => $item,
+                    "nome" => ucwords(str_replace(["_", "-", "  "], [" ", " ", " "], $item)),
+                    "value" => in_array($item, $routes),
+                    "disable" => in_array($item, ["session-control", "dashboard", "link-control", "entity-form"])
+                ];
+                $tpl->show("checkbox", $data);
+            }
             ?>
         </div>
     </section>
