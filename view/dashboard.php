@@ -102,8 +102,8 @@ if (!LOGGED)
         require_once 'inc/menu.php';
         ?>
 
-        <button id="btn-settings" class="bar-item hover-theme button z-depth-0 padding"><i
-                    class="material-icons left padding-right">settings</i><span
+        <button id="btn-settings" class="bar-item hover-theme button z-depth-0 padding">
+            <i class="material-icons left padding-right">settings</i><span
                     class="left">Settings</span></button>
         <br><br>
     </div>
@@ -119,6 +119,10 @@ if (!LOGGED)
 
     <div id="dashboard" class="dashboard-tab panel row">
         <?php include_once 'inc/geral.php' ?>
+    </div>
+
+    <div id="settings" class="dashboard-tab panel row hide">
+        <?php include_once 'inc/settings.php' ?>
     </div>
 
     <div id="entity" class="dashboard-tab panel row hide">
