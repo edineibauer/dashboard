@@ -46,7 +46,7 @@ if($_SESSION['userlogin']['setor'] === '1' && $_SESSION['userlogin']['nivel'] ==
 
         <label class="container col">
             <span>Key Space</span>
-            <input type="text" id="spacekey" placeholder="key" class="font-large">
+            <input type="text" id="spacekey" placeholder="key" value="<?=defined('SPACEKEY') && !empty(SPACEKEY) ? SPACEKEY : ""?>" class="font-large">
         </label>
     </section>
 
