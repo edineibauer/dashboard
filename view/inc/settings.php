@@ -7,6 +7,9 @@ if($_SESSION['userlogin']['setor'] === '1' && $_SESSION['userlogin']['nivel'] ==
     foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn") as $item)
         $routesAll[] = $item;
 
+    if(DEV)
+        $routesAll[] = DOMINIO;
+
     $routes = json_decode(file_get_contents(PATH_HOME . "_config/route.json"), true);
     ?>
 
