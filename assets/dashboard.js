@@ -34,7 +34,7 @@ $(function () {
         }));
     });
 
-    $("#routes-settings").on("change", "input[type=checkbox]", function () {
+    $("#routes-settings").off("change", "input[type=checkbox]").on("change", "input[type=checkbox]", function () {
         var routeNew = [];
         $.each($("#routes-settings").find("input[type=checkbox]"), function () {
             if($(this).prop("checked"))
@@ -48,7 +48,7 @@ $(function () {
         }
     });
 
-    $("#spacekey").on("change keyup", function () {
+    $("#spacekey").off("change keyup").on("change keyup", function () {
         if(!change) {
             change = true;
             post('dashboard', 'settings/space', {key: $(this).val()}, function () {
