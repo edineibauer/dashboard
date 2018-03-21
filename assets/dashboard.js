@@ -56,4 +56,15 @@ $(function () {
             });
         }
     });
+
+    $("#clear-global").on("click", function () {
+        post("dashboard", "cache/global", {}, function (g) {
+            if(g==="1") {
+                toast("Cache Limpo! Recarregando Arquivos...", 4000);
+                setTimeout(function () {
+                    location.reload();
+                },700);
+            }
+        });
+    });
 });

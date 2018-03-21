@@ -21,6 +21,16 @@ if($_SESSION['userlogin']['setor'] === '1' && $_SESSION['userlogin']['nivel'] ==
 
     <section class="col padding-32 border-bottom">
         <header class="container col">
+            <h2>Cache</h2>
+        </header>
+
+        <div class="container">
+            <button id="clear-global" class="btn color-yellow hover-shadow">Limpar Assets Globais</button>
+        </div>
+    </section>
+
+    <section class="col padding-32 border-bottom">
+        <header class="container col">
             <h2>Rotas</h2>
         </header>
 
