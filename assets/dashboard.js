@@ -56,6 +56,14 @@ $(function () {
             });
         }
     });
+    $("#dev").off("change").on("change", function () {
+        if(!change) {
+            change = true;
+            post('dashboard', 'settings/debug', {key: $(this).prop("checked")}, function () {
+                change = false;
+            });
+        }
+    });
 
     $("#clear-global").on("click", function () {
         post("dashboard", "cache/global", {}, function (g) {

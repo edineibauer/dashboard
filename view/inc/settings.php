@@ -1,16 +1,20 @@
 <?php
 
-if($_SESSION['userlogin']['setor'] === '1' && $_SESSION['userlogin']['nivel'] === '1') {
+if ($_SESSION['userlogin']['setor'] === '1' && $_SESSION['userlogin']['nivel'] === '1') {
 
     $tpl = new \Helpers\Template("dashboard");
     $routesAll = [];
     foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn") as $item)
         $routesAll[] = $item;
 
-    if(DEV)
+    if (DEV)
         $routesAll[] = DOMINIO;
 
     $routes = json_decode(file_get_contents(PATH_HOME . "_config/route.json"), true);
+
+    $file = file_get_contents(PATH_HOME . "_config/config.php");
+    $dev = explode(";", explode("const ISDEV = ", $file)[1])[0] === 'true';
+
     ?>
 
     <header class="container">
@@ -21,11 +25,23 @@ if($_SESSION['userlogin']['setor'] === '1' && $_SESSION['userlogin']['nivel'] ==
 
     <section class="col padding-32 border-bottom">
         <header class="container col">
-            <h2>Cache</h2>
+            <h2>Desenvolvimento</h2>
         </header>
 
         <div class="container">
-            <button id="clear-global" class="btn color-yellow hover-shadow">Limpar Assets Globais</button>
+
+            <div class="left margin-right">
+                <label for="dev" class="row">Debugar</label>
+                <label class="switch">
+                    <input type="checkbox" id="dev" data-format="switch" <?= ($dev ? "checked='checked' " : "") ?>
+                           class="switchCheck"/>
+                    <div class="slider"></div>
+                </label>
+            </div>
+
+            <div class="left padding-xlarge">
+                <button id="clear-global" class="btn color-yellow hover-shadow">Limpar Assets Globais</button>
+            </div>
         </div>
     </section>
 
@@ -56,7 +72,8 @@ if($_SESSION['userlogin']['setor'] === '1' && $_SESSION['userlogin']['nivel'] ==
 
         <label class="container col">
             <span>Key Space</span>
-            <input type="text" id="spacekey" placeholder="key" value="<?=defined('SPACEKEY') && !empty(SPACEKEY) ? SPACEKEY : ""?>" class="font-large">
+            <input type="text" id="spacekey" placeholder="key"
+                   value="<?= defined('SPACEKEY') && !empty(SPACEKEY) ? SPACEKEY : "" ?>" class="font-large">
         </label>
     </section>
 
