@@ -21,11 +21,11 @@ if (!LOGGED)
             <a href="#" class="button upper padding-small">
                 <?php
                 if (LOGO && !empty(LOGO)) {
-                    echo '<img src="' . LOGO . '" class="left" style="height: 35px; width: auto" height="35" />';
+                    echo '<img src="' . HOME . 'image/' . LOGO . '&h35" class="left" style="height: 35px; width: auto" height="35" />';
 
                 } else {
                     if (FAVICON && !empty(FAVICON))
-                        echo '<img src="' . FAVICON . '" class="left padding-right" style="height: 35px; width: auto" height="35" />';
+                        echo '<img src="' . HOME . FAVICON . '" class="left padding-right" style="height: 35px; width: auto" height="35" />';
                     else
                         echo '<i class="material-icons left padding-small">home</i>';
 
