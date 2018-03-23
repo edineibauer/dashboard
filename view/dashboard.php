@@ -21,7 +21,7 @@ if (!LOGGED)
             <a href="#" class="button upper padding-small">
                 <?php
                 if (LOGO && !empty(LOGO)) {
-                    echo '<img src="' . HOME . 'image/' . LOGO . '&h35" class="left" style="height: 35px; width: auto" height="35" />';
+                    echo '<img src="' . HOME . 'image/' . LOGO . '&h=35" class="left" style="height: 35px; width: auto" height="35" />';
 
                 } else {
                     if (FAVICON && !empty(FAVICON))
