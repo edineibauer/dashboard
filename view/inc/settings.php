@@ -12,7 +12,7 @@ if ($_SESSION['userlogin']['setor'] === '1' && $_SESSION['userlogin']['nivel'] =
 
     $routes = json_decode(file_get_contents(PATH_HOME . "_config/route.json"), true);
 
-    $file = file_get_contents(PATH_HOME . "_config/config.php");
+    $file = file_get_contents(PATH_HOME . "vendor/conn/link-control/tpl/header.tpl");
     $dev = explode(";", explode("const ISDEV = ", $file)[1])[0] === 'true';
 
     ?>
