@@ -47,6 +47,30 @@ if ($_SESSION['userlogin']['setor'] === '1' && $_SESSION['userlogin']['nivel'] =
 
     <section class="col padding-32 border-bottom">
         <header class="container col">
+            <h2>Reautorar Conteúdo sem Autor</h2>
+        </header>
+
+        <div class="container">
+            <div class="left margin-right">
+                <select id="selectReautor">
+                    <?php
+                    $read = new \ConnCrud\Read();
+                    $read->exeRead(PRE . "login", "ORDER BY setor,nivel,nome DESC LIMIT 50");
+                    if ($read->getResult()) {
+                        foreach ($read->getResult() as $log)
+                            echo "<option value='{$log['id']}'>{$log['nome']}</option>";
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="left margin-right">
+                <button class="btn color-teal" id="reautorar"><i class="material-icons left padding-right">save</i>Reautorar</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="col padding-32 border-bottom">
+        <header class="container col">
             <h2>Rotas</h2>
         </header>
 
