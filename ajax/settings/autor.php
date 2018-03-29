@@ -9,8 +9,9 @@ foreach (\Helpers\Helper::listFolder(PATH_HOME . "entity/cache") as $item) {
         if(!empty($info['publisher'])) {
             $dic = \EntityForm\Metadados::getDicionario($entity);
             $field = $dic[$info['publisher']]['column'];
+            $null = NULL;
             $up = new \ConnCrud\Update();
-            $up->exeUpdate(PRE . $entity, [$field => $autor], "WHERE {$field} = :fi", "fi=NULL");
+            $up->exeUpdate(PRE . $entity, [$field => $autor], "WHERE {$field} = :fi", "fi={$null}");
         }
     }
 }
