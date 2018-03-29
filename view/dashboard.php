@@ -8,7 +8,8 @@ if (!LOGGED)
     <div class="bar theme-d2 left-align font-large">
 
         <div class="right padding-tiny">
-            <button onclick="logoutDashboard();" style="height: 38px;width: 38px; margin:1px 10px 0 0!important" class="right color-white opacity hover-shadow margin-0 hover-opacity-off btn-floating">
+            <button onclick="logoutDashboard();" style="height: 38px;width: 38px; margin:1px 10px 0 0!important"
+                    class="right color-white opacity hover-shadow margin-0 hover-opacity-off btn-floating">
                 <i class="material-icons color-hover-text-red" style="font-size:0.9em">power_settings_new</i>
             </button>
         </div>
@@ -34,7 +35,8 @@ if (!LOGGED)
                 ?>
             </a>
 
-            <a href="<?=HOME?>" target="_blank" class="right btn hover-shadow opacity theme-d4 hover-opacity-off" style="padding: 10px 15px 5px 15px!important;margin-right: 0;">
+            <a href="<?= HOME ?>" target="_blank" class="right btn hover-shadow opacity theme-d4 hover-opacity-off"
+               style="padding: 10px 15px 5px 15px!important;margin-right: 0;">
                 <i class="material-icons">launch</i>
             </a>
         </div>
@@ -88,16 +90,8 @@ if (!LOGGED)
 
         <?php
 
-        switch ($_SESSION['userlogin']['setor']) {
-            case 1:
-                include_once 'inc/setor/admin.php';
-                break;
-            case 2:
-                include_once 'inc/setor/gerente.php';
-                break;
-            default:
-                include_once 'inc/setor/usuario.php';
-        }
+        if ($_SESSION['userlogin']['setor'] === '1')
+            echo "<a href='" . HOME . "entidades' target='_blank' class='btn-entity hover-theme bar-item button z-depth-0 padding'><i class='material-icons left padding-right'>accessibility</i><span class='left'>Gerenciar Entidades</span></a>";
 
         require_once 'inc/menu.php';
         ?>
