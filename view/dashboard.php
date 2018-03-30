@@ -4,22 +4,20 @@ if (!LOGGED)
 ?>
 
 <!-- Navbar -->
-<div class="top card" style="z-index: 3">
-    <div class="bar theme-d2 left-align font-large">
-
-        <div class="right padding-tiny">
-            <button onclick="logoutDashboard();" style="height: 38px;width: 38px; margin:1px 10px 0 0!important"
-                    class="right color-white opacity hover-shadow margin-0 hover-opacity-off btn-floating">
+<div class="top card dashboard-header bar theme-d2 left-align font-large">
+        <div class="right padding-tiny hide-small">
+            <button onclick="logoutDashboard();"
+                    class="logout-button right color-white opacity hover-shadow margin-0 hover-opacity-off btn-floating">
                 <i class="material-icons color-hover-text-red" style="font-size:0.9em">power_settings_new</i>
             </button>
         </div>
-        <button class="bar-item z-depth-0 button hide-large right padding-large color-hover-white font-large theme-d2"
-                href="javascript:void(0);" onclick="w3_open()">
-            <i class="fa fa-bars"></i>
+        <button class="open-menu bar-item z-depth-0 button hide-large right padding-large color-hover-white font-large theme-d2"
+                href="javascript:void(0);" onclick="open_sidebar()">
+            <i class="material-icons">menu</i>
         </button>
 
-        <div class="bar-item theme-d4 padding-0 upper" style="width: 300px;">
-            <a href="#" class="button upper padding-small">
+        <div class="bar-item theme-d4 padding-0 upper dashboard-header-sidebar">
+            <a href="#" class="button upper padding-small dashboard-header-logo">
                 <?php
                 if (LOGO && !empty(LOGO)) {
                     echo '<img src="' . HOME . 'image/' . LOGO . '&h=35" class="left" style="height: 35px; width: auto" height="35" />';
@@ -58,11 +56,10 @@ if (!LOGGED)
             </div>
         </div>
         -->
-    </div>
 </div>
 
 <!-- Sidebar/menu -->
-<nav class="sidebar card collapse color-white animate-left" style="z-index:3;width:300px;top: 47px;" id="mySidebar"><br>
+<nav class="sidebar card collapse color-white animate-left dashboard-nav" id="mySidebar"><br>
     <div class="container row">
         <?php
         if (isset($_SESSION['userlogin']['imagem']) && !empty($_SESSION['userlogin']['imagem'])) {
@@ -82,11 +79,10 @@ if (!LOGGED)
     </div>
     <hr>
     <div class="bar-block">
-        <a href="#" class="bar-item button padding-16 hide-large dark-grey color-hover-black" onclick="w3_close()"
-           title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
-        <button id="btn-geral" class="bar-item hover-theme button z-depth-0 padding"><i
-                    class="material-icons left padding-right">timeline</i><span
-                    class="left">Geral</span></button>
+        <button id="btn-geral" class="bar-item hover-theme button z-depth-0 padding">
+            <i class="material-icons left padding-right">timeline</i>
+            <span class="left">Geral</span>
+        </button>
 
         <?php
 
@@ -97,19 +93,20 @@ if (!LOGGED)
         ?>
 
         <button id="btn-settings" class="bar-item hover-theme button z-depth-0 padding">
-            <i class="material-icons left padding-right">settings</i><span
-                    class="left">Settings</span></button>
+            <i class="material-icons left padding-right">settings</i>
+            <span class="left">Settings</span>
+        </button>
         <br><br>
     </div>
 </nav>
 
 
 <!-- Overlay effect when opening sidebar on small screens -->
-<div class="overlay hide-large animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu"
+<div class="overlay hide-large animate-opacity" onclick="close_sidebar()" style="cursor:pointer" title="close side menu"
      id="myOverlay"></div>
 
 <!-- !PAGE CONTENT! -->
-<div class="main color-grey-light" style="margin-left:300px;margin-top:47px;">
+<div class="main color-grey-light dashboard-main">
 
     <div id="dashboard" class="dashboard-tab panel row">
         <?php include_once 'inc/geral.php' ?>
@@ -123,29 +120,3 @@ if (!LOGGED)
 
     </div>
 </div>
-
-<script>
-    // Get the Sidebar
-    var mySidebar = document.getElementById("mySidebar");
-
-    // Get the DIV with overlay effect
-    var overlayBg = document.getElementById("myOverlay");
-
-    // Toggle between showing and hiding the sidebar, and add overlay effect
-    function w3_open() {
-        if (mySidebar.style.display === 'block') {
-            mySidebar.style.display = 'none';
-            overlayBg.style.display = "none";
-        } else {
-            mySidebar.style.display = 'block';
-            overlayBg.style.display = "block";
-        }
-    }
-
-    // Close the sidebar with the close button
-    function w3_close() {
-        mySidebar.style.display = "none";
-        overlayBg.style.display = "none";
-    }
-</script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">

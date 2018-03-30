@@ -1,6 +1,29 @@
+var mySidebar = document.getElementById("mySidebar");
+var overlayBg = document.getElementById("myOverlay");
+
 function logoutDashboard(){
     if(confirm("Desconectar?"))
         window.location = HOME + "logout";
+}
+
+function open_sidebar() {
+    if (mySidebar.style.display === 'block') {
+        mySidebar.style.display = 'none';
+        overlayBg.style.display = "none";
+    } else {
+        mySidebar.style.display = 'block';
+        overlayBg.style.display = "block";
+    }
+}
+
+function close_sidebar() {
+    mySidebar.style.display = "none";
+    overlayBg.style.display = "none";
+}
+
+function hide_sidebar_small() {
+    if (screen.width < 993)
+        close_sidebar();
 }
 
 $(function () {
@@ -13,6 +36,10 @@ $(function () {
         post("table", "api", {entity: $(this).attr("data-entity")}, function (data) {
             $("#entity").html(data);
         });
+    });
+
+    $("#btn-geral, #btn-settings, .btn-entity").on("click", function () {
+        hide_sidebar_small();
     });
 
     $("#btn-geral").on("click", function () {
@@ -80,5 +107,9 @@ $(function () {
         post("dashboard", "settings/autor", {autor: $("#selectReautor").val()}, function (g) {
             toast("Salvo");
         });
+    });
+
+    $(".allow-session").off("change").on("change", function () {
+        post("dashboard", "settings/sessionAllow", {session: $(this).attr("rel"), entity: $(this).val(), action: $(this).prop("checked")}, function () {});
     });
 });
