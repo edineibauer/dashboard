@@ -12,11 +12,11 @@ body {
 }
 
 .dashboard-header-sidebar, .dashboard-nav {
-    width: 300px!important;
+    width: 250px!important;
 }
 
 .dashboard-header-logo {
-    max-width: 236px;
+    max-width: 186px;
     overflow: hidden;
 }
 
@@ -33,7 +33,7 @@ body {
 }
 
 .dashboard-main {
-    margin-left: 300px;
+    margin-left: 250px;
     margin-top: 47px;
 }
 
@@ -45,18 +45,4 @@ body {
 
 .open-menu {
     max-height: 47px;
-}
-
-@media (min-width: 993px) {
-    .dashboard-header-sidebar, .dashboard-nav {
-        width: 250px!important;
-    }
-
-    .dashboard-header-logo {
-        max-width: 186px;
-    }
-
-    .dashboard-main {
-        margin-left: 250px;
-    }
 }
