@@ -1,0 +1,14 @@
+[
+  {
+    "icon": "settings",
+    "title": "Configurações",
+    "attr": "settings/settings",
+    "setor": 2
+  },
+  {
+    "icon": "settings_input_component",
+    "title": "Desenvolvimento",
+    "attr": "dev/desenvolvimento",
+    "setor": 1
+  }
+]

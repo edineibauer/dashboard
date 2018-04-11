@@ -5,7 +5,7 @@ use \Helpers\Check;
 $tpl = new \Helpers\Template("dashboard");
 $notAllowCreateLogged = file_exists(PATH_HOME . "_config/create_entity_not_allow_logged.json") ? json_decode(file_get_contents(PATH_HOME . "_config/create_entity_not_allow_logged.json"), true) : null;
 
-$tpl->show("menu-li", ["icon" => "timeline", "title" => "Dashboard", "attr" => "", "lib" => ""]);
+$tpl->show("menu-li", ["icon" => "timeline", "title" => "Dashboard", "attr" => "dash/geral", "lib" => "dashboard"]);
 
 if ($_SESSION['userlogin']['setor'] === '1')
     echo "<a href='" . HOME . "entidades' target='_blank' class='btn-entity hover-theme bar-item button z-depth-0 padding'><i class='material-icons left padding-right'>accessibility</i><span class='left'>Gerenciar Entidades</span></a>";
@@ -52,5 +52,3 @@ if(DEV) {
         }
     }
 }
-
-$tpl->show("menu-li", ["icon" => "settings", "title" => "Configurações", "attr" => "", "lib" => ""]);
