@@ -3,6 +3,7 @@ $tpl = new \Helpers\Template("dashboard");
 $read = new \ConnCrud\Read();
 $dados['reautor'] = "";
 $dados['dominio'] = DEV && DOMINIO === "dashboard" ? "" : "vendor/conn/dashboard/";
+$dados['version'] = VERSION;
 
 $read->exeRead(PRE . "login", "ORDER BY setor,nivel,nome DESC LIMIT 50");
 if ($read->getResult()) {

@@ -64,4 +64,4 @@
                value="{$spacekey}" class="font-large">
     </label>
 </section>
-<script src="{$home}{$dominio}assets/dev.min.js"></script>
+<script src="{$home}{$dominio}assets/dev.min.js?v={$version}"></script>

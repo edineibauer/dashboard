@@ -25,6 +25,7 @@ $dados['file'] = file_get_contents(PATH_HOME . "vendor/conn/link-control/tpl/hea
 $dados['dev'] = explode(";", explode("const ISDEV = ", $dados['file'])[1])[0] === 'true';
 $dados['permissao'] = "";
 $dados['spacekey'] = defined('SPACEKEY') && !empty(SPACEKEY) ? SPACEKEY : "";
+$dados['version'] = VERSION;
 
 $dicLogin = \EntityForm\Metadados::getDicionario("login");
 foreach ($dicLogin as $i => $dataLogin) {

@@ -49,4 +49,4 @@
     </header>
 </section>
 
-<script src="{$home}{$dominio}assets/settings.min.js"></script>
+<script src="{$home}{$dominio}assets/settings.min.js?v={$version}"></script>
