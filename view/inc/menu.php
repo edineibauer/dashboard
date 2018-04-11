@@ -24,15 +24,17 @@ foreach (\Helpers\Helper::listFolder(PATH_HOME . "entity/cache") as $item) {
 foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn") as $lib) {
     if (file_exists(PATH_HOME . "vendor/conn/{$lib}/menu/menu.json")) {
         $incMenu = json_decode(file_get_contents(PATH_HOME . "vendor/conn/{$lib}/menu/menu.json"), true);
-        if(!isset($incMenu['setor']) || empty($incMenu['setor']) || $incMenu['setor'] >= $_SESSION['userlogin']['setor']) {
-            $incMenu = [
-                'lib' => $lib,
-                'title' => ucwords(Check::words(trim(strip_tags($incMenu['title'])), 3)),
-                'icon' => Check::words(trim(strip_tags($incMenu['icon'])), 1),
-                'attr' => Check::words(trim(strip_tags($incMenu['attr'])), 1)
-            ];
+        foreach ($incMenu as $menu) {
+            if(!isset($menu['setor']) || empty($menu['setor']) || $menu['setor'] >= $_SESSION['userlogin']['setor']) {
+                $menu = [
+                    'lib' => $lib,
+                    'title' => ucwords(Check::words(trim(strip_tags($menu['title'])), 3)),
+                    'icon' => Check::words(trim(strip_tags($menu['icon'])), 1),
+                    'attr' => Check::words(trim(strip_tags($menu['attr'])), 1)
+                ];
 
-            $tpl->show("menu-li", $incMenu);
+                $tpl->show("menu-li", $menu);
+            }
         }
     }
 }
