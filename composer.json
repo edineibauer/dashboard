@@ -3,6 +3,8 @@
     "description": "Controle do Login de usuários no sistema. Tela de boas vindas, resumo e administração",
     "type": "library",
     "license": "MIT",
+    "prefer-stable" : true,
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Edinei J. Bauer",
