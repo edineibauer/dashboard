@@ -11,8 +11,8 @@
     ],
     "require": {
         "php": "^7.0",
-        "conn/session-control": "^1",
-        "conn/table": "^1"
+        "conn/session-control": "dev-master",
+        "conn/table": "dev-master"
     },
     "autoload": {
         "psr-0": {
