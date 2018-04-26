@@ -27,7 +27,7 @@ $dados['permissao'] = "";
 $dados['spacekey'] = defined('SPACEKEY') && !empty(SPACEKEY) ? SPACEKEY : "";
 $dados['version'] = VERSION;
 
-$dicLogin = \EntityForm\Metadados::getDicionario("login");
+$dicLogin = \EntityForm\Metadados::getDicionario("usuarios");
 foreach ($dicLogin as $i => $dataLogin) {
     if ($dataLogin['column'] === "setor") {
         $entitys = [];

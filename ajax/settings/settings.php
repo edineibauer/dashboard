@@ -5,7 +5,7 @@ $dados['reautor'] = "";
 $dados['dominio'] = DEV && DOMINIO === "dashboard" ? "" : "vendor/conn/dashboard/";
 $dados['version'] = VERSION;
 
-$read->exeRead(PRE . "login", "ORDER BY setor,nivel,nome DESC LIMIT 50");
+$read->exeRead("usuarios", "ORDER BY setor,nivel,nome DESC LIMIT 50");
 if ($read->getResult()) {
     foreach ($read->getResult() as $log)
         $dados['reautor'] .= "<option value='{$log['id']}'>{$log['nome']}</option>";
