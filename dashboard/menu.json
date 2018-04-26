@@ -2,13 +2,15 @@
   {
     "icon": "settings",
     "title": "Configurações",
-    "attr": "settings/settings",
+    "lib": "dashboard",
+    "file": "settings/settings",
     "setor": 2
   },
   {
     "icon": "settings_input_component",
     "title": "Desenvolvimento",
-    "attr": "dev/desenvolvimento",
+    "lib": "dashboard",
+    "file": "dev/desenvolvimento",
     "setor": 1
   }
 ]
