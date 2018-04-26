@@ -1,6 +1,8 @@
 <?php
 if (!LOGGED)
     header("Location: " . HOME . "login");
+else
+    include_once 'inc/version_control.php';
 ?>
 
 <!-- Navbar -->
