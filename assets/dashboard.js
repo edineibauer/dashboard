@@ -52,4 +52,8 @@ $(function () {
             });
         }));
     });
+
+    post("dashboard", "dash/geral", {}, function (data) {
+        $("#dashboard").html(data);
+    });
 });
