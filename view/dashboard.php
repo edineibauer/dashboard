@@ -84,6 +84,7 @@ else
         <?php
         require_once 'inc/menu.php';
         ?>
+        <div class="dash-version">v.<?=VERSION?></div>
         <br><br>
     </div>
 </nav>
