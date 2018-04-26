@@ -2,5 +2,5 @@
 
 $tpl = new \Helpers\Template("dashboard");
 $dados['dominio'] = DEV && DOMINIO === "dashboard" ? "" : "vendor/conn/dashboard/";
-
+$dados['version'] = VERSION;
 $data['data'] = $tpl->getShow('dashboard', $dados);

@@ -52,8 +52,8 @@ body {
 }
 .dash-version {
     position: fixed;
-    bottom:3px;
-    left: 210px;
+    top:3px;
+    right: 3px;
     color: #999;
     font-size:0.8em
 }

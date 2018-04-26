@@ -1,4 +1,4 @@
-<!-- Header -->
+<div class="col relative">
 <header class="container">
     <h5>
         <b><i class="material-icons left padding-right">dashboard</i> <span class="left">Meu Painel</span></b>
@@ -114,3 +114,6 @@
     </div>
 </div>
 -->
+
+<div class="dash-version">v.{$version}</div>
+</div>
