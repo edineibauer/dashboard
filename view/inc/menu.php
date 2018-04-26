@@ -24,7 +24,7 @@ function showMenuOption($incMenu) {
 }
 
 //Menu Dashboard Geral
-$tpl->show("menu-li", ["icon" => "timeline", "title" => "Dashboard", "attr" => "dash/geral", "lib" => "dashboard"]);
+$tpl->show("menu-li", ["icon" => "timeline", "title" => "Dashboard", "file" => "dash/geral", "lib" => "dashboard"]);
 
 //Editor de Entidades para Adm
 if ($_SESSION['userlogin']['setor'] === '1')
