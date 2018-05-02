@@ -51,17 +51,4 @@
     </div>
 </section>
 
-<section class="col padding-32 border-bottom">
-    <header class="container col">
-        <h2>Space DigitalOcean <i class="material-icons" style="cursor: default"
-                                  title="Víncula o sistema a uma Space da DigitalOcean, permitindo assim, guardar os arquivos (imagens, vídeos, documentos, etc.) no Space em vez de armazernar no próprio sistema (facilita backups, restaurações e migração além de alivia a banda e armazenamento do servidor).">info</i>
-        </h2>
-    </header>
-
-    <label class="container col">
-        <span>Key Space</span>
-        <input type="text" id="spacekey" placeholder="key"
-               value="{$spacekey}" class="font-large">
-    </label>
-</section>
 <script src="{$home}{$dominio}assets/dev.min.js?v={$version}"></script>
