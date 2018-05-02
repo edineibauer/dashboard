@@ -7,7 +7,8 @@ function saveConfig(field, value) {
 
 function saveConfigBase(dados) {
     $.each(dados, function (i, e) {
-        saveConfig(i.replace("dados.", "").replace("nome_do_site", "sitename").replace("subtitulo", "sitesub").replace("descricao", "sitedesc"), e);
+        if (i !== "dados.id")
+            saveConfig(i.replace("dados.", "").replace("nome_do_site", "sitename").replace("subtitulo", "sitesub").replace("descricao", "sitedesc"), e);
     });
 }
 
