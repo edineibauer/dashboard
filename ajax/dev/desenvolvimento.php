@@ -72,8 +72,7 @@ foreach ($dicLogin as $i => $dataLogin) {
          */
         function readMenuNotShow() :array
         {
-
-            $notShowMenuEntity = ["1" => "", "2" => "", "3" => "", "4" => "", "5" => "", "6" => "", "7" => "", "8" => "", "9" => "", "10" => ""];
+            $notShowMenuEntity = ["1" => [], "2" => [], "3" => [], "4" => [], "5" => [], "6" => [], "7" => [], "8" => [], "9" => [], "10" => []];
             if (DEV && file_exists(PATH_HOME . "entity/menu"))
                 $notShowMenuEntity = addMenuNotShow(PATH_HOME, $notShowMenuEntity);
 
