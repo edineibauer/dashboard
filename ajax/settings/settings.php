@@ -26,19 +26,21 @@ if ($read->getResult()) {
         $dados['reautor'] .= "<option value='{$log['id']}'>{$log['nome']}</option>";
 }
 
-$read->exeRead("config", "WHERE id = 1");
+$read->exeRead("config", "WHERE id=1");
 if (!$read->getResult()) {
-    $create = new \ConnCrud\Create();
     $criarData = [
         "nome_do_site" => defined('SITENAME') && !empty(SITENAME) ? SITENAME : "",
         "subtitulo" => defined('SITESUB') && !empty(SITESUB) ? SITESUB : "",
         "descricao" => defined('SITEDESC') && !empty(SITEDESC) ? SITEDESC : "",
-        "protocolo" => defined('PROTOCOL') && !empty(PROTOCOL) ? PROTOCOL : "0",
-        "logo" => defined('LOGO') && !empty(LOGO) ? LOGO : "",
-        "favicon" => defined('FAVICON') && !empty(FAVICON) ? FAVICON : "",
+        "protocolo" => defined('PROTOCOL') && !empty(PROTOCOL) && PROTOCOL === "https://" ? 1 : 0,
+        "logo" => defined('LOGO') && !empty(LOGO) ? '[{"url": "' . LOGO . '", "name": "", "size": 1078, "type": "image/png"}]' : null,
+        "favicon" => defined('FAVICON') && !empty(FAVICON) ? '[{"url": "' . FAVICON . '", "name": "", "size": 1078, "type": "image/png"}]' : null,
     ];
-    $create->exeCreate("config", $criarData);
+    $d = new \EntityForm\Dicionario("config");
+    $d->setData($criarData);
+    $d->save();
 }
+
 $form = new \FormCrud\Form("config");
 $form->setCallback('saveConfigBase');
 $dados['configForm'] = $form->getForm(1);
