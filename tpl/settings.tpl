@@ -17,7 +17,30 @@
 
     <section class="card padding-8 border-bottom">
         <header class="container col">
-            <h2>Email</h2>
+            <h2>Reautorar Conteúdo sem Autor
+                <i class="material-icons" style="cursor: default"
+                   title="quando um usuário é excluído, o conteúdo produzido por este usuário fica sem autor, nomeie outra autoridade como autor de conteúdos sem autor.">info</i>
+            </h2>
+        </header>
+
+        <div class="container">
+            <div class="left margin-right">
+                <select id="selectReautor">
+                    {$reautor}
+                </select>
+            </div>
+            <div class="left margin-right">
+                <button class="btn color-teal" id="reautorar"><i
+                            class="material-icons left padding-right">save</i>Reautorar
+                </button>
+            </div>
+        </div>
+    </section>
+</div>
+<div class="col s12 m6 padding-small">
+    <section class="card padding-8 border-bottom">
+        <header class="container col padding-8">
+            <a href="https://www.mailgun.com/" target="_blank" class="font-xxlarge" style="text-decoration: none">Mailgun</a>
         </header>
 
         <div class="col padding-medium font-medium">
@@ -35,8 +58,7 @@
             </label>
         </div>
     </section>
-</div>
-<div class="col s12 m6 padding-small">
+
     <section class="card padding-8 border-bottom">
         <header class="container col">
             <h2>Recaptcha</h2>
@@ -79,28 +101,6 @@
                 <input type="text" id="spacekey" placeholder="key" value="{$config['spacekey']}"
                        class="font-xlarge inputConfig">
             </label>
-        </div>
-    </section>
-
-    <section class="card padding-8 border-bottom">
-        <header class="container col">
-            <h2>Reautorar Conteúdo sem Autor
-                <i class="material-icons" style="cursor: default"
-                   title="quando um usuário é excluído, o conteúdo produzido por este usuário fica sem autor, nomeie outra autoridade como autor de conteúdos sem autor.">info</i>
-            </h2>
-        </header>
-
-        <div class="container">
-            <div class="left margin-right">
-                <select id="selectReautor">
-                    {$reautor}
-                </select>
-            </div>
-            <div class="left margin-right">
-                <button class="btn color-teal" id="reautorar"><i
-                            class="material-icons left padding-right">save</i>Reautorar
-                </button>
-            </div>
         </div>
     </section>
 

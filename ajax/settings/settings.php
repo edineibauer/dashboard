@@ -26,6 +26,19 @@ if ($read->getResult()) {
         $dados['reautor'] .= "<option value='{$log['id']}'>{$log['nome']}</option>";
 }
 
+$read->exeRead("config", "WHERE id = 1");
+if (!$read->getResult()) {
+    $create = new \ConnCrud\Create();
+    $criarData = [
+        "nome_do_site" => defined('SITENAME') && !empty(SITENAME) ? SITENAME : "",
+        "subtitulo" => defined('SITESUB') && !empty(SITESUB) ? SITESUB : "",
+        "descricao" => defined('SITEDESC') && !empty(SITEDESC) ? SITEDESC : "",
+        "protocolo" => defined('PROTOCOL') && !empty(PROTOCOL) ? PROTOCOL : "0",
+        "logo" => defined('LOGO') && !empty(LOGO) ? LOGO : "",
+        "favicon" => defined('FAVICON') && !empty(FAVICON) ? FAVICON : "",
+    ];
+    $create->exeCreate("config", $criarData);
+}
 $form = new \FormCrud\Form("config");
 $form->setCallback('saveConfigBase');
 $dados['configForm'] = $form->getForm(1);
