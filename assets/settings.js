@@ -2,6 +2,9 @@ function saveConfig(field, value) {
     post("dashboard", "settings/saveConfig", {field: field, value: value}, function (g) {
         if (g)
             toast("erro", "warning");
+
+        if(field === "theme")
+            $("head").append("<link rel='stylesheet' href='http://localhost/leilao/assetsPublic/theme/theme.css?v=10" + Math.ceil(Math.random() * 1000) + "'>");
     });
 }
 

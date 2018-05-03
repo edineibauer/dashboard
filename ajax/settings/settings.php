@@ -18,7 +18,7 @@ $dados['config'] = [
     "recaptcha" => defined('RECAPTCHA') && !empty(RECAPTCHA) ? RECAPTCHA : "",
     "email" => defined('EMAIL') && !empty(EMAIL) ? EMAIL : "",
     "mailgunkey" => defined('MAILGUNKEY') && !empty(MAILGUNKEY) ? MAILGUNKEY : "",
-    "mailgundomain" => defined('MAILGUNDOMAIN') && !empty(MAILGUNDOMAIN) ? MAILGUNDOMAIN : (defined('EMAIL') && !empty(EMAIL) ? explode('@', EMAIL)[1] : ""),
+    "mailgundomain" => defined('MAILGUNDOMAIN') && !empty(MAILGUNDOMAIN) ? MAILGUNDOMAIN : (defined('EMAIL') && !empty(EMAIL) && preg_match('/@/i', EMAIL) ? explode('@', EMAIL)[1] : ""),
 ];
 
 $read->exeRead("usuarios", "ORDER BY setor,nivel,nome DESC LIMIT 50");
