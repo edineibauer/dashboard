@@ -5,64 +5,66 @@
 </header>
 
 <div class="col">
-    <div class="col card">
-        <input type="text" id="color" onchange="createTheme(-1)" size="8" style="height:0;width: 0" value="#efc050">
-        <div class="row padding-medium">
-            <div class="col right" style="width: 280px">
-                <button class="btn color-blue hover-shadow right" onclick="restoreTheme()">tema anterior</button>
-                <button class="btn color-teal hover-shadow right" onclick="saveTheme()"><i class="material-icons left padding-right">save</i>
-                    salvar
-                </button>
-            </div>
-            <div class="rest s12">
-                <div class="col s12 m6 padding-small">
-                    <select id="select01" class="select border" name="option" onchange="createSuggestion()">
-                        <option value="" disabled="" selected="">Temas</option>
-                        <option style="color:#fff;background-color:#4c6a92" value="#4c6a92">Riverside</option>
-                        <option style="color:#fff;background-color:#92b6d5" value="#92b6d5">Airy Blue</option>
-                        <option style="color:#fff;background-color:#838487" value="#838487">Sharkskin</option>
-                        <option style="color:#fff;background-color:#b93a32" value="#b93a32">Aurora Red</option>
-                        <option style="color:#fff;background-color:#af9483" value="#af9483">Warm Taupe</option>
-                        <option style="color:#fff;background-color:#ad5d5d" value="#ad5d5d">Dusty Cedar</option>
-                        <option style="color:#fff;background-color:#006e51" value="#006e51">Lush Medow</option>
-                        <option style="color:#fff;background-color:#d8ae47" value="#d8ae47">Spicy Mustard</option>
-                        <option style="color:#fff;background-color:#9e4624" value="#9e4624">Potter's Clay</option>
-                        <option style="color:#fff;background-color:#b76ba3" value="#b76ba3">Bodacious</option>
-                        <option style="color:#fff;background-color:#f7cac9" value="#f7cac9">Rose Quarts</option>
-                        <option style="color:#fff;background-color:#92a8d1" value="#92a8d1">Serenity</option>
-                        <option style="color:#fff;background-color:#f7786b" value="#f7786b">Peach Echo</option>
-                        <option style="color:#fff;background-color:#034f84" value="#034f84">Snorkel Blue</option>
-                        <option style="color:#fff;background-color:#98ddde" value="#98ddde">Limpet Shell</option>
-                        <option style="color:#fff;background-color:#9896a4" value="#9896a4">Lilac Grey</option>
-                        <option style="color:#fff;background-color:#b18f6a" value="#b18f6a">Iced Coffe</option>
-                        <option style="color:#fff;background-color:#dd4132" value="#dd4132">Fiesta</option>
-                        <option style="color:#fff;background-color:#fae03c" value="#fae03c">Buttercup</option>
-                        <option style="color:#fff;background-color:#79c753" value="#79c753">Green Flash</option>
-                        <option style="color:#fff;background-color:#955251" value="#955251">Marsala</option>
-                        <option style="color:#fff;background-color:#b565a7" value="#b565a7">Radiand Orchid</option>
-                        <option style="color:#fff;background-color:#009b77" value="#009b77">Emerald</option>
-                        <option style="color:#fff;background-color:#dd4124" value="#dd4124">Tangerine Tango</option>
-                        <option style="color:#fff;background-color:#d65076" value="#d65076">Honeysucle</option>
-                        <option style="color:#fff;background-color:#45b8ac" value="#45b8ac">Turquise</option>
-                        <option style="color:#fff;background-color:#efc050" value="#efc050">Mimosa</option>
-                        <option style="color:#fff;background-color:#5b5ea6" value="#5b5ea6">Blue Izis</option>
-                        <option style="color:#fff;background-color:#9b2335" value="#9b2335">Chili Pepper</option>
-                        <option style="color:#fff;background-color:#dfcfbe" value="#dfcfbe">Sand Dollar</option>
-                    </select>
+    <div class="col padding-small">
+        <div class="col card">
+            <input type="text" id="color" onchange="createTheme(-1)" size="8" style="height:0;width: 0" value="#efc050">
+            <div class="row padding-medium">
+                <div class="col right" style="width: 280px">
+                    <button class="btn color-blue hover-shadow right" onclick="restoreTheme()">tema anterior</button>
+                    <button class="btn color-teal hover-shadow right" onclick="saveTheme()"><i class="material-icons left padding-right">save</i>
+                        salvar
+                    </button>
                 </div>
-                <div class="col s6 m3 padding-small">
-                    <span class="left padding-medium">Hue</span>
-                    <input type="text" id="hue" size="8" style="width:50px;height:34px;padding:19px 4px" value="0"
-                           disabled="">
-                    <button class="btn color-grey hover-shadow opacity hover-opacity-off" style="margin-bottom:4px" onclick="huePlus(-5)">-</button>
-                    <button class="btn color-grey hover-shadow opacity hover-opacity-off" style="margin-bottom:4px" onclick="huePlus(+5)">+</button>
-                </div>
-                <div class="col s6 m3 padding-small">
-                    <span class="left padding-medium">Sat</span>
-                    <input type="text" id="saturation" size="8" style="width:50px;height:34px;padding:19px 4px"
-                           value="0" disabled="">
-                    <button class="btn color-grey hover-shadow opacity hover-opacity-off" style="margin-bottom:4px" onclick="saturationPlus(-0.05)">-</button>
-                    <button class="btn color-grey hover-shadow opacity hover-opacity-off" style="margin-bottom:4px" onclick="saturationPlus(0.05)">+</button>
+                <div class="rest s12">
+                    <div class="col s12 m6 padding-small">
+                        <select id="select01" class="select border" name="option" onchange="createSuggestion()">
+                            <option value="" disabled="" selected="">Temas</option>
+                            <option style="color:#fff;background-color:#4c6a92" value="#4c6a92">Riverside</option>
+                            <option style="color:#fff;background-color:#92b6d5" value="#92b6d5">Airy Blue</option>
+                            <option style="color:#fff;background-color:#838487" value="#838487">Sharkskin</option>
+                            <option style="color:#fff;background-color:#b93a32" value="#b93a32">Aurora Red</option>
+                            <option style="color:#fff;background-color:#af9483" value="#af9483">Warm Taupe</option>
+                            <option style="color:#fff;background-color:#ad5d5d" value="#ad5d5d">Dusty Cedar</option>
+                            <option style="color:#fff;background-color:#006e51" value="#006e51">Lush Medow</option>
+                            <option style="color:#fff;background-color:#d8ae47" value="#d8ae47">Spicy Mustard</option>
+                            <option style="color:#fff;background-color:#9e4624" value="#9e4624">Potter's Clay</option>
+                            <option style="color:#fff;background-color:#b76ba3" value="#b76ba3">Bodacious</option>
+                            <option style="color:#fff;background-color:#f7cac9" value="#f7cac9">Rose Quarts</option>
+                            <option style="color:#fff;background-color:#92a8d1" value="#92a8d1">Serenity</option>
+                            <option style="color:#fff;background-color:#f7786b" value="#f7786b">Peach Echo</option>
+                            <option style="color:#fff;background-color:#034f84" value="#034f84">Snorkel Blue</option>
+                            <option style="color:#fff;background-color:#98ddde" value="#98ddde">Limpet Shell</option>
+                            <option style="color:#fff;background-color:#9896a4" value="#9896a4">Lilac Grey</option>
+                            <option style="color:#fff;background-color:#b18f6a" value="#b18f6a">Iced Coffe</option>
+                            <option style="color:#fff;background-color:#dd4132" value="#dd4132">Fiesta</option>
+                            <option style="color:#fff;background-color:#fae03c" value="#fae03c">Buttercup</option>
+                            <option style="color:#fff;background-color:#79c753" value="#79c753">Green Flash</option>
+                            <option style="color:#fff;background-color:#955251" value="#955251">Marsala</option>
+                            <option style="color:#fff;background-color:#b565a7" value="#b565a7">Radiand Orchid</option>
+                            <option style="color:#fff;background-color:#009b77" value="#009b77">Emerald</option>
+                            <option style="color:#fff;background-color:#dd4124" value="#dd4124">Tangerine Tango</option>
+                            <option style="color:#fff;background-color:#d65076" value="#d65076">Honeysucle</option>
+                            <option style="color:#fff;background-color:#45b8ac" value="#45b8ac">Turquise</option>
+                            <option style="color:#fff;background-color:#efc050" value="#efc050">Mimosa</option>
+                            <option style="color:#fff;background-color:#5b5ea6" value="#5b5ea6">Blue Izis</option>
+                            <option style="color:#fff;background-color:#9b2335" value="#9b2335">Chili Pepper</option>
+                            <option style="color:#fff;background-color:#dfcfbe" value="#dfcfbe">Sand Dollar</option>
+                        </select>
+                    </div>
+                    <div class="col s6 m3 padding-small">
+                        <span class="left padding-medium">Hue</span>
+                        <input type="text" id="hue" size="8" style="width:50px;height:34px;padding:19px 4px" value="0"
+                               disabled="">
+                        <button class="btn color-grey hover-shadow opacity hover-opacity-off" style="margin-bottom:4px" onclick="huePlus(-5)">-</button>
+                        <button class="btn color-grey hover-shadow opacity hover-opacity-off" style="margin-bottom:4px" onclick="huePlus(+5)">+</button>
+                    </div>
+                    <div class="col s6 m3 padding-small">
+                        <span class="left padding-medium">Sat</span>
+                        <input type="text" id="saturation" size="8" style="width:50px;height:34px;padding:19px 4px"
+                               value="0" disabled="">
+                        <button class="btn color-grey hover-shadow opacity hover-opacity-off" style="margin-bottom:4px" onclick="saturationPlus(-0.05)">-</button>
+                        <button class="btn color-grey hover-shadow opacity hover-opacity-off" style="margin-bottom:4px" onclick="saturationPlus(0.05)">+</button>
+                    </div>
                 </div>
             </div>
         </div>
