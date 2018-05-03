@@ -229,9 +229,13 @@ function restoreTheme() {
 }
 
 function saveTheme() {
-    post('dashboard', 'tema/saveTheme', {txt: localStorage.txt}, function () {
-        $("head").append("<link rel='stylesheet' href='" + HOME + "assetsPublic/theme/theme.css?v=10" + Math.ceil(Math.random() * 1000) + "'>");
-    });
+    if(localStorage.txt) {
+        post('dashboard', 'tema/saveTheme', {txt: localStorage.txt}, function () {
+            $("head").append("<link rel='stylesheet' href='" + HOME + "assetsPublic/theme/theme.css?v=10" + Math.ceil(Math.random() * 1000) + "'>");
+        });
+    } else {
+        toast("selecione um tema antes", "warning");
+    }
 }
 
 function displayDemo(theme) {
@@ -241,3 +245,5 @@ function displayDemo(theme) {
     document.getElementById("demo-h2").style.backgroundColor = theme.d0;
     document.getElementById("demo-h2").style.color = theme.td0;
 }
+
+localStorage.removeItem("txt");
