@@ -1,5 +1,12 @@
 [
   {
+    "icon": "format_paint",
+    "title": "Tema",
+    "lib": "dashboard",
+    "file": "tema/tema",
+    "setor": 2
+  },
+  {
     "icon": "settings",
     "title": "Configurações",
     "lib": "dashboard",

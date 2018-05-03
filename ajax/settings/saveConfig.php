@@ -2,14 +2,8 @@
 $field = strtoupper(trim(strip_tags(filter_input(INPUT_POST, "field", FILTER_DEFAULT))));
 $value = trim(strip_tags(filter_input(INPUT_POST, "value", FILTER_DEFAULT)));
 
-if($field === "THEME") {
-    $f = fopen(PATH_HOME . "assetsPublic/theme/theme.css", "w+");
-    fwrite($f, file_get_contents(PATH_HOME . "vendor/conn/dashboard/themes/{$value}"));
-    fclose($f);
-
-} elseif(\Helpers\Check::isJson($value) && preg_match('/url\":/i', $value)) {
+if(\Helpers\Check::isJson($value) && preg_match('/url\":/i', $value))
     $value = str_replace('\\', '/', json_decode($value, true)[0]['url']);
-}
 
 $file = file_get_contents(PATH_HOME . "_config/config.php");
 if (preg_match("/\'{$field}\',/i", $file)) {
