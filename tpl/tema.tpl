@@ -11,6 +11,7 @@
         <input type="text" id="color" onchange="createTheme(-1)" size="8" style="height:0;width: 0" value="#efc050">
         <div class="row padding-medium">
             <div class="col right" style="width: 140px">
+                <button class="btn color-blue hover-shadow right" onclick="restoreTheme()">tema anterior</button>
                 <button class="btn color-teal hover-shadow right" onclick="saveTheme()"><i class="material-icons left padding-right">save</i>
                     salvar
                 </button>

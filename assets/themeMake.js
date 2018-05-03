@@ -219,7 +219,16 @@ function createTheme(inVar) {
     displayDemo(theme1);
 }
 
-function saveTheme(txt) {
+function restoreTheme() {
+    post('dashboard', 'tema/restoreTheme', function (d) {
+        if (d)
+            toast("não há tema para restaurar", "warning");
+        else
+            $("head").append("<link rel='stylesheet' href='" + HOME + "assetsPublic/theme/theme.css?v=10" + Math.ceil(Math.random() * 1000) + "'>");
+    });
+}
+
+function saveTheme() {
     post('dashboard', 'tema/saveTheme', {txt: localStorage.txt}, function () {
         $("head").append("<link rel='stylesheet' href='" + HOME + "assetsPublic/theme/theme.css?v=10" + Math.ceil(Math.random() * 1000) + "'>");
     });
