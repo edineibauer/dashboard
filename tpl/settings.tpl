@@ -39,6 +39,21 @@
 </div>
 <div class="col s12 m6 padding-small">
     <section class="card padding-8 border-bottom">
+        <header class="container col">
+            <h2>Tema</h2>
+        </header>
+
+        <div class="col padding-medium font-medium">
+            <label class="col padding-small">
+                <span class="col">Cor do Tema</span>
+                <select class="inputConfig font-large" id="theme">
+                    {$optionsTheme}
+                </select>
+            </label>
+        </div>
+    </section>
+
+    <section class="card padding-8 border-bottom">
         <header class="container col padding-8">
             <a href="https://www.mailgun.com/" target="_blank" class="font-xxlarge" style="text-decoration: none">Mailgun</a>
         </header>

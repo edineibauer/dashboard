@@ -11,6 +11,7 @@ $dados['config'] = [
     "logo" => LOGO,
     "favicon" => FAVICON,
     "protocol" => PROTOCOL,
+    "theme" => defined('THEME') && !empty(THEME) ? THEME : "",
     "cepaberto" => defined('CEPABERTO') && !empty(CEPABERTO) ? CEPABERTO : "",
     "spacekey" => defined('SPACEKEY') && !empty(SPACEKEY) ? SPACEKEY : "",
     "recaptchasite" => defined('RECAPTCHASITE') && !empty(RECAPTCHASITE) ? RECAPTCHASITE : "",
@@ -39,6 +40,12 @@ if (!$read->getResult()) {
     $d = new \EntityForm\Dicionario("config");
     $d->setData($criarData);
     $d->save();
+}
+
+//Theme
+$dados['optionsTheme'] = "";
+foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/dashboard/themes") as $theme) {
+    $dados['optionsTheme'] .= "<option value='{$theme}' " . (!empty($dados['config']['theme']) && $dados['config']['theme'] === $theme ? "selected='selected'" : "") . ">" . ucwords(str_replace(["theme-", ".css", "-", "_"], ["", "", " ", " "], $theme)) . "</option>";
 }
 
 $form = new \FormCrud\Form("config");
