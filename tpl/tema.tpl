@@ -221,5 +221,5 @@
     </div>
 </div>
 
-<script src="{$home}vendor/conn/dashboard/assets/colorMaker.js"></script>
-<script src="{$home}vendor/conn/dashboard/assets/themeMake.js"></script>
+<script src="{$home}vendor/conn/dashboard/assets/colorMaker.js?v={$version}"></script>
+<script src="{$home}vendor/conn/dashboard/assets/themeMake.js?v={$version}"></script>
