@@ -184,6 +184,7 @@ function createTheme(inVar) {
     txt += ".hover-theme:hover {color:" + theme1.td0 + " !important; background-color:" + theme1.d0 +" !important}<br>";
     txt += ".hover-text-theme:hover {color:" + theme1.d0 + " !important}<br>";
     txt += ".hover-border-theme:hover {border-color:" + theme1.d0 + " !important}<br>";
+    txt += "@keyframes loading {0% {left: 0;width: 0;background: " + theme1.l4 + ";}20% {width: 120px}100% {left: 100%;width: 0;background: " + theme1.l2 + "}}";
 
     localStorage.setItem('txt', txt);
 
