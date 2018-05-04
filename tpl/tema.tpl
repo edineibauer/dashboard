@@ -70,7 +70,7 @@
         </div>
     </div>
     <div class="col s12 m6 padding-small">
-        <section class="card padding-8 border-bottom">
+        <section class="card border-bottom">
             <div id="demo-h1" class="row" style="background-color: rgb(213, 146, 146); color: rgb(0, 0, 0);">
                 <div class="col l3 hide-medium hide-small container padding-16 xlarge opacity">
                     <i class="material-icons">menu</i>
