@@ -178,7 +178,7 @@ function createTheme(inVar) {
     txt += ".text-theme-l {color:" + theme1.l3 + " !important}<br>";
     txt += ".text-theme-d {color:" + theme1.d3 + " !important}<br>";
     txt += ".border-theme {border-color:" + theme1.d0 + " !important}<br><br>";
-    txt += "input:focus {border-color:" + theme1.d0 + " !important}<br><br>";
+    txt += "input:focus, textarea:focus, select:focus {border-color:" + theme1.d0 + " !important}<br><br>";
     txt += "button {background-color:" + theme1.d0 + "}<br><br>";
 
     txt += ".hover-theme:hover {color:" + theme1.td0 + " !important; background-color:" + theme1.d0 +" !important}<br>";
