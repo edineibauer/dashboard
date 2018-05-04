@@ -178,12 +178,14 @@ function createTheme(inVar) {
     txt += ".text-theme-l {color:" + theme1.l3 + " !important}<br>";
     txt += ".text-theme-d {color:" + theme1.d3 + " !important}<br>";
     txt += ".border-theme {border-color:" + theme1.d0 + " !important}<br><br>";
-    txt += "input:focus, textarea:focus, select:focus, select {border-bottom-color:" + theme1.d0 + " !important}<br><br>";
-    txt += "button {background-color:" + theme1.d0 + "}<br><br>";
 
     txt += ".hover-theme:hover {color:" + theme1.td0 + " !important; background-color:" + theme1.d0 +" !important}<br>";
     txt += ".hover-text-theme:hover {color:" + theme1.d0 + " !important}<br>";
     txt += ".hover-border-theme:hover {border-color:" + theme1.d0 + " !important}<br>";
+
+    txt += "input:focus, textarea:focus, select:focus, select {border-bottom-color:" + theme1.d0 + " !important}<br><br>";
+    txt += "button {background-color:" + theme1.d0 + "}<br><br>";
+    txt += ".jqte_focused {border-bottom-color:" + theme1.d0 + " !important; border-left-color:" + theme1.d0 + " !important;}<br>";
     txt += "@keyframes loading {0% {left: 0;width: 0;background: " + theme1.d2 + ";}20% {width: 120px}100% {left: 100%;width: 0;background: " + theme1.d5 + "}}";
 
     localStorage.setItem('txt', txt);
