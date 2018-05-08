@@ -8,11 +8,8 @@ $f = fopen(PATH_HOME . "{$assets}/theme/theme.css", "w+");
 fwrite($f, $txt);
 fclose($f);
 
-// Remove comments
 $buffer = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $txt);
-// Remove space after colons
 $buffer = str_replace(': ', ':', $buffer);
-// Remove whitespace
 $buffer = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), '', $buffer);
 
 $f = fopen(PATH_HOME . "{$assets}/theme/theme.min.css", "w+");
