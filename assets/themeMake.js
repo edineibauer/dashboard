@@ -231,14 +231,14 @@ function restoreTheme() {
         if (d)
             toast("não há tema para restaurar", "warning");
         else
-            $("head").append("<link rel='stylesheet' href='" + HOME + "assetsPublic/theme/theme.css?v=10" + Math.ceil(Math.random() * 1000) + "'>");
+            $("head").append("<link rel='stylesheet' href='" + HOME + "assetsPublic/theme/theme.min.css?v=10" + Math.ceil(Math.random() * 1000) + "'><link rel='stylesheet' href='" + HOME + "assets/theme/theme.min.css?v=10" + Math.ceil(Math.random() * 1000) + "'>");
     });
 }
 
 function saveTheme() {
     if(localStorage.txt) {
         post('dashboard', 'tema/saveTheme', {txt: localStorage.txt}, function () {
-            $("head").append("<link rel='stylesheet' href='" + HOME + "assetsPublic/theme/theme.css?v=10" + Math.ceil(Math.random() * 1000) + "'>");
+            $("head").append("<link rel='stylesheet' href='" + HOME + "assetsPublic/theme/theme.min.css?v=99" + Math.ceil(Math.random() * 1000) + "'><link rel='stylesheet' href='" + HOME + "assets/theme/theme.min.css?v=99" + Math.ceil(Math.random() * 1000) + "'>");
         });
     } else {
         toast("selecione um tema antes", "warning");
