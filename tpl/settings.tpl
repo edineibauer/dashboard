@@ -41,7 +41,7 @@
 
     <section class="card padding-8 border-bottom">
         <header class="container col padding-8">
-            <a href="https://www.mailgun.com/" target="_blank" class="font-xxlarge" style="text-decoration: none">Mailgun</a>
+            <a href="https://www.sparkpost.com/" target="_blank" class="font-xxlarge" style="text-decoration: none">SparkPost</a>
         </header>
 
         <div class="col padding-medium font-medium">
@@ -50,12 +50,8 @@
                 <input type="text" id="email" value="{$config['email']}" class="font-xlarge inputConfig">
             </label>
             <label class="col padding-small">
-                <span class="col">Mailgun Key</span>
-                <input type="text" id="mailgunkey" value="{$config['mailgunkey']}" class="font-xlarge inputConfig">
-            </label>
-            <label class="col padding-small">
-                <span class="col">Mailgun Domain</span>
-                <input type="text" id="mailgundomain" value="{$config['mailgundomain']}" class="font-xlarge inputConfig">
+                <span class="col">Key</span>
+                <input type="text" id="emailkey" value="{$config['emailkey']}" class="font-xlarge inputConfig">
             </label>
         </div>
     </section>
