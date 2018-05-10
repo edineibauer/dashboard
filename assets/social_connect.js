@@ -5,15 +5,6 @@ function saveSocialSettings(field, value) {
     })
 }
 
-function checkIfButtonConnectExist(id) {
-    if (!$(id).length) {
-        post("dashboard", "social_connect/checkButtonConnect", {id: id}, function (g) {
-            if (g)
-                $("#space-" + id.substr(1, id.length)).html(g);
-        });
-    }
-}
-
 function updateSocialPosts($this) {
     post("dashboard", "social_connect/getPost", {social: $this.attr("rel")}, function (g) {
         if (!g)
@@ -26,9 +17,9 @@ function updateSocialPosts($this) {
 $(function () {
     $(".inputConfig").off("keyup change").on("keyup change", function () {
         if ($(this).val().length === 0)
-            $("#" + $(this).attr("rel")).remove();
+            $("#" + $(this).attr("rel") + ", #" + $(this).attr("rel") + "-re").addClass("hide");
         else
-            checkIfButtonConnectExist("#" + $(this).attr("rel"));
+            $("#" + $(this).attr("rel") + ", #" + $(this).attr("rel") + "-re").removeClass("hide");
 
         saveSocialSettings($(this).attr("id"), $(this).val());
     });

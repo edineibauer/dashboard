@@ -32,7 +32,7 @@
                 </button>
                 {if !empty($instagram_token)}
                     <button class='btn padding-12 theme opacity hover-opacity-off hover-shadow margin-bottom button-reconnect-social'
-                            rel='instagram' id='btn-instagram-connect'>
+                            rel='instagram' id='btn-instagram-connect-re'>
                         <i class='material-icons left padding-right'>cast</i>
                         <span class='left'>Reconectar</span>
                     </button>
