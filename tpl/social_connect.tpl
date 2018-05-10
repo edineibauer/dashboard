@@ -25,7 +25,7 @@
 
         <div class="col padding-medium space-btn-social-connect" id="space-btn-instagram-connect">
             {if !empty($instagram_secret) && !empty($instagram_id)}
-                <button class='btn theme opacity hover-opacity-off hover-shadow margin-bottom button-connect-social'
+                <button class='btn-large theme opacity hover-opacity-off hover-shadow margin-bottom button-connect-social'
                         rel='instagram' id='btn-instagram-connect'>
                     <i class='material-icons left padding-right'>update</i>
                     <span class='left'>Atualizar Posts Instagram</span>

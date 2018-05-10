@@ -1,5 +1,7 @@
 <?php
 
+use MetzWeb\Instagram\Instagram;
+
 $social = trim(strip_tags(filter_input(INPUT_POST, "social", FILTER_DEFAULT)));
 
 if ($social === "instagram") {
