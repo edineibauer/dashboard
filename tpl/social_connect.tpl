@@ -17,7 +17,7 @@
             </label>
             <label class="col padding-small">
                 <span class="col">Client Secret</span>
-                <input type="text" id="instagram_secret" value="{$instagram_client}" class="font-xlarge inputConfig">
+                <input type="text" id="instagram_secret" value="{$instagram_secret}" class="font-xlarge inputConfig">
             </label>
         </div>
     </section>
@@ -28,4 +28,4 @@
 
 </div>
 
-<script src="{$home}{$dominio}assets/social_connect.min.js?v={$version}"></script>
+<script src="{$home}vendor/conn/dashboard/assets/social_connect.min.js?v={$version}"></script>
