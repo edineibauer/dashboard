@@ -25,11 +25,18 @@
 
         <div class="col padding-medium space-btn-social-connect" id="space-btn-instagram-connect">
             {if !empty($instagram_secret) && !empty($instagram_id)}
-                <button class='btn-large theme opacity hover-opacity-off hover-shadow margin-bottom button-connect-social'
+                <button class='btn padding-12 theme opacity hover-opacity-off hover-shadow margin-bottom button-connect-social'
                         rel='instagram' id='btn-instagram-connect'>
                     <i class='material-icons left padding-right'>update</i>
                     <span class='left'>Atualizar Posts Instagram</span>
                 </button>
+                {if !empty($instagram_token)}
+                    <button class='btn padding-12 theme opacity hover-opacity-off hover-shadow margin-bottom button-reconnect-social'
+                            rel='instagram' id='btn-instagram-connect'>
+                        <i class='material-icons left padding-right'>cast</i>
+                        <span class='left'>Reconectar</span>
+                    </button>
+                {/if}
             {/if}
         </div>
     </section>
