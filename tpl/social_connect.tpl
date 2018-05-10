@@ -13,12 +13,16 @@
         <div class="col padding-medium font-medium">
             <label class="col padding-small">
                 <span class="col">Client ID</span>
-                <input type="text" id="instagram_id" value="{$instagram_id}" class="font-xlarge inputConfig">
+                <input type="text" id="instagram_id" rel="btn-instagram-connect" value="{$instagram_id}" class="font-xlarge inputConfig">
             </label>
             <label class="col padding-small">
                 <span class="col">Client Secret</span>
-                <input type="text" id="instagram_secret" value="{$instagram_secret}" class="font-xlarge inputConfig">
+                <input type="text" id="instagram_secret" rel="btn-instagram-connect" value="{$instagram_secret}" class="font-xlarge inputConfig">
             </label>
+        </div>
+
+        <div class="col padding-medium space-btn-social-connect" id="space-btn-instagram-connect">
+            {$btnAllow}
         </div>
     </section>
 
