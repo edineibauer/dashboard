@@ -7,7 +7,7 @@
 <div class="col s12 m6 padding-small">
     <section class="card padding-8 border-bottom">
         <header class="container col">
-            <h2>Instagram</h2>
+            <h2 class="upper font-large font-light">Instagram</h2>
         </header>
 
         <div class="col padding-medium font-medium">

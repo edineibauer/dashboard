@@ -31,7 +31,7 @@ if(defined("INSTAGRAM_ID") && !empty(INSTAGRAM_ID) && defined("INSTAGRAM_SECRET"
         $read->exeRead("dashboard_note", "WHERE titulo = :t", "t={$titulo}");
         if(!$read->getResult()) {
             $create = new \ConnCrud\Create();
-            $create->exeCreate("dashboard_note", ['titulo' => $titulo, "descricao" => "Sua conexão com o instagram foi realizada com sucesso!", "status" => 1, "data" => date("Y-m-d H:i:s")]);
+            $create->exeCreate("dashboard_note", ['titulo' => $titulo, "descricao" => "Sua conexão com o instagram foi realizada com sucesso! Para adicionar/atualizar as imagens, volte ao menu de Conexões Sociais e clique no botão novamente.", "status" => 1, "data" => date("Y-m-d H:i:s")]);
         }
 
         header("Location:" . HOME . "dashboard");
