@@ -23,4 +23,13 @@ $(function () {
 
         saveSocialSettings($(this).attr("id"), $(this).val());
     });
-})
+
+    $(".space-btn-social-connect").off("click", "button-connect-social").on("click", ".button-connect-social", function (e) {
+        post("dashboard", "social_connect/getPost", {social:$(this).attr("rel")}, function (g) {
+            if(!g)
+                toast("Posts do " + ucFirst($(this).attr("rel")) + " foram Atualizados", 4000);
+            else
+                location.href = g;
+        });
+    });
+});
