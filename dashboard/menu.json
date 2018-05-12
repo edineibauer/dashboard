@@ -1,12 +1,5 @@
 [
   {
-    "icon": "share",
-    "title": "Conexões Sociais",
-    "lib": "dashboard",
-    "file": "social_connect/settings",
-    "setor": 2
-  },
-  {
     "icon": "format_paint",
     "title": "Tema",
     "lib": "dashboard",
