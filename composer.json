@@ -14,8 +14,7 @@
     "require": {
         "php": "^7.0",
         "conn/session-control": "dev-master",
-        "conn/table": "dev-master",
-        "cosenary/instagram": "^2.4@dev"
+        "conn/table": "dev-master"
     },
     "autoload": {
         "psr-0": {
