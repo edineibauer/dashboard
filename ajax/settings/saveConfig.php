@@ -2,9 +2,24 @@
 $field = strtoupper(trim(strip_tags(filter_input(INPUT_POST, "field", FILTER_DEFAULT))));
 $value = trim(strip_tags(filter_input(INPUT_POST, "value", FILTER_DEFAULT)));
 
-if(\Helpers\Check::isJson($value) && preg_match('/url\":/i', $value))
-    $value = str_replace('\\', '/', json_decode($value, true)[0]['url']);
+function createHtaccess($www = null, $domain = null, $protocol = null)
+{
+    $dados = "RewriteCond %{HTTP_HOST} ^" . ($www === "www" ? "{$domain}\nRewriteRule ^ {$protocol}www.{$domain}%{REQUEST_URI}" : "www.(.*) [NC]\nRewriteRule ^(.*) {$protocol}%1/$1") . " [L,R=301]";
+    $content = str_replace(['{$dados}', '{$home}'], [$dados, HOME], file_get_contents(PATH_HOME . "vendor/conn/config/tpl/htaccess.txt"));
 
+    $fp = fopen(PATH_HOME . ".htaccess", "w+");
+    fwrite($fp, $content);
+    fclose($fp);
+}
+
+if (\Helpers\Check::isJson($value) && preg_match('/url\":/i', $value)) {
+    $value = str_replace('\\', '/', json_decode($value, true)[0]['url']);
+} elseif ($field === "HTTPS") {
+    $field = "PROTOCOL";
+    $value = $value === "1" ? "https://" : "http://";
+} elseif ($field === "WWW") {
+    $value = $value ? "www" : "";
+}
 
 $file = file_get_contents(PATH_HOME . "_config/config.php");
 if (preg_match("/\'{$field}\',/i", $file)) {
@@ -17,3 +32,11 @@ if (preg_match("/\'{$field}\',/i", $file)) {
 $f = fopen(PATH_HOME . "_config/config.php", "w+");
 fwrite($f, $file);
 fclose($f);
+
+if ($field === "PROTOCOL") {
+    $www = explode("'", explode("'WWW', '", $file)[1])[0];
+    createHtaccess($www, DOMINIO, $value);
+} elseif ($field === "WWW") {
+    $prot = explode("'", explode("'PROTOCOL', '", $file)[1])[0];
+    createHtaccess($value, DOMINIO, $prot);
+}

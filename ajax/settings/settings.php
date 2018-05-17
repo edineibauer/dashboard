@@ -25,7 +25,8 @@ if ($read->getResult()) {
         $dados['reautor'] .= "<option value='{$log['id']}'>{$log['nome']}</option>";
 }
 
-$read->exeRead("config", "WHERE id=1");
+$form = new \FormCrud\Form("config");
+$read->exeRead(PRE . "config", "WHERE id=1");
 if (!$read->getResult()) {
     $criarData = [
         "nome_do_site" => defined('SITENAME') && !empty(SITENAME) ? SITENAME : "",
@@ -41,7 +42,6 @@ if (!$read->getResult()) {
     $d->save();
 }
 
-$form = new \FormCrud\Form("config");
 $form->setCallback('saveConfigBase');
 $dados['configForm'] = $form->getForm(1);
 
