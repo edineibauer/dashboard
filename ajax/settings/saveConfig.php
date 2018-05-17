@@ -26,7 +26,7 @@ if (\Helpers\Check::isJson($value) && preg_match('/url\":/i', $value)) {
     if(strlen($value) < 7 && strlen($value) > 20)
         $value = "";
 }
-$value = trim(strip_tags($value));
+$value = trim(strip_tags(str_replace("'", '"', $value)));
 
 $file = file_get_contents(PATH_HOME . "_config/config.php");
 if (preg_match("/\'{$field}\',/i", $file)) {
