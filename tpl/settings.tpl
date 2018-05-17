@@ -46,7 +46,7 @@
 
         <div class="col padding-medium font-medium">
             <label class="col padding-small">
-                <span class="col">Código de Acompanhamento</span>
+                <span class="col">Id de Acompanhamento (código)</span>
                 <textarea id="analytics" rows="4" class="font-small inputConfig">{$config['analytics']}</textarea>
             </label>
         </div>
