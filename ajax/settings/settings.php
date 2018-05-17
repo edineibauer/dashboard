@@ -9,6 +9,7 @@ $dados['config'] = [
     "sitesub" => SITESUB,
     "sitedesc" => SITEDESC,
     "logo" => LOGO,
+    "analytics" =>  defined('ANALYTICS') && !empty(ANALYTICS) ? ANALYTICS : "",
     "favicon" => FAVICON,
     "protocol" => PROTOCOL,
     "cepaberto" => defined('CEPABERTO') && !empty(CEPABERTO) ? CEPABERTO : "",

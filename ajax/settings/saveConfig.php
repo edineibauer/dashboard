@@ -19,6 +19,12 @@ if (\Helpers\Check::isJson($value) && preg_match('/url\":/i', $value)) {
     $value = $value === "1" ? "https://" : "http://";
 } elseif ($field === "WWW") {
     $value = $value ? "www" : "";
+} elseif ($field === "ANALYTICS") {
+    if(preg_match("/\'config\', /i", $value))
+        $value = explode("'", explode("'config', '", $value)[1])[0];
+
+    if(strlen($value) < 7 && strlen($value) > 20)
+        $value = "";
 }
 
 $file = file_get_contents(PATH_HOME . "_config/config.php");

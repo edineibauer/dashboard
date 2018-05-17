@@ -41,6 +41,19 @@
 
     <section class="card padding-8 border-bottom">
         <header class="container col padding-8">
+            <a href="https://analytics.google.com/analytics/web" target="_blank" class="font-xxlarge" style="text-decoration: none">Analytics</a>
+        </header>
+
+        <div class="col padding-medium font-medium">
+            <label class="col padding-small">
+                <span class="col">Código de Acompanhamento</span>
+                <textarea id="analytics" rows="4" class="font-xlarge inputConfig">{$config['analytics']}</textarea>
+            </label>
+        </div>
+    </section>
+
+    <section class="card padding-8 border-bottom">
+        <header class="container col padding-8">
             <a href="https://www.sparkpost.com/" target="_blank" class="font-xxlarge" style="text-decoration: none">SparkPost</a>
         </header>
 
