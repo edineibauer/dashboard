@@ -31,7 +31,8 @@ if (!$read->getResult()) {
         "nome_do_site" => defined('SITENAME') && !empty(SITENAME) ? SITENAME : "",
         "subtitulo" => defined('SITESUB') && !empty(SITESUB) ? SITESUB : "",
         "descricao" => defined('SITEDESC') && !empty(SITEDESC) ? SITEDESC : "",
-        "protocolo" => defined('PROTOCOL') && !empty(PROTOCOL) && PROTOCOL === "https://" ? 1 : 0,
+        "https" => defined('PROTOCOL') && !empty(PROTOCOL) && PROTOCOL === "https://" ? 1 : 0,
+        "www" => defined('WWW') && !empty(WWW) && WWW === "www" ? 1 : 0,
         "logo" => defined('LOGO') && !empty(LOGO) ? '[{"url": "' . LOGO . '", "name": "", "size": 1078, "type": "image/png"}]' : null,
         "favicon" => defined('FAVICON') && !empty(FAVICON) ? '[{"url": "' . FAVICON . '", "name": "", "size": 1078, "type": "image/png"}]' : null,
     ];
