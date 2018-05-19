@@ -36,7 +36,8 @@ if (\Helpers\Check::isJson($value) && preg_match('/url\":/i', $value)) {
     $value = "uploads/site/favicon-90.png";
 }
 
-if(!file_exists(PATH_HOME . "manifest.json")) {
+/** MANIFEST UPDATE CREATE */
+function createManifest() {
     $theme = explode("}", explode(".theme {", file_get_contents(PATH_HOME . "assets" . (DEV ? "Public" : "") . "/theme/theme.css"))[1])[0];
     $themeBack = explode(" ", explode("background-color:", $theme)[1])[0];
     $themeColor = explode(" ", explode("color:", $theme)[1])[0];
@@ -46,6 +47,14 @@ if(!file_exists(PATH_HOME . "manifest.json")) {
     fwrite($fp, $content);
     fclose($fp);
 }
+
+if(!file_exists(PATH_HOME . "manifest.json"))
+    createManifest();
+elseif(in_array($field, ["SITENAME", "FAVICON"]))
+    createManifest();
+
+/** END - MANIFEST UPDATE CREATE */
+
 
 $value = trim(strip_tags(str_replace("'", '"', $value)));
 
