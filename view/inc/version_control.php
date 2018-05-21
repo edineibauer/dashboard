@@ -32,7 +32,6 @@ function updateVersionTxt()
         }
     }
 
-
     header("Location:" . HOME . "dashboard");
 }
 
@@ -109,6 +108,70 @@ function updateDependenciesEntity()
     }
 }
 
+function updateServiceWorker() {
+    $list = [HOME, HOME . "index.php"];
+    if(!empty(LOGO))
+        $list[] = HOME . LOGO;
+    if(!empty(LOGO))
+        $list[] = HOME . FAVICON;
+
+    //base assets public
+    $baseAssets = DEV ? "assetsPublic/" : "assets/";
+    foreach (\Helpers\Helper::listFolder(PATH_HOME . $baseAssets) as $asset) {
+        if (file_exists(PATH_HOME . $baseAssets . $asset . "/{$asset}.min.js"))
+            $list[] = HOME . $baseAssets . $asset . "/{$asset}.min.js";
+        elseif(file_exists(PATH_HOME . $baseAssets . $asset . "/{$asset}.js"))
+            $list[] = HOME . $baseAssets . $asset . "/{$asset}.js";
+
+        if (file_exists(PATH_HOME . $baseAssets . $asset . "/{$asset}.min.css"))
+            $list[] = HOME . $baseAssets . $asset . "/{$asset}.min.css";
+        elseif (file_exists(PATH_HOME . $baseAssets . $asset . "/{$asset}.css"))
+            $list[] = HOME . $baseAssets . $asset . "/{$asset}.css";
+    }
+
+    //templates front
+    foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/link-control/tplFront") as $tpl)
+        $list[] = HOME . "vendor/conn/link-control/tplFront/{$tpl}";
+
+
+    //assets theme lib
+    foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn") as $lib) {
+        if (file_exists(PATH_HOME . "vendor/conn/{$lib}/ajax/view/index.php")) {
+            //todas as páginas inc
+            foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/ajax/inc") as $view) {
+                if (preg_match('/[\.php|\.html]$/i', $view))
+                    $list[] = HOME . "vendor/conn/{$lib}/ajax/inc/{$view}";
+            }
+
+            //todas as páginas principais
+            foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/ajax/view") as $view) {
+                if (preg_match('/[\.php|\.html]$/i', $view))
+                    $list[] = HOME . "vendor/conn/{$lib}/ajax/view/{$view}";
+            }
+
+            //todas as páginas dobras
+            foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/ajax/dobra") as $view) {
+                if (preg_match('/[\.php|\.html]$/i', $view))
+                    $list[] = HOME . "vendor/conn/{$lib}/ajax/view/{$view}";
+            }
+
+            //assets do tema
+            foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/assets") as $asset)
+                $list[] = HOME . "vendor/conn/{$lib}/assets/{$asset}";
+
+            //param do tema
+            foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/param") as $param)
+                $list[] = HOME . "vendor/conn/{$lib}/param/{$param}";
+        }
+    }
+
+    $f = fopen(PATH_HOME . "service-worker.js", "w+");
+    $file = file_get_contents(PATH_HOME . "vendor/conn/config/tpl/service-worker.txt");
+    fwrite($f, str_replace("var filesToCache = [];", "var filesToCache = " . json_encode($list, JSON_UNESCAPED_SLASHES) . ";", $file));
+    fclose($f);
+}
+
+updateServiceWorker();
 if (file_exists(PATH_HOME . "_config/updates/version.txt")) {
     $old = file_get_contents(PATH_HOME . "_config/updates/version.txt");
     $actual = file_get_contents(PATH_HOME . "composer.lock");
