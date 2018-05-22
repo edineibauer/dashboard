@@ -60,7 +60,7 @@ function generateInfo(array $metadados): array
         if (in_array($dados['format'], ["title", "link", "status", "date", "datetime", "valor", "email", "tel", "cpf", "cnpj", "cep", "time", "week", "month", "year"]))
             $data[$dados['format']] = $i;
 
-        if($dados['key'] === "publisher")
+        if ($dados['key'] === "publisher")
             $data["publisher"] = $i;
 
         if ($dados['key'] === "source" || $dados['key'] === "sources")
@@ -87,7 +87,7 @@ function updateDependenciesEntity()
             foreach (Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/entity/cache") as $file) {
                 if ($file !== "info" && preg_match('/\w+\.json$/i', $file) && !file_exists(PATH_HOME . "entity/cache/{$file}")) {
                     copy(PATH_HOME . "vendor/conn/{$lib}/entity/cache/{$file}", PATH_HOME . "entity/cache/{$file}");
-                    if(file_exists(PATH_HOME . "vendor/conn/{$lib}/entity/cache/info/{$file}")) {
+                    if (file_exists(PATH_HOME . "vendor/conn/{$lib}/entity/cache/info/{$file}")) {
                         copy(PATH_HOME . "vendor/conn/{$lib}/entity/cache/info/{$file}", PATH_HOME . "entity/cache/info/{$file}");
 
                     } else {
@@ -108,12 +108,13 @@ function updateDependenciesEntity()
     }
 }
 
-function updateServiceWorker() {
+function updateServiceWorker()
+{
     $list = [HOME, HOME . "index.php"];
     $listAfter = [];
-    if(!empty(LOGO))
+    if (!empty(LOGO))
         $list[] = HOME . LOGO;
-    if(!empty(LOGO))
+    if (!empty(LOGO))
         $list[] = HOME . FAVICON;
 
     //base assets public
@@ -121,7 +122,7 @@ function updateServiceWorker() {
     foreach (\Helpers\Helper::listFolder(PATH_HOME . $baseAssets) as $asset) {
         if (file_exists(PATH_HOME . $baseAssets . $asset . "/{$asset}.min.js"))
             $list[] = HOME . $baseAssets . $asset . "/{$asset}.min.js";
-        elseif(file_exists(PATH_HOME . $baseAssets . $asset . "/{$asset}.js"))
+        elseif (file_exists(PATH_HOME . $baseAssets . $asset . "/{$asset}.js"))
             $list[] = HOME . $baseAssets . $asset . "/{$asset}.js";
 
         if (file_exists(PATH_HOME . $baseAssets . $asset . "/{$asset}.min.css"))
@@ -166,22 +167,45 @@ function updateServiceWorker() {
         }
     }
 
-    function ajaxFiles($dir) {
-        $files = [];
-        foreach (\Helpers\Helper::listFolder(PATH_HOME . $dir) as $ajax) {
-            if(preg_match('/\.php$/i', $ajax)) {
-                $files[] = HOME . "{$dir}/{$ajax}";
-            } elseif(is_dir(PATH_HOME . "{$dir}/{$ajax}")) {
-                $files = array_merge($files, ajaxFiles("{$dir}/{$ajax}"));
+    //pages
+    foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn") as $lib) {
+        if (file_exists(PATH_HOME . "vendor/conn/{$lib}/ajax/view")) {
+            foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/ajax/view") as $view) {
+                if (preg_match('/\.php$/i', $view)) {
+                    $listAfter[] = HOME . "request/get/{$lib}/view/" . str_replace('.php', '', $view);
+                    $listAfter[] = HOME . str_replace('.php', '', $view);
+                }
             }
         }
-        return $files;
-    }
+        if (file_exists(PATH_HOME . "vendor/conn/{$lib}/ajax/dobra")) {
+            foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/ajax/dobra") as $view) {
+                if (preg_match('/\.php$/i', $view))
+                    $listAfter[] = HOME . "request/get/{$lib}/dobra/" . str_replace('.php', '', $view);
+            }
+        }
+        if (file_exists(PATH_HOME . "vendor/conn/{$lib}/assets")) {
+            foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/assets") as $view)
+                $listAfter[] = HOME . "vendor/conn/{$lib}/assets/{$view}";
+        }
 
-    //assets theme lib
-    foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn") as $lib) {
-        if (file_exists("vendor/conn/{$lib}/ajax"))
-            $listAfter = ajaxFiles("vendor/conn/{$lib}/ajax");
+        if (DEV) {
+            if (file_exists(PATH_HOME . "ajax/view")) {
+                foreach (\Helpers\Helper::listFolder(PATH_HOME . "ajax/view") as $view) {
+                    if (preg_match('/\.php$/i', $view))
+                        $listAfter[] = HOME . "request/get/" . DOMINIO . "/view/" . str_replace('.php', '', $view);
+                }
+            }
+            if (file_exists(PATH_HOME . "ajax/dobra")) {
+                foreach (\Helpers\Helper::listFolder(PATH_HOME . "ajax/dobra") as $view) {
+                    if (preg_match('/\.php$/i', $view))
+                        $listAfter[] = HOME . "request/get/" . DOMINIO . "/dobra/" . str_replace('.php', '', $view);
+                }
+            }
+            if (file_exists(PATH_HOME . "assets")) {
+                foreach (\Helpers\Helper::listFolder(PATH_HOME . "assets") as $view)
+                    $listAfter[] = HOME . "assets/{$view}";
+            }
+        }
     }
 
     $f = fopen(PATH_HOME . "service-worker.js", "w+");

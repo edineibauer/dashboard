@@ -20,7 +20,7 @@ $(function () {
                 $("#dashboard").html(data);
             });
         } else {
-            post(lib, attr, {}, function (data) {
+            get(lib, attr, function (data) {
                 $("#dashboard").html(data);
             });
         }
@@ -46,7 +46,7 @@ $(function () {
         }
     });
 
-    post("dashboard", "dash/geral", {}, function (data) {
+    get("dashboard", "dash/geral", function (data) {
         $("#dashboard").html(data);
     });
 });
