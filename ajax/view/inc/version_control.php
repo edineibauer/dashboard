@@ -110,6 +110,7 @@ function updateDependenciesEntity()
 
 function updateServiceWorker() {
     $list = [HOME, HOME . "index.php"];
+    $listAfter = [];
     if(!empty(LOGO))
         $list[] = HOME . LOGO;
     if(!empty(LOGO))
@@ -165,9 +166,29 @@ function updateServiceWorker() {
         }
     }
 
+    function ajaxFiles($dir) {
+        $files = [];
+        foreach (\Helpers\Helper::listFolder(PATH_HOME . $dir) as $ajax) {
+            if(preg_match('/\.php$/i', $ajax)) {
+                $files[] = HOME . "{$dir}/{$ajax}";
+            } elseif(is_dir(PATH_HOME . "{$dir}/{$ajax}")) {
+                $files = array_merge($files, ajaxFiles("{$dir}/{$ajax}"));
+            }
+        }
+        return $files;
+    }
+
+    //assets theme lib
+    foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn") as $lib) {
+        if (file_exists("vendor/conn/{$lib}/ajax"))
+            $listAfter = ajaxFiles("vendor/conn/{$lib}/ajax");
+    }
+
     $f = fopen(PATH_HOME . "service-worker.js", "w+");
     $file = file_get_contents(PATH_HOME . "vendor/conn/config/tpl/service-worker.txt");
-    fwrite($f, str_replace("var filesToCache = [];", "var filesToCache = " . json_encode($list, JSON_UNESCAPED_SLASHES) . ";", $file));
+    $content = str_replace("var filesToCache = [];", "var filesToCache = " . json_encode($list, JSON_UNESCAPED_SLASHES) . ";", $file);
+    $content = str_replace("var filesToCacheAfter = [];", "var filesToCacheAfter = " . json_encode($listAfter, JSON_UNESCAPED_SLASHES) . ";", $content);
+    fwrite($f, $content);
     fclose($f);
 }
 
