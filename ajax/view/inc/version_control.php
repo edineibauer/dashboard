@@ -159,7 +159,8 @@ function updateServiceWorker()
 
             //assets do tema
             foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/assets") as $asset)
-                $list[] = HOME . "vendor/conn/{$lib}/assets/{$asset}";
+                if(!preg_match('/[^\.min]\.(js|css)$/i', $view))
+                    $list[] = HOME . "vendor/conn/{$lib}/assets/{$asset}";
 
             //param do tema
             foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/param") as $param)
@@ -185,7 +186,8 @@ function updateServiceWorker()
         }
         if (file_exists(PATH_HOME . "vendor/conn/{$lib}/assets")) {
             foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/assets") as $view)
-                $listAfter[] = HOME . "vendor/conn/{$lib}/assets/{$view}";
+                if(!preg_match('/[^\.min]\.(js|css)$/i', $view))
+                    $listAfter[] = HOME . "vendor/conn/{$lib}/assets/{$view}";
         }
 
         if (DEV) {
@@ -203,7 +205,8 @@ function updateServiceWorker()
             }
             if (file_exists(PATH_HOME . "assets")) {
                 foreach (\Helpers\Helper::listFolder(PATH_HOME . "assets") as $view)
-                    $listAfter[] = HOME . "assets/{$view}";
+                    if(!preg_match('/[^\.min]\.(js|css)$/i', $view))
+                        $listAfter[] = HOME . "assets/{$view}";
             }
         }
     }
