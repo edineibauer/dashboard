@@ -3,21 +3,21 @@
     "icon": "format_paint",
     "title": "Tema",
     "lib": "dashboard",
-    "file": "tema/tema",
+    "file": "view/tema",
     "setor": 2
   },
   {
     "icon": "settings",
     "title": "Configurações",
     "lib": "dashboard",
-    "file": "settings/settings",
+    "file": "view/settings",
     "setor": 2
   },
   {
     "icon": "settings_input_component",
     "title": "Desenvolvimento",
     "lib": "dashboard",
-    "file": "dev/desenvolvimento",
+    "file": "view/desenvolvimento",
     "setor": 1
   }
 ]

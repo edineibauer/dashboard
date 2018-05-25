@@ -13,4 +13,4 @@ if(!empty($dados['note'])) {
         $dados['note'][$i]['data'] = $dataTime->getDateTime($item['data'], 'd \d\e M \d\e Y');
 }
 
-$data['data'] = $tpl->getShow('dashboard', $dados);
+$data['data']['content'] = $tpl->getShow('dashboard', $dados);

@@ -10,16 +10,6 @@
     </header>
 
     <div class="container">
-
-        <div class="left margin-right">
-            <label for="dev" class="row">Debugar</label>
-            <label class="switch">
-                <input type="checkbox" id="dev" data-format="switch" class="switchCheck"
-                        {($dev) ? "checked='checked' " : " "}/>
-                <div class="slider"></div>
-            </label>
-        </div>
-
         <div class="left padding-xlarge">
             <button id="clear-global" class="btn color-yellow hover-shadow">Limpar Assets Globais</button>
         </div>

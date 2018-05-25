@@ -21,8 +21,6 @@ foreach ($routesAll as $item) {
 }
 
 $dados['dominio'] = DEV && DOMINIO === "dashboard" ? "" : "vendor/conn/dashboard/";
-$dados['file'] = file_get_contents(PATH_HOME . "vendor/conn/link-control/tpl/header.tpl");
-$dados['dev'] = explode(";", explode("const ISDEV = ", $dados['file'])[1])[0] === 'true';
 $dados['permissao'] = "";
 $dados['version'] = VERSION;
 
@@ -97,4 +95,4 @@ foreach ($dicLogin as $i => $dataLogin) {
 }
 
 
-$data['data'] = $tpl->getShow("dev", $dados);
+$data['data']['content'] = $tpl->getShow("dev", $dados);

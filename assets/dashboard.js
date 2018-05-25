@@ -20,8 +20,8 @@ $(function () {
                 $("#dashboard").html(data);
             });
         } else {
-            get(lib, attr, function (data) {
-                $("#dashboard").html(data);
+            get(attr, function (data) {
+                $("#dashboard").html(data.content);
             });
         }
 
@@ -46,7 +46,7 @@ $(function () {
         }
     });
 
-    get("dashboard", "dash/geral", function (data) {
+    get("dash/geral", function (data) {
         $("#dashboard").html(data);
     });
 });
