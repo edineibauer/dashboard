@@ -118,13 +118,9 @@ function updateServiceWorker()
     if (!empty(LOGO))
         $list[] = HOME . FAVICON;
 
-
-    /* CACHE SHELL */
-
     //base assets public
-    $baseAssets = DEV ? "assetsPublic/" : "assets/";
-    $list[] = HOME . $baseAssets . "/linkControl.min.js";
-    $list[] = HOME . $baseAssets . "/linkControl.min.css";
+    $list[] = HOME . (DEV ? "assetsPublic/" : "assets/") . "linkControl.min.js";
+    $list[] = HOME . (DEV ? "assetsPublic/" : "assets/") . "linkControl.min.css";
 
     if(DEV) {
         if (file_exists(PATH_HOME . "assets")) {
