@@ -123,13 +123,8 @@ function updateServiceWorker()
 
     //base assets public
     $baseAssets = DEV ? "assetsPublic/" : "assets/";
-    foreach (\Helpers\Helper::listFolder(PATH_HOME . $baseAssets) as $asset) {
-        if (file_exists(PATH_HOME . $baseAssets . $asset . "/{$asset}.min.js"))
-            $list[] = HOME . $baseAssets . $asset . "/{$asset}.min.js";
-
-        if (file_exists(PATH_HOME . $baseAssets . $asset . "/{$asset}.min.css"))
-            $list[] = HOME . $baseAssets . $asset . "/{$asset}.min.css";
-    }
+    $list[] = HOME . $baseAssets . "/linkControl.min.js";
+    $list[] = HOME . $baseAssets . "/linkControl.min.css";
 
     if(DEV) {
         if (file_exists(PATH_HOME . "assets")) {
