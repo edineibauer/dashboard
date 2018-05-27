@@ -122,29 +122,23 @@ function updateServiceWorker()
     $list[] = HOME . (DEV ? "assetsPublic/" : "assets/") . "linkControl.min.js";
     $list[] = HOME . (DEV ? "assetsPublic/" : "assets/") . "linkControl.min.css";
 
-    if(DEV) {
-        if (file_exists(PATH_HOME . "assets")) {
-            foreach (\Helpers\Helper::listFolder(PATH_HOME . "assets") as $asset) {
-                if (!preg_match('/\./i', $asset)) {
-                    foreach (\Helpers\Helper::listFolder(PATH_HOME . "assets/{$asset}") as $a) {
-                        if (preg_match('/\./i', $a) && (!preg_match('/(\.js|\.css)$/i', $a) || preg_match('/(\.min\.js|\.min\.css)$/i', $a)))
-                            $list[] = HOME . "assets/{$asset}/{$a}";
-                    }
-                } elseif (!preg_match('/(\.js|\.css)$/i', $asset) || preg_match('/(\.min\.js|\.min\.css)$/i', $asset)) {
-                    $list[] = HOME . "assets/{$asset}";
-                }
-            }
-        }
+    //templates
+    if (file_exists(PATH_HOME . "vendor/conn/link-control/tplFront")) {
+        foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/link-control/tplFront") as $tpl)
+            $list[] = HOME . "vendor/conn/link-control/tplFront/{$tpl}";
     }
 
-    //assets theme lib
+    //theme lib
     foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn") as $lib) {
-        if($lib !== "config") {
+        if(file_exists(PATH_HOME . "vendor/conn/{$lib}/view/index.php")) {
+
+            //templates
             if (file_exists(PATH_HOME . "vendor/conn/{$lib}/tplFront")) {
                 foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/tplFront") as $tpl)
-                    $list[] = HOME . "vendor/conn/{$lib}/tplFront/{$tpl}";
+                    $listAfter[] = HOME . "vendor/conn/{$lib}/tplFront/{$tpl}";
             }
 
+            //assets
             if (file_exists(PATH_HOME . "vendor/conn/{$lib}/assets")) {
                 foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/assets") as $asset) {
                     if (!preg_match('/\./i', $asset)) {
@@ -157,34 +151,54 @@ function updateServiceWorker()
                     }
                 }
             }
-        }
-    }
 
-    /* CACHE DATA */
-
-    //pages
-    foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn") as $lib) {
-        if (file_exists(PATH_HOME . "vendor/conn/{$lib}/ajax/view")) {
-            foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/ajax/view") as $view) {
-                if (preg_match('/\.php$/i', $view)) {
-                    $listAfter[] = HOME . "request/get/{$lib}/view/" . str_replace('.php', '', $view);
-                    $listAfter[] = HOME . str_replace('.php', '', $view);
+            //pages
+            if (file_exists(PATH_HOME . "vendor/conn/{$lib}/ajax/view")) {
+                foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/ajax/view") as $view) {
+                    if (preg_match('/\.php$/i', $view)) {
+                        $listAfter[] = HOME . "request/get/{$lib}/view/" . str_replace('.php', '', $view);
+                        $listAfter[] = HOME . str_replace(['.php', 'index'], '', $view);
+                    }
                 }
             }
-        }
-        if (file_exists(PATH_HOME . "vendor/conn/{$lib}/ajax/dobra")) {
-            foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/ajax/dobra") as $view) {
-                if (preg_match('/\.php$/i', $view))
-                    $listAfter[] = HOME . "request/get/{$lib}/dobra/" . str_replace('.php', '', $view);
+            if (file_exists(PATH_HOME . "vendor/conn/{$lib}/ajax/dobra")) {
+                foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/ajax/dobra") as $view) {
+                    if (preg_match('/\.php$/i', $view))
+                        $listAfter[] = HOME . "request/get/{$lib}/dobra/" . str_replace('.php', '', $view);
+                }
             }
         }
     }
 
     if (DEV) {
+
+        //templates
+        if (file_exists(PATH_HOME . "vendor/conn/{$lib}/tplFront")) {
+            foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/tplFront") as $tpl)
+                $listAfter[] = HOME . "vendor/conn/{$lib}/tplFront/{$tpl}";
+        }
+
+        //assets
+        if (file_exists(PATH_HOME . "assets")) {
+            foreach (\Helpers\Helper::listFolder(PATH_HOME . "assets") as $asset) {
+                if (!preg_match('/\./i', $asset)) {
+                    foreach (\Helpers\Helper::listFolder(PATH_HOME . "assets/{$asset}") as $a) {
+                        if (preg_match('/\./i', $a) && (!preg_match('/(\.js|\.css)$/i', $a) || preg_match('/(\.min\.js|\.min\.css)$/i', $a)))
+                            $list[] = HOME . "assets/{$asset}/{$a}";
+                    }
+                } elseif (!preg_match('/(\.js|\.css)$/i', $asset) || preg_match('/(\.min\.js|\.min\.css)$/i', $asset)) {
+                    $list[] = HOME . "assets/{$asset}";
+                }
+            }
+        }
+
+        //pages
         if (file_exists(PATH_HOME . "ajax/view")) {
             foreach (\Helpers\Helper::listFolder(PATH_HOME . "ajax/view") as $view) {
-                if (preg_match('/\.php$/i', $view))
+                if (preg_match('/\.php$/i', $view)) {
                     $listAfter[] = HOME . "request/get/" . DOMINIO . "/view/" . str_replace('.php', '', $view);
+                    $listAfter[] = HOME . str_replace(['.php', 'index'], '', $view);
+                }
             }
         }
         if (file_exists(PATH_HOME . "ajax/dobra")) {
