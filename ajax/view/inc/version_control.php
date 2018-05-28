@@ -113,14 +113,17 @@ function updateServiceWorker()
 {
     $list = [];
     $listAfter = [];
+    $assets = (DEV ? "assetsPublic/" : "assets/");
     if (!empty(LOGO))
         $list[] = HOME . LOGO;
     if (!empty(LOGO))
         $list[] = HOME . FAVICON;
 
     //base assets public
-    $list[] = HOME . (DEV ? "assetsPublic/" : "assets/") . "linkControl.min.js";
-    $list[] = HOME . (DEV ? "assetsPublic/" : "assets/") . "linkControl.min.css";
+    $list[] = HOME . $assets . "linkControl.min.js?v=" . VERSION;
+    $list[] = HOME . $assets . "linkControl.min.css?v=" . VERSION;
+    if(file_exists(PATH_HOME . $assets . "fonts.min.css"))
+        $list[] = HOME . $assets . "fonts.min.css?v=" . VERSION;
 
     //templates
     if (file_exists(PATH_HOME . "vendor/conn/link-control/tplFront")) {
@@ -143,11 +146,11 @@ function updateServiceWorker()
                 foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/assets") as $asset) {
                     if (!preg_match('/\./i', $asset)) {
                         foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/assets/{$asset}") as $a) {
-                            if (preg_match('/\./i', $a) && (!preg_match('/(\.js|\.css)$/i', $a) || preg_match('/(\.min\.js|\.min\.css)$/i', $a)))
-                                $list[] = HOME . "vendor/conn/{$lib}/assets/{$asset}/{$a}";
+                            if (preg_match('/\./i', $a) && (!preg_match('/\.(js|css)$/i', $a) || preg_match('/\.min\.(js|css)$/i', $a)))
+                                $list[] = HOME . "vendor/conn/{$lib}/assets/{$asset}/{$a}?v=" . VERSION;
                         }
-                    } elseif (!preg_match('/(\.js|\.css)$/i', $asset) || preg_match('/(\.min\.js|\.min\.css)$/i', $asset)) {
-                        $list[] = HOME . "vendor/conn/{$lib}/assets/{$asset}";
+                    } elseif (!preg_match('/\.(js|css)$/i', $asset) || preg_match('/\.min\.(js|css)$/i', $asset)) {
+                        $list[] = HOME . "vendor/conn/{$lib}/assets/{$asset}?v=" . VERSION;
                     }
                 }
             }
@@ -183,11 +186,11 @@ function updateServiceWorker()
             foreach (\Helpers\Helper::listFolder(PATH_HOME . "assets") as $asset) {
                 if (!preg_match('/\./i', $asset)) {
                     foreach (\Helpers\Helper::listFolder(PATH_HOME . "assets/{$asset}") as $a) {
-                        if (preg_match('/\./i', $a) && (!preg_match('/(\.js|\.css)$/i', $a) || preg_match('/(\.min\.js|\.min\.css)$/i', $a)))
-                            $list[] = HOME . "assets/{$asset}/{$a}";
+                        if (preg_match('/\./i', $a) && (!preg_match('/\.(js|css)$/i', $a) || preg_match('/\.min\.(js|css)$/i', $a)))
+                            $list[] = HOME . "assets/{$asset}/{$a}?v=" . VERSION;
                     }
-                } elseif (!preg_match('/(\.js|\.css)$/i', $asset) || preg_match('/(\.min\.js|\.min\.css)$/i', $asset)) {
-                    $list[] = HOME . "assets/{$asset}";
+                } elseif (!preg_match('/\.(js|css)$/i', $asset) || preg_match('/\.min\.(js|css)$/i', $asset)) {
+                    $list[] = HOME . "assets/{$asset}?v=" . VERSION;
                 }
             }
         }
@@ -196,7 +199,7 @@ function updateServiceWorker()
         if (file_exists(PATH_HOME . "ajax/view")) {
             foreach (\Helpers\Helper::listFolder(PATH_HOME . "ajax/view") as $view) {
                 if (preg_match('/\.php$/i', $view)) {
-                    $listAfter[] = HOME . "request/get/" . DOMINIO . "/view/" . str_replace('.php', '', $view);
+                    $listAfter[] = HOME . "request/get/view/" . str_replace('.php', '', $view);
                     $listAfter[] = HOME . str_replace(['.php', 'index'], '', $view);
                 }
             }
@@ -204,7 +207,7 @@ function updateServiceWorker()
         if (file_exists(PATH_HOME . "ajax/dobra")) {
             foreach (\Helpers\Helper::listFolder(PATH_HOME . "ajax/dobra") as $view) {
                 if (preg_match('/\.php$/i', $view))
-                    $listAfter[] = HOME . "request/get/" . DOMINIO . "/dobra/" . str_replace('.php', '', $view);
+                    $listAfter[] = HOME . "request/get/dobra/" . str_replace('.php', '', $view);
             }
         }
     }
