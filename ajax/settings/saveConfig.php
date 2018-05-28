@@ -38,7 +38,7 @@ if (\Helpers\Check::isJson($value) && preg_match('/url\":/i', $value)) {
 
 /** MANIFEST UPDATE CREATE */
 function createManifest() {
-    $theme = explode("}", explode(".theme{", file_get_contents(PATH_HOME . "assets" . (DEV ? "Public" : "") . "/theme/theme.css"))[1])[0];
+    $theme = explode("}", explode(".theme{", file_get_contents(PATH_HOME . "assets" . (DEV ? "Public" : "") . "/theme/theme.min.css"))[1])[0];
     $themeBack = explode("!important", explode("background-color:", $theme)[1])[0];
     $themeColor = explode("!important", explode("color:", $theme)[1])[0];
     $content = str_replace(['{$sitename}', '{$favicon}', '{$theme}', '{$themeColor}'], [SITENAME, FAVICON, $themeBack, $themeColor], file_get_contents(PATH_HOME . "vendor/conn/config/tpl/manifest.txt"));

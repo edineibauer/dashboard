@@ -30,9 +30,9 @@ fwrite($f, file_get_contents(PATH_HOME . "composer.lock"));
 fclose($f);
 
 
-$theme = explode("}", explode(".theme {", file_get_contents(PATH_HOME . "assets" . (DEV ? "Public" : "") . "/theme/theme.css"))[1])[0];
-$themeBack = explode(" ", explode("background-color:", $theme)[1])[0];
-$themeColor = explode(" ", explode("color:", $theme)[1])[0];
+$theme = explode("}", explode(".theme{", file_get_contents(PATH_HOME . "assets" . (DEV ? "Public" : "") . "/theme/theme.min.css"))[1])[0];
+$themeBack = explode("!important", explode("background-color:", $theme)[1])[0];
+$themeColor = explode("!important", explode("color:", $theme)[1])[0];
 $content = str_replace(['{$sitename}', '{$favicon}', '{$theme}', '{$themeColor}'], [SITENAME, FAVICON, $themeBack, $themeColor], file_get_contents(PATH_HOME . "vendor/conn/config/tpl/manifest.txt"));
 
 $fp = fopen(PATH_HOME . "manifest.json", "w+");
