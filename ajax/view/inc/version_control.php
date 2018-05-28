@@ -112,7 +112,7 @@ function updateDependenciesEntity()
 function updateServiceWorker()
 {
     $list = [];
-    $listAfter = [HOME . "404", HOME . "request/get/view/404", HOME . "request/get/dobra/404", HOME . "network", HOME . "request/get/view/network", HOME . "request/get/dobra/network"];
+    $listAfter = [HOME . "404", HOME . "request/get/view/404", HOME . "request/get/dobra/404", HOME . "blank", HOME . "request/get/view/blank", HOME . "request/get/dobra/blank", HOME . "network", HOME . "request/get/view/network", HOME . "request/get/dobra/network"];
     $assets = (DEV ? "assetsPublic/" : "assets/");
     if (!empty(LOGO))
         $list[] = HOME . LOGO;
