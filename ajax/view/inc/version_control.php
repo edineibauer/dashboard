@@ -112,7 +112,7 @@ function updateDependenciesEntity()
 function updateServiceWorker()
 {
     $list = [];
-    $listAfter = [];
+    $listAfter = [HOME . "404", HOME . "request/get/view/404", HOME . "request/get/dobra/404", HOME . "network", HOME . "request/get/view/network", HOME . "request/get/dobra/network"];
     $assets = (DEV ? "assetsPublic/" : "assets/");
     if (!empty(LOGO))
         $list[] = HOME . LOGO;
@@ -179,6 +179,16 @@ function updateServiceWorker()
         if (file_exists(PATH_HOME . "vendor/conn/{$lib}/tplFront")) {
             foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/tplFront") as $tpl)
                 $listAfter[] = HOME . "vendor/conn/{$lib}/tplFront/{$tpl}";
+        }
+
+        //fonts
+        $assets = (DEV ? "assetsPublic/" : "assets/");
+        $path = $assets . "fonts.min.css";
+        if(file_exists(PATH_HOME . $path)) {
+            foreach (explode('url(', file_get_contents(PATH_HOME . $path)) as $i => $u) {
+                if ($i > 0)
+                    $list[] = explode(')', $u)[0];
+            }
         }
 
         //assets
