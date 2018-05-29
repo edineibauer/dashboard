@@ -125,6 +125,11 @@ function updateServiceWorker()
     if(file_exists(PATH_HOME . $assets . "fonts.min.css"))
         $listShell[] = HOME . $assets . "fonts.min.css?v=" . VERSION;
 
+    foreach (Helper::listFolder(PATH_HOME . $assets . "fonts") as $font) {
+        if(preg_match('/\.(ttf|woff|woff2)$/', $font))
+            $listShell[] = HOME . $assets . "fonts/{$font}";
+    }
+
     function checkCacheContent($path, $listShell, $listData) {
         //templates
         if (file_exists(PATH_HOME . "{$path}tplFront")) {
