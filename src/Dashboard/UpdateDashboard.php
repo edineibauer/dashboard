@@ -8,6 +8,7 @@ use \Entity\Entity;
 
 class UpdateDashboard
 {
+    private $result;
 
     /**
      * UpdateDashboard constructor.
@@ -15,7 +16,15 @@ class UpdateDashboard
      */
     public function __construct($force = null)
     {
-        return $this->start($force);
+        $this->start($force);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getResult()
+    {
+        return $this->result;
     }
 
     private function start($force)
@@ -26,16 +35,12 @@ class UpdateDashboard
             if ($old !== $actual || $force) {
                 $this->updateVersionSystem();
                 $this->updateVersion();
-                return 1;
             }
 
         } else {
             Helper::createFolderIfNoExist(PATH_HOME . "_config/updates");
             $this->updateVersion();
-            return 1;
         }
-
-        return null;
     }
 
     private function updateVersionSystem()
@@ -67,6 +72,7 @@ class UpdateDashboard
         $this->checkAdminExist();
         $this->updateAssets();
         $this->updateServiceWorker();
+        $this->result = true;
     }
 
     private function updateAssets()
