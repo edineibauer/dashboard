@@ -35,7 +35,7 @@ if (!LOGGED) {
             </div>
         </nav>
 
-        <div class="main color-grey-light dashboard-main space-header">
+        <div class="main color-grey-light dashboard-main">
             <div id="dashboard" class="dashboard-tab container row"></div>
         </div>
 
