@@ -1,5 +1,4 @@
 <?php
 
-new \Dashboard\UpdateDashboard(1);
-
-$data['data'] = "1";
+if (new \Dashboard\UpdateDashboard(1))
+    $data['data'] = "1";

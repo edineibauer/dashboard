@@ -15,7 +15,7 @@ class UpdateDashboard
      */
     public function __construct($force = null)
     {
-        $this->start($force);
+        return $this->start($force);
     }
 
     private function start($force)
@@ -26,12 +26,16 @@ class UpdateDashboard
             if ($old !== $actual || $force) {
                 $this->updateVersionSystem();
                 $this->updateVersion();
+                return 1;
             }
 
         } else {
             Helper::createFolderIfNoExist(PATH_HOME . "_config/updates");
             $this->updateVersion();
+            return 1;
         }
+
+        return null;
     }
 
     private function updateVersionSystem()
@@ -63,9 +67,6 @@ class UpdateDashboard
         $this->checkAdminExist();
         $this->updateAssets();
         $this->updateServiceWorker();
-
-        $data['response'] = 3;
-        $data['data'] = HOME . "dashboard";
     }
 
     private function updateAssets()

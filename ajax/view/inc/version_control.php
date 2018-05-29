@@ -1,3 +1,6 @@
 <?php
 
-new \Dashboard\UpdateDashboard();
+if(new \Dashboard\UpdateDashboard()) {
+    $data['response'] = 3;
+    $data['data'] = HOME . "dashboard";
+}
