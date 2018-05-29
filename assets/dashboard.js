@@ -1,8 +1,3 @@
-function logoutDashboard() {
-    if (confirm("Desconectar?"))
-        window.location = HOME + "logout";
-}
-
 function hide_sidebar_small() {
     if (screen.width < 993)
         close_sidebar();
@@ -18,10 +13,12 @@ $(function () {
         if(lib === "") {
             post("table", "api", {entity: attr}, function (data) {
                 $("#dashboard").html(data);
+                spaceHeader();
             });
         } else {
             get(attr, function (data) {
                 $("#dashboard").html(data.content);
+                spaceHeader();
             });
         }
 
@@ -34,19 +31,9 @@ $(function () {
         }));
 
     });
-    $(".open-menu").off("click").on("click", function () {
-        if ($("#myOverlay").css("display") === 'block') {
-            $("#myOverlay, #mySidebar").css("display", "none");
-        } else {
-            $("#myOverlay, #mySidebar").css("display", "block");
-
-            $("#myOverlay").off("click").on("click", function () {
-                $("#myOverlay, #mySidebar").css("display", "none");
-            });
-        }
-    });
 
     get("dash/geral", function (data) {
         $("#dashboard").html(data);
+        spaceHeader();
     });
 });
