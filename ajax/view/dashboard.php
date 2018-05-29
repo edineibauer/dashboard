@@ -18,15 +18,16 @@ if (!LOGGED) {
                 ?>
 
                 <strong class="padding"><?= $_SESSION['userlogin']['nome'] ?></strong><br>
-                <div class="row" style="padding-bottom:15px">
+                <div class="row padding-medium div-btn-editLogin">
                     <button id="btn-editLogin"
-                            class="right color-white opacity hover-shadow hover-opacity-off btn-floating">
-                        <i class="material-icons">edit</i>
+                            class="left color-white opacity hover-shadow hover-opacity-off btn color-grey-light margin-0">
+                        <i class="material-icons left font-large">edit</i>
+                        <span class="left">editar</span>
                     </button>
                 </div>
             </div>
             </div>
-            <hr>
+            <hr style="margin: 30px 0 0;">
             <div class="bar-block">
                 <?php
                 require_once 'inc/menu.php';

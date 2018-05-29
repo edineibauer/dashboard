@@ -5,6 +5,8 @@ function hide_sidebar_small() {
 
 $(function () {
     $("#content").off("click", ".menu-li").on("click", ".menu-li", function () {
+        $("#content .menu-li").removeClass("color-grey-light");
+        $(this).addClass("color-grey-light");
         var lib = $(this).attr("data-lib");
         var attr = $(this).attr("data-atributo");
         $(".main").loading();

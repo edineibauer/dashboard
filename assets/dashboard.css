@@ -12,5 +12,18 @@
     top: 0;
     right: 3px;
     color: #999;
-    font-size:0.8em
+    font-size: 0.8em
+}
+
+.div-btn-editLogin {
+    padding-bottom:15px!important;
+}
+
+#btn-editLogin {
+    height: 31px;
+}
+
+#btn-editLogin i {
+    padding-right: 5px;
+    margin-top: 1px;
 }
