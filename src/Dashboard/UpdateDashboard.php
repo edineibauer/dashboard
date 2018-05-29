@@ -238,9 +238,9 @@ class UpdateDashboard
         if (file_exists(PATH_HOME . "service-worker.js")) {
             $worker = file_get_contents(PATH_HOME . "service-worker.js");
             $shell = explode("'", explode("swShellConn-", $worker)[1])[0];
-            $shellNewVersion = $shell + 0.01;
+            $shellNewVersion = $shell + 0.1;
             $data = explode("'", explode("swDataConn-", $worker)[1])[0];
-            $dataNewVersion = $data + 0.01;
+            $dataNewVersion = $data + 0.1;
         }
 
         $f = fopen(PATH_HOME . "service-worker.js", "w");
