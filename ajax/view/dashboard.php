@@ -7,7 +7,7 @@ if (!LOGGED) {
     include_once 'inc/version_control.php';
     if($data['response'] === 1) {
         ?>
-        <nav class="sidebar card collapse color-white animate-left dashboard-nav" id="mySidebar"><br>
+        <nav class="sidebar card collapse color-white animate-left dashboard-nav space-header" id="mySidebar"><br>
             <div class="container row">
                 <?php
                 if (isset($_SESSION['userlogin']['imagem']) && !empty($_SESSION['userlogin']['imagem'])) {
@@ -35,7 +35,7 @@ if (!LOGGED) {
             </div>
         </nav>
 
-        <div class="main color-grey-light dashboard-main">
+        <div class="main color-grey-light dashboard-main space-header">
             <div id="dashboard" class="dashboard-tab container row"></div>
         </div>
 

@@ -141,5 +141,5 @@
     </div>
     -->
 
-    <div class="dash-version">v.{$version}</div>
+    <div class="dash-version space-header">v.{$version}</div>
 </div>
