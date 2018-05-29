@@ -11,7 +11,10 @@
 
     <div class="container">
         <div class="left padding-xlarge">
-            <button id="clear-global" class="btn color-yellow hover-shadow">Limpar Assets Globais</button>
+            <button id="clear-cache" class="btn color-orange hover-shadow">Atualizar Sistema</button>
+        </div>
+        <div class="left padding-xlarge">
+            <button id="clear-global" class="btn color-yellow hover-shadow">Atualizar Assets Globais</button>
         </div>
     </div>
 </section>

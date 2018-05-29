@@ -33,10 +33,21 @@ $(function () {
         }
     });
 
+    $("#clear-cache").off("click").on("click", function () {
+        post("dashboard", "cache/update", {}, function (g) {
+            if (g === "1") {
+                toast("Sistema Atualizado! Recarregando Arquivos...", 4000);
+                setTimeout(function () {
+                    location.reload();
+                }, 700);
+            }
+        });
+    });
+
     $("#clear-global").off("click").on("click", function () {
         post("dashboard", "cache/global", {}, function (g) {
             if (g === "1") {
-                toast("Cache Limpo! Recarregando Arquivos...", 4000);
+                toast("Recarregando Assets...", 4000);
                 setTimeout(function () {
                     location.reload();
                 }, 700);
