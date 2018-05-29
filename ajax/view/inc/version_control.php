@@ -111,121 +111,74 @@ function updateDependenciesEntity()
 
 function updateServiceWorker()
 {
-    $list = [];
-    $listAfter = [HOME . "404", HOME . "request/get/view/404", HOME . "request/get/dobra/404", HOME . "blank", HOME . "request/get/view/blank", HOME . "request/get/dobra/blank", HOME . "network", HOME . "request/get/view/network", HOME . "request/get/dobra/network"];
+    $listShell = [];
+    $listData = [];
     $assets = (DEV ? "assetsPublic/" : "assets/");
     if (!empty(LOGO))
-        $list[] = HOME . LOGO;
+        $listShell[] = HOME . LOGO;
     if (!empty(LOGO))
-        $list[] = HOME . FAVICON;
+        $listShell[] = HOME . FAVICON;
 
     //base assets public
-    $list[] = HOME . $assets . "linkControl.min.js?v=" . VERSION;
-    $list[] = HOME . $assets . "linkControl.min.css?v=" . VERSION;
+    $listShell[] = HOME . $assets . "linkControl.min.js?v=" . VERSION;
+    $listShell[] = HOME . $assets . "linkControl.min.css?v=" . VERSION;
     if(file_exists(PATH_HOME . $assets . "fonts.min.css"))
-        $list[] = HOME . $assets . "fonts.min.css?v=" . VERSION;
+        $listShell[] = HOME . $assets . "fonts.min.css?v=" . VERSION;
 
-    //templates
-    if (file_exists(PATH_HOME . "vendor/conn/link-control/tplFront")) {
-        foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/link-control/tplFront") as $tpl)
-            $list[] = HOME . "vendor/conn/link-control/tplFront/{$tpl}";
-    }
-
-    //theme lib
-    foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn") as $lib) {
-        if(file_exists(PATH_HOME . "vendor/conn/{$lib}/view/index.php")) {
-
-            //templates
-            if (file_exists(PATH_HOME . "vendor/conn/{$lib}/tplFront")) {
-                foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/tplFront") as $tpl)
-                    $listAfter[] = HOME . "vendor/conn/{$lib}/tplFront/{$tpl}";
-            }
-
-            //assets
-            if (file_exists(PATH_HOME . "vendor/conn/{$lib}/assets")) {
-                foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/assets") as $asset) {
-                    if (!preg_match('/\./i', $asset)) {
-                        foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/assets/{$asset}") as $a) {
-                            if (preg_match('/\./i', $a) && (!preg_match('/\.(js|css)$/i', $a) || preg_match('/\.min\.(js|css)$/i', $a)))
-                                $list[] = HOME . "vendor/conn/{$lib}/assets/{$asset}/{$a}?v=" . VERSION;
-                        }
-                    } elseif (!preg_match('/\.(js|css)$/i', $asset) || preg_match('/\.min\.(js|css)$/i', $asset)) {
-                        $list[] = HOME . "vendor/conn/{$lib}/assets/{$asset}?v=" . VERSION;
-                    }
-                }
-            }
-
-            //pages
-            if (file_exists(PATH_HOME . "vendor/conn/{$lib}/ajax/view")) {
-                foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/ajax/view") as $view) {
-                    if (preg_match('/\.php$/i', $view)) {
-                        $listAfter[] = HOME . "request/get/{$lib}/view/" . str_replace('.php', '', $view);
-                        $listAfter[] = HOME . str_replace(['.php', 'index'], '', $view);
-                    }
-                }
-            }
-            if (file_exists(PATH_HOME . "vendor/conn/{$lib}/ajax/dobra")) {
-                foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/ajax/dobra") as $view) {
-                    if (preg_match('/\.php$/i', $view))
-                        $listAfter[] = HOME . "request/get/{$lib}/dobra/" . str_replace('.php', '', $view);
-                }
-            }
-        }
-    }
-
-    if (DEV) {
-
+    function checkCacheContent($path, $listShell, $listData) {
         //templates
-        if (file_exists(PATH_HOME . "vendor/conn/{$lib}/tplFront")) {
-            foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/tplFront") as $tpl)
-                $listAfter[] = HOME . "vendor/conn/{$lib}/tplFront/{$tpl}";
-        }
-
-        //fonts
-        $assets = (DEV ? "assetsPublic/" : "assets/");
-        $path = $assets . "fonts.min.css";
-        if(file_exists(PATH_HOME . $path)) {
-            foreach (explode('url(', file_get_contents(PATH_HOME . $path)) as $i => $u) {
-                if ($i > 0)
-                    $list[] = explode(')', $u)[0];
-            }
+        if (file_exists(PATH_HOME . "{$path}tplFront")) {
+            foreach (\Helpers\Helper::listFolder(PATH_HOME . "{$path}tplFront") as $tpl)
+                $listShell[] = HOME . "{$path}tplFront/{$tpl}";
         }
 
         //assets
-        if (file_exists(PATH_HOME . "assets")) {
-            foreach (\Helpers\Helper::listFolder(PATH_HOME . "assets") as $asset) {
+        if (file_exists(PATH_HOME . "{$path}assets")) {
+            foreach (\Helpers\Helper::listFolder(PATH_HOME . "{$path}assets") as $asset) {
                 if (!preg_match('/\./i', $asset)) {
-                    foreach (\Helpers\Helper::listFolder(PATH_HOME . "assets/{$asset}") as $a) {
+                    foreach (\Helpers\Helper::listFolder(PATH_HOME . "{$path}assets/{$asset}") as $a) {
                         if (preg_match('/\./i', $a) && (!preg_match('/\.(js|css)$/i', $a) || preg_match('/\.min\.(js|css)$/i', $a)))
-                            $list[] = HOME . "assets/{$asset}/{$a}?v=" . VERSION;
+                            $listShell[] = HOME . "{$path}assets/{$asset}/{$a}" . (preg_match('/\.(js|css)$/i', $asset) ? "?v=" . VERSION : "");
                     }
                 } elseif (!preg_match('/\.(js|css)$/i', $asset) || preg_match('/\.min\.(js|css)$/i', $asset)) {
-                    $list[] = HOME . "assets/{$asset}?v=" . VERSION;
+                    $listShell[] = HOME . "{$path}assets/{$asset}" . (preg_match('/\.(js|css)$/i', $asset) ? "?v=" . VERSION : "");
                 }
             }
         }
 
         //pages
-        if (file_exists(PATH_HOME . "ajax/view")) {
-            foreach (\Helpers\Helper::listFolder(PATH_HOME . "ajax/view") as $view) {
+        if (file_exists(PATH_HOME . "{$path}ajax/view")) {
+            foreach (\Helpers\Helper::listFolder(PATH_HOME . "{$path}ajax/view") as $view) {
                 if (preg_match('/\.php$/i', $view)) {
-                    $listAfter[] = HOME . "request/get/view/" . str_replace('.php', '', $view);
-                    $listAfter[] = HOME . str_replace(['.php', 'index'], '', $view);
+                    $listData[] = HOME . "request/get/view/" . str_replace('.php', '', $view);
+                    $listData[] = HOME . str_replace(['.php', 'index'], '', $view);
                 }
             }
         }
-        if (file_exists(PATH_HOME . "ajax/dobra")) {
-            foreach (\Helpers\Helper::listFolder(PATH_HOME . "ajax/dobra") as $view) {
+        if (file_exists(PATH_HOME . "{$path}ajax/dobra")) {
+            foreach (\Helpers\Helper::listFolder(PATH_HOME . "{$path}ajax/dobra") as $view) {
                 if (preg_match('/\.php$/i', $view))
-                    $listAfter[] = HOME . "request/get/dobra/" . str_replace('.php', '', $view);
+                    $listData[] = HOME . "request/get/dobra/" . str_replace('.php', '', $view);
             }
+        }
+
+        return [$listShell, $listData];
+    }
+
+    //theme lib
+    foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn") as $lib) {
+        if($lib === "link-control" || file_exists(PATH_HOME . "vendor/conn/{$lib}/view/index.php")) {
+            list($listShell, $listData) = checkCacheContent("vendor/conn/{$lib}/", $listShell, $listData);
         }
     }
 
+    if (DEV)
+        list($listShell, $listData) = checkCacheContent("", $listShell, $listData);
+
     $f = fopen(PATH_HOME . "service-worker.js", "w+");
     $file = file_get_contents(PATH_HOME . "vendor/conn/config/tpl/service-worker.txt");
-    $content = str_replace("var filesToCache = [];", "var filesToCache = " . json_encode($list, JSON_UNESCAPED_SLASHES) . ";", $file);
-    $content = str_replace("var filesToCacheAfter = [];", "var filesToCacheAfter = " . json_encode($listAfter, JSON_UNESCAPED_SLASHES) . ";", $content);
+    $content = str_replace("var filesToCache = [];", "var filesToCache = " . json_encode($listShell, JSON_UNESCAPED_SLASHES) . ";", $file);
+    $content = str_replace("var filesToCacheAfter = [];", "var filesToCacheAfter = " . json_encode($listData, JSON_UNESCAPED_SLASHES) . ";", $content);
     fwrite($f, $content);
     fclose($f);
 }
