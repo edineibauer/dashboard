@@ -2,6 +2,7 @@
 
 namespace Dashboard;
 
+use EntityForm\EntityCreateEntityDatabase;
 use Helpers\Helper;
 use \ConnCrud\Read;
 use \Entity\Entity;
@@ -78,8 +79,8 @@ class UpdateDashboard
     private function updateAssets()
     {
         $dir = PATH_HOME . (DEV ? "assetsPublic" : "assets");
-        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS),
-            RecursiveIteratorIterator::CHILD_FIRST) as $file) {
+        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::CHILD_FIRST) as $file) {
             if (!in_array($file->getFileName(), ["theme.min.css", "theme"])) {
                 if ($file->isDir())
                     rmdir($file->getRealPath());
@@ -158,7 +159,7 @@ class UpdateDashboard
 
         foreach (Helper::listFolder(PATH_HOME . "entity/cache") as $entity) {
             if ($entity !== "info" && preg_match('/\w+\.json$/i', $entity))
-                new EntityForm\EntityCreateEntityDatabase(str_replace('.json', '', $entity), []);
+                new EntityCreateEntityDatabase(str_replace('.json', '', $entity), []);
         }
     }
 
