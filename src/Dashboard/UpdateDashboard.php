@@ -81,7 +81,7 @@ class UpdateDashboard
         $dir = PATH_HOME . (DEV ? "assetsPublic" : "assets");
         foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS),
             \RecursiveIteratorIterator::CHILD_FIRST) as $file) {
-            if (!in_array($file->getFileName(), ["theme.min.css", "theme"])) {
+            if (!in_array($file->getFileName(), ["theme.min.css", "theme", "global", "global.min.css", "global.min.js"])) {
                 if ($file->isDir())
                     rmdir($file->getRealPath());
                 elseif ($file->getFileName())
