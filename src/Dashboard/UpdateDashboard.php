@@ -6,6 +6,7 @@ use EntityForm\EntityCreateEntityDatabase;
 use Helpers\Helper;
 use \ConnCrud\Read;
 use \Entity\Entity;
+use MatthiasMullie\Minify;
 
 class UpdateDashboard
 {
@@ -72,6 +73,7 @@ class UpdateDashboard
         $this->updateDependenciesEntity();
         $this->checkAdminExist();
         $this->updateAssets();
+        $this->createMinifyAssetsLib();
         $this->updateServiceWorker();
         $this->result = true;
     }
@@ -202,6 +204,26 @@ class UpdateDashboard
         }
 
         return [$listShell, $listData];
+    }
+
+    private function createMinifyAssetsLib()
+    {
+        foreach (Helper::listFolder(PATH_HOME . "vendor/conn") as $lib) {
+            if(file_exists(PATH_HOME . "vendor/conn/{$lib}/assets")) {
+                foreach (Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/assets") as $assets) {
+                    $tipo = pathinfo($assets, PATHINFO_EXTENSION);
+                    if($tipo === "css" || $tipo === "js") {
+                        $name = pathinfo($assets, PATHINFO_FILENAME);
+                        if ($tipo === "css")
+                            $mini = new Minify\CSS(PATH_HOME . "vendor/conn/{$lib}/assets/{$assets}");
+                        else
+                            $mini = new Minify\JS(PATH_HOME . "vendor/conn/{$lib}/assets/{$assets}");
+
+                        $mini->minify(PATH_HOME . "vendor/conn/{$lib}/assets/{$name}.min.{$tipo}");
+                    }
+                }
+            }
+        }
     }
 
     private function updateServiceWorker()
