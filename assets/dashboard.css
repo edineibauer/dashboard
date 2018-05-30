@@ -7,6 +7,10 @@
     margin-left: 250px;
 }
 
+.dashboard-nav {
+    width: 250px !important;
+}
+
 .dash-version {
     position: fixed;
     top: 0;
