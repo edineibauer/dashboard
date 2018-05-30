@@ -1,21 +1,20 @@
 <?php
+
+use MatthiasMullie\Minify;
+
 $txt = trim(strip_tags(filter_input(INPUT_POST, "txt", FILTER_DEFAULT)));
 
 $assets = DEV ? "assetsPublic" : "assets";
-copy(PATH_HOME . "{$assets}/theme/theme.css", PATH_HOME . "{$assets}/theme/theme-recovery.css");
 
-$f = fopen(PATH_HOME . "{$assets}/theme/theme.css", "w+");
-fwrite($f, $txt);
-fclose($f);
+//Cria backup
+copy(PATH_HOME . "{$assets}/theme/theme.min.css", PATH_HOME . "{$assets}/theme/theme-recovery.css");
+//Cria novo theme
+$mini = new Minify\CSS($txt);
+$mini->minify(PATH_HOME . $assets . "/theme/theme.min.css");
+//Remove atual CSS
+unlink(PATH_HOME . $assets . "/linkControl.min.css");
 
-$buffer = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $txt);
-$buffer = str_replace(': ', ':', $buffer);
-$buffer = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), '', $buffer);
-
-$f = fopen(PATH_HOME . "{$assets}/theme/theme.min.css", "w+");
-fwrite($f, $buffer);
-fclose($f);
-
+//Atualiza a VERSION
 $conf = file_get_contents(PATH_HOME . "_config/config.php");
 $version = explode("')", explode("'VERSION', '", $conf)[1])[0];
 $newVersion = $version + 0.01;
@@ -23,13 +22,13 @@ $conf = str_replace("'VERSION', '{$version}')", "'VERSION', '{$newVersion}')", $
 $f = fopen(PATH_HOME . "_config/config.php", "w");
 fwrite($f, $conf);
 fclose($f);
-//updateVersionTxt();
 
+//Sincroniza txt de versão
 $f = fopen(PATH_HOME . "_config/updates/version.txt", "w+");
 fwrite($f, file_get_contents(PATH_HOME . "composer.lock"));
 fclose($f);
 
-
+//Update Manifest
 $theme = explode("}", explode(".theme{", file_get_contents(PATH_HOME . "assets" . (DEV ? "Public" : "") . "/theme/theme.min.css"))[1])[0];
 $themeBack = explode("!important", explode("background-color:", $theme)[1])[0];
 $themeColor = explode("!important", explode("color:", $theme)[1])[0];
