@@ -34,9 +34,10 @@ $(function () {
     });
 
     $("#clear-cache").off("click").on("click", function () {
+        toast("Atualizando Sistema...", 3000);
         post("dashboard", "cache/update", {}, function (g) {
             if (g === "1") {
-                toast("Sistema Atualizado! Recarregando Arquivos...", 4000);
+                toast("Recarregando Arquivos...", 4000);
                 setTimeout(function () {
                     location.reload();
                 }, 700);
@@ -45,6 +46,7 @@ $(function () {
     });
 
     $("#clear-global").off("click").on("click", function () {
+        toast("Atualizando Assets", 2000);
         post("dashboard", "cache/global", {}, function (g) {
             if (g === "1") {
                 toast("Recarregando Assets...", 4000);

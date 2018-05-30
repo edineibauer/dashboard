@@ -212,7 +212,7 @@ class UpdateDashboard
             if(file_exists(PATH_HOME . "vendor/conn/{$lib}/assets")) {
                 foreach (Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/assets") as $assets) {
                     $tipo = pathinfo($assets, PATHINFO_EXTENSION);
-                    if($tipo === "css" || $tipo === "js") {
+                    if(($tipo === "css" || $tipo === "js") && !preg_match('/\.min\.(css|js)$/i', $assets)) {
                         $name = pathinfo($assets, PATHINFO_FILENAME);
                         if ($tipo === "css")
                             $mini = new Minify\CSS(PATH_HOME . "vendor/conn/{$lib}/assets/{$assets}");
@@ -228,7 +228,7 @@ class UpdateDashboard
         if(DEV && file_exists(PATH_HOME . "assets")) {
             foreach (Helper::listFolder(PATH_HOME . "assets") as $assets) {
                 $tipo = pathinfo($assets, PATHINFO_EXTENSION);
-                if($tipo === "css" || $tipo === "js") {
+                if(($tipo === "css" || $tipo === "js") && !preg_match('/\.min\.(css|js)$/i', $assets)) {
                     $name = pathinfo($assets, PATHINFO_FILENAME);
                     if ($tipo === "css")
                         $mini = new Minify\CSS(PATH_HOME . "assets/{$assets}");
