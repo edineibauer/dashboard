@@ -224,6 +224,21 @@ class UpdateDashboard
                 }
             }
         }
+
+        if(DEV && file_exists(PATH_HOME . "assets")) {
+            foreach (Helper::listFolder(PATH_HOME . "assets") as $assets) {
+                $tipo = pathinfo($assets, PATHINFO_EXTENSION);
+                if($tipo === "css" || $tipo === "js") {
+                    $name = pathinfo($assets, PATHINFO_FILENAME);
+                    if ($tipo === "css")
+                        $mini = new Minify\CSS(PATH_HOME . "assets/{$assets}");
+                    else
+                        $mini = new Minify\JS(PATH_HOME . "assets/{$assets}");
+
+                    $mini->minify(PATH_HOME . "assets/{$name}.min.{$tipo}");
+                }
+            }
+        }
     }
 
     private function updateServiceWorker()
