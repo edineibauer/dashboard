@@ -26,12 +26,14 @@ $(function () {
             })
         }
     }).off("click", "#btn-editLogin").on("click", "#btn-editLogin", function () {
-        $(this).panel(themeWindow("Editar Perfil", {lib: 'dashboard', file: 'edit/perfil'}, function (idOntab) {
-            data = formGetData($("#" + idOntab).find(".ontab-content").find(".form-crud"));
-            post('dashboard', 'edit/session', {dados: data}, function () {
-                location.reload()
+        $(this).panel(
+            themeDashboard("Editar Perfil", {lib: 'dashboard', file: 'edit/perfil'}, function (idOntab) {
+                data = formGetData($("#" + idOntab).find(".ontab-content").find(".form-crud"));
+                post('dashboard', 'edit/session', {dados: data}, function () {
+                    location.reload()
+                })
             })
-        }))
+        )
     });
 
     setTimeout(function () {
