@@ -43,14 +43,12 @@ function createManifest() {
     $themeColor = explode("!important", explode("color:", $theme)[1])[0];
     $content = str_replace(['{$sitename}', '{$favicon}', '{$theme}', '{$themeColor}'], [SITENAME, FAVICON, $themeBack, $themeColor], file_get_contents(PATH_HOME . "vendor/conn/config/tpl/manifest.txt"));
 
-    $fp = fopen(PATH_HOME . "manifest.json", "w+");
+    $fp = fopen(PATH_HOME . "manifest.json", "w");
     fwrite($fp, $content);
     fclose($fp);
 }
 
-if(!file_exists(PATH_HOME . "manifest.json"))
-    createManifest();
-elseif(in_array($field, ["SITENAME", "FAVICON"]))
+if(!file_exists(PATH_HOME . "manifest.json") || in_array($field, ["SITENAME", "FAVICON"]))
     createManifest();
 
 /** END - MANIFEST UPDATE CREATE */
