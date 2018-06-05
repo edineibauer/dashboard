@@ -20,9 +20,9 @@ if (!LOGGED) {
                 <strong class="padding"><?= $_SESSION['userlogin']['nome'] ?></strong><br>
                 <div class="row padding-medium div-btn-editLogin">
                     <button id="btn-editLogin"
-                            class="left color-white opacity hover-shadow hover-opacity-off btn color-grey-light margin-0">
+                            class="left color-white opacity z-depth-0 border hover-opacity-off radius padding-small color-grey-light margin-0">
                         <i class="material-icons left font-large">edit</i>
-                        <span class="left">editar</span>
+                        <span class="left" style="padding-right: 5px">perfil</span>
                     </button>
                 </div>
             </div>
