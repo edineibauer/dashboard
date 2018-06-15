@@ -10,7 +10,7 @@ if (!LOGGED) {
         <div class="container row">
             <?php
             if (isset($_SESSION['userlogin']['imagem']) && !empty($_SESSION['userlogin']['imagem'])) {
-                echo '<div class="col s4"><img src="'. HOME . 'image/' . $_SESSION['userlogin']['imagem'] . '&w=80&h=80" width="72" height="72" style="margin-bottom:0!important; width: 72px;height: 72px" class="card radius-circle margin-right"></div>';
+                echo '<div class="col s4"><img src="' . HOME . 'image/' . $_SESSION['userlogin']['imagem'] . '&w=80&h=80" width="72" height="72" style="margin-bottom:0!important; width: 72px;height: 72px" class="card radius-circle margin-right"></div>';
             } else {
                 echo '<div class="col s4"><i class="material-icons font-jumbo">people</i></div>';
             }
@@ -30,21 +30,7 @@ if (!LOGGED) {
         <hr style="margin: 15px 0 0;">
         <div class="bar-block">
             <?php
-            $inc = false;
-            foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn") as $lib) {
-                if (!$inc && file_exists(PATH_HOME . "vendor/conn/{$lib}/ajax/view/inc/menu-{$_SESSION['userlogin']['setor']}.php")) {
-                    $inc = true;
-                    require_once PATH_HOME . "vendor/conn/{$lib}/ajax/view/inc/menu-{$_SESSION['userlogin']['setor']}.php";
-                }
-            }
-
-            if(!$inc && DEV && file_exists(PATH_HOME . "ajax/view/inc/menu-{$_SESSION['userlogin']['setor']}.php")){
-                $inc = true;
-                require_once PATH_HOME . "ajax/view/inc/menu-{$_SESSION['userlogin']['setor']}.php";
-            }
-
-            if (!$inc)
-                require_once 'inc/menu.php';
+            require_once 'inc/menu.php';
             ?>
             <br><br>
         </div>
