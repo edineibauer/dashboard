@@ -20,6 +20,6 @@ if(DEV)
     $inc = checkFolder(PATH_HOME . "ajax/view/inc/menu-{$_SESSION['userlogin']['setor']}.php", $inc);
 
 if(!$inc) {
-    $menu = new Menu();
-    $menu->show();
+    $menu = new \Dashboard\Menu();
+    echo $menu->getMenu();
 }
