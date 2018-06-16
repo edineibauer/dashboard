@@ -20,11 +20,7 @@ $(function () {
         let action = $(this).attr("data-action");
         if (action === "table") {
             var param = {
-                entity: $(this).attr("data-entity"),
-                relation: $(this).attr("data-relation"),
-                column: $(this).attr("data-column"),
-                type: $(this).attr("data-type"),
-                id: $(this).attr("data-id")
+                entity: $(this).attr("data-entity")
             }
             post("table", "api", param, function (data) {
                 $("#dashboard").html(data)
