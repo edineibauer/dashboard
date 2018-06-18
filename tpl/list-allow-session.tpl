@@ -2,7 +2,7 @@
     <div class="col card">
         <header class="col container">
             <h1 class="font-large">{$nome}</h1>
-            {if $nome !== "Anônimo"}<b class="color-text-red col upper">NÃO Permitir</b>{else}<b class="color-text-green col upper">Permitir</b>{/if}
+            <b class="color-text-red col upper">NÃO Permitir</b>
         </header>
         <p class="col container">Menu / Acesso à:</p>
         {foreach item=entity key=i from=$entitys}

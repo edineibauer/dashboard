@@ -50,7 +50,7 @@ class Menu
 
     private function geral()
     {
-        $this->menu[] = ["icon" => "timeline", "title" => "Dashboard", "action" => "page", "file" => "dash/geral", "lib" => "dashboard"];
+        $this->menu['geralNotCopy'] = ["icon" => "timeline", "title" => "Dashboard", "action" => "page", "file" => "dash/geral", "lib" => "dashboard"];
     }
 
     /**
@@ -67,17 +67,12 @@ class Menu
         foreach (Helper::listFolder(PATH_HOME . "entity/cache") as $item) {
             if (preg_match('/\.json$/i', $item) && $item !== "login_attempt.json" && $item !== "info") {
                 $entity = str_replace('.json', '', $item);
-                if (!isset($this->menu[$entity])) {
-                    $metadados = Metadados::getDicionario($entity);
-                    foreach ($metadados as $id => $dic) {
-                        if ($dic['relation'] === "usuarios" && in_array($dic['format'], ['extend', 'list', 'selecao'])) {
-                            $this->getMenuListRelationContent($entity, $metadados, $id);
-                            break;
-                        }
+                $metadados = Metadados::getDicionario($entity);
+                foreach ($metadados as $id => $dic) {
+                    if ($dic['relation'] === "usuarios" && in_array($dic['format'], ['extend', 'list', 'selecao'])) {
+                        $this->getMenuListRelationContent($entity, $metadados, $id);
+                        break;
                     }
-
-                    if ((empty($this->notShow[$_SESSION['userlogin']['setor']]) || !in_array($entity, $this->notShow[$_SESSION['userlogin']['setor']])) && preg_match('/\.json$/i', $item) && $item !== "login_attempt.json" && $item !== "info")
-                        $this->menu[$entity] = ["icon" => "account_balance_wallet", "title" => ucwords(trim(str_replace(['-', '_'], [' ', ' '], $entity))), "action" => "table", "entity" => $entity, "type" => "normal", "relation" => "", "column" => "", "id" => ""];
                 }
             }
         }
@@ -88,36 +83,26 @@ class Menu
         if ($metadados[$id]['format'] === "extend") {
             // único linkamento, é parte desta entidade (busca seus dados relacionados)
 
-            $read = new Read();
-            $read->exeRead($entity, "WHERE " . $metadados[$id]['column'] . " = :ui", "ui={$_SESSION['userlogin']['id']}");
-            if ($read->getResult()) {
-                $idOwner = $read->getResult()[0]['id'];
+            foreach ($metadados as $metadado) {
+                if ($metadado['format'] === 'extend_mult') {
+                    //table owner (exibe tabela com os registros linkados apenas)
+                    $this->menu[$metadado['relation']] = [
+                        "icon" => "storage",
+                        "title" => $metadado['nome'],
+                        "action" => "table",
+                        "entity" => $metadado['relation']
+                    ];
 
-                foreach ($metadados as $metadado) {
-                    if ($metadado['format'] === 'extend_mult') {
-                        //table owner (exibe tabela com os registros linkados apenas)
-                        $this->menu[] = [
-                            "icon" => "storage",
-                            "title" => $metadado['nome'],
-                            "action" => "table",
-                            "entity" => $metadado['relation'],
-                            "type" => "owner",
-                            "relation" => $entity,
-                            "column" => $metadado['column'],
-                            "id" => $idOwner
-                        ];
+                } elseif ($metadado['format'] === 'list_mult') {
+                    //table publisher (exibe tabela com todos os registros, mas só permite editar os linkados)
 
-                    } elseif ($metadado['format'] === 'list_mult') {
-                        //table publisher (exibe tabela com todos os registros, mas só permite editar os linkados)
+                } elseif ($metadado['format'] === 'selecao_mult') {
+                    //form para ediçaõ das seleções apenas
 
-                    } elseif ($metadado['format'] === 'selecao_mult') {
-                        //form para ediçaõ das seleções apenas
+                } elseif ($metadado['format'] === 'extend') {
+                    //form para edição do registro único (endereço por exemplo)
 
-                    } elseif ($metadado['format'] === 'extend') {
-                        //form para edição do registro único (endereço por exemplo)
-
-                    } elseif ($metadado['format'] === 'list') {
-                    }
+                } elseif ($metadado['format'] === 'list') {
                 }
             }
 
@@ -135,7 +120,7 @@ class Menu
         foreach (Helper::listFolder(PATH_HOME . "entity/cache") as $item) {
             $entity = str_replace('.json', '', $item);
             if (!isset($this->menu[$entity]) && (empty($this->notShow[$_SESSION['userlogin']['setor']]) || !in_array($entity, $this->notShow[$_SESSION['userlogin']['setor']])) && preg_match('/\.json$/i', $item) && $item !== "login_attempt.json" && $item !== "info")
-                $this->menu[$entity] = ["icon" => "account_balance_wallet", "title" => ucwords(trim(str_replace(['-', '_'], [' ', ' '], $entity))), "action" => "table", "entity" => $entity, "type" => "normal", "relation" => "", "column" => "", "id" => ""];
+                $this->menu[$entity] = ["icon" => "account_balance_wallet", "title" => ucwords(trim(str_replace(['-', '_'], [' ', ' '], $entity))), "action" => "table", "entity" => $entity];
         }
     }
 
