@@ -16,7 +16,7 @@ class Menu
     public function __construct()
     {
         $this->menu = [];
-        $this->readMenuNotShow();
+        $this->notShow = \Helpers\Check::getMenuNotAllow();
         $this->start();
     }
 
@@ -182,14 +182,7 @@ class Menu
      */
     private function readMenuNotShow()
     {
-        $this->notShow = ["1" => [], "2" => [], "3" => [], "4" => [], "5" => [], "6" => [], "7" => [], "8" => [], "9" => [], "10" => []];
-        if (DEV && file_exists(PATH_HOME . "entity/menu"))
-            $this->addMenuNotShow(PATH_HOME);
-
-        foreach (Helper::listFolder(PATH_HOME . "vendor/conn") as $lib) {
-            if (file_exists(PATH_HOME . "vendor/conn/{$lib}/entity/menu"))
-                $this->addMenuNotShow(PATH_HOME . "vendor/conn/{$lib}/");
-        }
+        $this->notShow = \Helpers\Check::getMenuNotAllow();
     }
 
     /**
