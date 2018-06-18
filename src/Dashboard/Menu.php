@@ -41,8 +41,8 @@ class Menu
     {
         $this->geral();
         $this->gerenciarEntidades();
-        $this->listRelationContent();
         $this->listEntity();
+        $this->listRelationContent();
         $this->custom();
     }
 
@@ -65,16 +65,18 @@ class Menu
         foreach (\Helpers\Helper::listFolder(PATH_HOME . "entity/cache") as $item) {
             if (preg_match('/\.json$/i', $item) && $item !== "login_attempt.json" && $item !== "info") {
                 $entity = str_replace('.json', '', $item);
-                $metadados = Metadados::getDicionario($entity);
-                foreach ($metadados as $id => $dic) {
-                    if ($dic['relation'] === "usuarios" && in_array($dic['format'], ['extend', 'list', 'selecao'])) {
-                        $this->getMenuListRelationContent($entity, $metadados, $id);
-                        break;
+                if (!isset($this->menu[$entity])) {
+                    $metadados = Metadados::getDicionario($entity);
+                    foreach ($metadados as $id => $dic) {
+                        if ($dic['relation'] === "usuarios" && in_array($dic['format'], ['extend', 'list', 'selecao'])) {
+                            $this->getMenuListRelationContent($entity, $metadados, $id);
+                            break;
+                        }
                     }
-                }
 
-                if ((empty($this->notShow[$_SESSION['userlogin']['setor']]) || !in_array($entity, $this->notShow[$_SESSION['userlogin']['setor']])) && preg_match('/\.json$/i', $item) && $item !== "login_attempt.json" && $item !== "info")
-                    $this->menu[] = ["icon" => "account_balance_wallet", "title" => ucwords(trim(str_replace(['-', '_'], [' ', ' '], $entity))), "action" => "table", "entity" => $entity, "type" => "normal", "relation" => "", "column" => "", "id" => ""];
+                    if ((empty($this->notShow[$_SESSION['userlogin']['setor']]) || !in_array($entity, $this->notShow[$_SESSION['userlogin']['setor']])) && preg_match('/\.json$/i', $item) && $item !== "login_attempt.json" && $item !== "info")
+                        $this->menu[$entity] = ["icon" => "account_balance_wallet", "title" => ucwords(trim(str_replace(['-', '_'], [' ', ' '], $entity))), "action" => "table", "entity" => $entity, "type" => "normal", "relation" => "", "column" => "", "id" => ""];
+                }
             }
         }
     }
@@ -131,8 +133,8 @@ class Menu
         $tpl = new \Helpers\Template("dashboard");
         foreach (\Helpers\Helper::listFolder(PATH_HOME . "entity/cache") as $item) {
             $entity = str_replace('.json', '', $item);
-            if ((empty($this->notShow[$_SESSION['userlogin']['setor']]) || !in_array($entity, $this->notShow[$_SESSION['userlogin']['setor']])) && preg_match('/\.json$/i', $item) && $item !== "login_attempt.json" && $item !== "info")
-                $this->menu[] = ["icon" => "account_balance_wallet", "title" => ucwords(trim(str_replace(['-', '_'], [' ', ' '], $entity))), "action" => "table", "entity" => $entity, "type" => "normal", "relation" => "", "column" => "", "id" => ""];
+            if (!isset($this->menu[$entity]) && (empty($this->notShow[$_SESSION['userlogin']['setor']]) || !in_array($entity, $this->notShow[$_SESSION['userlogin']['setor']])) && preg_match('/\.json$/i', $item) && $item !== "login_attempt.json" && $item !== "info")
+                $this->menu[$entity] = ["icon" => "account_balance_wallet", "title" => ucwords(trim(str_replace(['-', '_'], [' ', ' '], $entity))), "action" => "table", "entity" => $entity, "type" => "normal", "relation" => "", "column" => "", "id" => ""];
         }
     }
 
