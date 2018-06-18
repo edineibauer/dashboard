@@ -5,6 +5,8 @@ namespace Dashboard;
 use ConnCrud\Read;
 use EntityForm\Metadados;
 use \Helpers\Check;
+use Helpers\Helper;
+use Helpers\Template;
 
 class Menu
 {
@@ -24,7 +26,7 @@ class Menu
     public function getMenu(): string
     {
         $menu = "";
-        $tpl = new \Helpers\Template("dashboard");
+        $tpl = new Template("dashboard");
         $template = (count($this->menu) < 6 ? "menu-card" : "menu-li");
         foreach ($this->menu as $m)
             $menu .= $tpl->getShow($template, $m);
@@ -62,7 +64,7 @@ class Menu
 
     private function listRelationContent()
     {
-        foreach (\Helpers\Helper::listFolder(PATH_HOME . "entity/cache") as $item) {
+        foreach (Helper::listFolder(PATH_HOME . "entity/cache") as $item) {
             if (preg_match('/\.json$/i', $item) && $item !== "login_attempt.json" && $item !== "info") {
                 $entity = str_replace('.json', '', $item);
                 if (!isset($this->menu[$entity])) {
@@ -130,8 +132,7 @@ class Menu
      */
     private function listEntity()
     {
-        $tpl = new \Helpers\Template("dashboard");
-        foreach (\Helpers\Helper::listFolder(PATH_HOME . "entity/cache") as $item) {
+        foreach (Helper::listFolder(PATH_HOME . "entity/cache") as $item) {
             $entity = str_replace('.json', '', $item);
             if (!isset($this->menu[$entity]) && (empty($this->notShow[$_SESSION['userlogin']['setor']]) || !in_array($entity, $this->notShow[$_SESSION['userlogin']['setor']])) && preg_match('/\.json$/i', $item) && $item !== "login_attempt.json" && $item !== "info")
                 $this->menu[$entity] = ["icon" => "account_balance_wallet", "title" => ucwords(trim(str_replace(['-', '_'], [' ', ' '], $entity))), "action" => "table", "entity" => $entity, "type" => "normal", "relation" => "", "column" => "", "id" => ""];
@@ -143,7 +144,7 @@ class Menu
      */
     private function custom()
     {
-        foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn") as $lib)
+        foreach (Helper::listFolder(PATH_HOME . "vendor/conn") as $lib)
             $this->customMenuCheck(PATH_HOME . "vendor/conn/{$lib}/dashboard/menu.json");
 
         if (DEV)
@@ -172,7 +173,7 @@ class Menu
      */
     private function addMenuNotShow(string $menuDir)
     {
-        foreach (\Helpers\Helper::listFolder($menuDir . "entity/menu") as $menu) {
+        foreach (Helper::listFolder($menuDir . "entity/menu") as $menu) {
             $m = json_decode(file_get_contents($menuDir . "entity/menu/{$menu}"), true);
             foreach (["*", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"] as $nivel) {
                 if (!empty($m[$nivel])) {
@@ -200,7 +201,7 @@ class Menu
         if (DEV && file_exists(PATH_HOME . "entity/menu"))
             $this->addMenuNotShow(PATH_HOME);
 
-        foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn") as $lib) {
+        foreach (Helper::listFolder(PATH_HOME . "vendor/conn") as $lib) {
             if (file_exists(PATH_HOME . "vendor/conn/{$lib}/entity/menu"))
                 $this->addMenuNotShow(PATH_HOME . "vendor/conn/{$lib}/");
         }
@@ -213,7 +214,6 @@ class Menu
     private function showMenuOption(array $incMenu)
     {
         if (!empty($incMenu)) {
-            $tpl = new \Helpers\Template("dashboard");
             foreach ($incMenu as $menu) {
                 if (empty($menu['setor']) || $menu['setor'] >= $_SESSION['userlogin']['setor']) {
                     $this->menu[] = [
