@@ -178,14 +178,6 @@ class Menu
     }
 
     /**
-     * Retorna as Entidades que não devem aparecer no menu
-     */
-    private function readMenuNotShow()
-    {
-        $this->notShow = \Helpers\Check::getMenuNotAllow();
-    }
-
-    /**
      * Mostra Menu
      * @param array $incMenu
      */
