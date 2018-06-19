@@ -3,6 +3,12 @@
     top: 0;
 }
 
+.menu-dashboard-lista {
+    width: 450px;
+    overflow: hidden;
+    height: 40px;
+}
+
 .dashboard-main {
     margin-left: 250px;
 }

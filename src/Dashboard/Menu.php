@@ -64,13 +64,14 @@ class Menu
 
     private function listRelationContent()
     {
+        $found = false;
         foreach (Helper::listFolder(PATH_HOME . "entity/cache") as $item) {
-            if (preg_match('/\.json$/i', $item) && $item !== "login_attempt.json" && $item !== "info") {
+            if (!$found && preg_match('/\.json$/i', $item) && $item !== "login_attempt.json") {
                 $entity = str_replace('.json', '', $item);
                 $metadados = Metadados::getDicionario($entity);
                 foreach ($metadados as $id => $dic) {
                     if ($dic['relation'] === "usuarios" && in_array($dic['format'], ['extend', 'list', 'selecao'])) {
-                        $this->getMenuListRelationContent($entity, $metadados, $id);
+                        $found = $this->getMenuListRelationContent($entity, $metadados, $id);
                         break;
                     }
                 }
@@ -78,38 +79,51 @@ class Menu
         }
     }
 
-    private function getMenuListRelationContent(string $entity, array $metadados, int $id)
+    /**
+     * @param string $entity
+     * @param array $metadados
+     * @param int $id
+     * @return bool
+     */
+    private function getMenuListRelationContent(string $entity, array $metadados, int $id):bool
     {
-        if ($metadados[$id]['format'] === "extend") {
-            // único linkamento, é parte desta entidade (busca seus dados relacionados)
+        $read = new Read();
+        $read->exeRead($entity, "WHERE {$metadados[$id]['column']} = :ui", "ui={$_SESSION['userlogin']['id']}");
+        if ($read->getResult()) {
+            if ($metadados[$id]['format'] === "extend") {
+                // único linkamento, é parte desta entidade (busca seus dados relacionados)
 
-            foreach ($metadados as $metadado) {
-                if ($metadado['format'] === 'extend_mult') {
-                    //table owner (exibe tabela com os registros linkados apenas)
-                    $this->menu[$metadado['relation']] = [
-                        "icon" => "storage",
-                        "title" => $metadado['nome'],
-                        "action" => "table",
-                        "entity" => $metadado['relation']
-                    ];
+                foreach ($metadados as $metadado) {
+                    if ($metadado['format'] === 'extend_mult') {
+                        //table owner (exibe tabela com os registros linkados apenas)
+                        $this->menu[$metadado['relation']] = [
+                            "icon" => "storage",
+                            "title" => $metadado['nome'],
+                            "action" => "table",
+                            "entity" => $metadado['relation']
+                        ];
 
-                } elseif ($metadado['format'] === 'list_mult') {
-                    //table publisher (exibe tabela com todos os registros, mas só permite editar os linkados)
+                    } elseif ($metadado['format'] === 'list_mult') {
+                        //table publisher (exibe tabela com todos os registros, mas só permite editar os linkados)
 
-                } elseif ($metadado['format'] === 'selecao_mult') {
-                    //form para ediçaõ das seleções apenas
+                    } elseif ($metadado['format'] === 'selecao_mult') {
+                        //form para ediçaõ das seleções apenas
 
-                } elseif ($metadado['format'] === 'extend') {
-                    //form para edição do registro único (endereço por exemplo)
+                    } elseif ($metadado['format'] === 'extend') {
+                        //form para edição do registro único (endereço por exemplo)
 
-                } elseif ($metadado['format'] === 'list') {
+                    } elseif ($metadado['format'] === 'list') {
+                    }
                 }
+
+            } else {
+                // multiplos linkamentos, se relaciona ocm a entidade (pode ser autor)
+
             }
 
-        } else {
-            // multiplos linkamentos, se relaciona ocm a entidade (pode ser autor)
-
+            return true;
         }
+        return false;
     }
 
     /**
@@ -150,30 +164,6 @@ class Menu
         if (file_exists($dir)) {
             $incMenu = json_decode(file_get_contents($dir), true);
             $this->showMenuOption($incMenu);
-        }
-    }
-
-    /**
-     * @param string $menuDir
-     */
-    private function addMenuNotShow(string $menuDir)
-    {
-        foreach (Helper::listFolder($menuDir . "entity/menu") as $menu) {
-            $m = json_decode(file_get_contents($menuDir . "entity/menu/{$menu}"), true);
-            foreach (["*", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"] as $nivel) {
-                if (!empty($m[$nivel])) {
-                    foreach ($m[$nivel] as $entity) {
-                        if (file_exists($menuDir . "entity/cache/{$entity}.json")) {
-                            if ($nivel === "*") {
-                                for ($i = 1; $i < 10; $i++)
-                                    $this->notShow[$i][] = $entity;
-                            } else {
-                                $this->notShow[$nivel][] = $entity;
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 
