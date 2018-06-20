@@ -64,14 +64,13 @@ class Menu
 
     private function listRelationContent()
     {
-        $found = false;
         foreach (Helper::listFolder(PATH_HOME . "entity/cache") as $item) {
-            if (!$found && preg_match('/\.json$/i', $item) && $item !== "login_attempt.json") {
+            if (preg_match('/\.json$/i', $item) && $item !== "login_attempt.json") {
                 $entity = str_replace('.json', '', $item);
                 $metadados = Metadados::getDicionario($entity);
                 foreach ($metadados as $id => $dic) {
                     if ($dic['relation'] === "usuarios" && in_array($dic['format'], ['extend', 'list', 'selecao'])) {
-                        $found = $this->getMenuListRelationContent($entity, $metadados, $id);
+                        $this->getMenuListRelationContent($entity, $metadados, $id);
                         break;
                     }
                 }
@@ -79,17 +78,12 @@ class Menu
         }
     }
 
-    /**
-     * @param string $entity
-     * @param array $metadados
-     * @param int $id
-     * @return bool
-     */
-    private function getMenuListRelationContent(string $entity, array $metadados, int $id):bool
+    private function getMenuListRelationContent(string $entity, array $metadados, int $id)
     {
         $read = new Read();
         $read->exeRead($entity, "WHERE {$metadados[$id]['column']} = :ui", "ui={$_SESSION['userlogin']['id']}");
         if ($read->getResult()) {
+            //            $idU = $read->getResult()[0]['id'];
             if ($metadados[$id]['format'] === "extend") {
                 // único linkamento, é parte desta entidade (busca seus dados relacionados)
 
@@ -120,10 +114,7 @@ class Menu
                 // multiplos linkamentos, se relaciona ocm a entidade (pode ser autor)
 
             }
-
-            return true;
         }
-        return false;
     }
 
     /**
@@ -164,6 +155,30 @@ class Menu
         if (file_exists($dir)) {
             $incMenu = json_decode(file_get_contents($dir), true);
             $this->showMenuOption($incMenu);
+        }
+    }
+
+    /**
+     * @param string $menuDir
+     */
+    private function addMenuNotShow(string $menuDir)
+    {
+        foreach (Helper::listFolder($menuDir . "entity/menu") as $menu) {
+            $m = json_decode(file_get_contents($menuDir . "entity/menu/{$menu}"), true);
+            foreach (["*", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"] as $nivel) {
+                if (!empty($m[$nivel])) {
+                    foreach ($m[$nivel] as $entity) {
+                        if (file_exists($menuDir . "entity/cache/{$entity}.json")) {
+                            if ($nivel === "*") {
+                                for ($i = 1; $i < 10; $i++)
+                                    $this->notShow[$i][] = $entity;
+                            } else {
+                                $this->notShow[$nivel][] = $entity;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
