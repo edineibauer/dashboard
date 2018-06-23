@@ -4,9 +4,14 @@
             <b><i class="material-icons left padding-right">dashboard</i> <span class="left">Meu Painel</span></b>
         </h5>
     </header>
-    <div class="row padding-32 align-center">
-        <h2>Seja Bem-Vindo(a) <?=$_SESSION['userlogin']['nome']?></h2>
-    </div>
+
+    {if $dashboard != ""}
+        {$dashboard}
+    {else}
+        <div class="row padding-32 align-center">
+            <h2>Seja Bem-Vindo(a) <?=$_SESSION['userlogin']['nome']?></h2>
+        </div>
+    {/if}
 
     <div class="col padding-large">
         {if !empty($note)}

@@ -19,9 +19,9 @@ $(function () {
     $("#content, #app-sidebar").off("click", ".menu-li").on("click", ".menu-li", function () {
         let action = $(this).attr("data-action");
         if (action === "table") {
-            var param = {
+            let param = {
                 entity: $(this).attr("data-entity")
-            }
+            };
             post("table", "api", param, function (data) {
                 $("#dashboard").html(data)
             })
@@ -31,8 +31,7 @@ $(function () {
             })
 
         } else if(action === 'page') {
-            var lib = $(this).attr("data-lib");
-            var attr = $(this).attr("data-atributo");
+            let attr = $(this).attr("data-atributo");
             get(attr, function (data) {
                 $("#dashboard").html(data.content)
             })
@@ -48,6 +47,11 @@ $(function () {
                 })
             })
         )
+    }).off("click", ".close-dashboard-note").on("click", ".close-dashboard-note", function () {
+        let $this = $(this);
+        post('dashboard', 'dash/delete', {id: $this.attr("id")}, function () {
+            $this.closest("article").parent().remove();
+        });
     });
 
     setTimeout(function () {
