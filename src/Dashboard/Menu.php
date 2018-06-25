@@ -99,9 +99,21 @@ class Menu
 
                     } elseif ($metadado['format'] === 'list_mult') {
                         //table publisher (exibe tabela com todos os registros, mas só permite editar os linkados)
+                        $this->menu[$metadado['relation']] = [
+                            "icon" => "storage",
+                            "title" => $metadado['nome'],
+                            "action" => "table",
+                            "entity" => $metadado['relation']
+                        ];
 
                     } elseif ($metadado['format'] === 'selecao_mult') {
                         //form para ediçaõ das seleções apenas
+                        $this->menu[$metadado['relation']] = [
+                            "icon" => "storage",
+                            "title" => $metadado['nome'],
+                            "action" => "table",
+                            "entity" => $metadado['relation']
+                        ];
 
                     } elseif ($metadado['format'] === 'extend') {
                         //form para edição do registro único (endereço por exemplo)
