@@ -146,11 +146,20 @@ class Menu
      */
     private function custom()
     {
-        foreach (Helper::listFolder(PATH_HOME . "vendor/conn") as $lib)
-            $this->customMenuCheck(PATH_HOME . "vendor/conn/{$lib}/dashboard/menu.json");
-
-        if (DEV)
-            $this->customMenuCheck(PATH_HOME . "dashboard/menu.json");
+        if (DEV && file_exists(PATH_HOME . "entity/menu")) {
+            foreach (Helper::listFolder(PATH_HOME . "entity/menu") as $menu) {
+                if (preg_match('/\.json$/i', $menu))
+                    $this->customMenuCheck(PATH_HOME . "entity/menu/{$menu}");
+            }
+        }
+        foreach (Helper::listFolder(PATH_HOME . "vendor/conn") as $lib) {
+            if (file_exists(PATH_HOME . "vendor/conn/{$lib}/entity/menu")) {
+                foreach (Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/entity/menu") as $menu) {
+                    if (preg_match('/\.json$/i', $menu))
+                        $this->customMenuCheck(PATH_HOME . "vendor/conn/{$lib}/entity/menu/{$menu}");
+                }
+            }
+        }
     }
 
     /**
@@ -164,19 +173,17 @@ class Menu
      */
     private function customMenuCheck(string $dir)
     {
-        if (file_exists($dir)) {
-            $incMenu = json_decode(file_get_contents($dir), true);
-            $this->showMenuOption($incMenu);
-        }
+        if (file_exists($dir))
+            $this->showMenuOption(json_decode(file_get_contents($dir), true));
     }
 
     /**
      * @param string $menuDir
      */
-    private function addMenuNotShow(string $menuDir)
+    private function menuNotShow(string $menuDir)
     {
-        foreach (Helper::listFolder($menuDir . "entity/menu") as $menu) {
-            $m = json_decode(file_get_contents($menuDir . "entity/menu/{$menu}"), true);
+        foreach (Helper::listFolder($menuDir . "entity/notMenu") as $menu) {
+            $m = json_decode(file_get_contents($menuDir . "entity/notMenu/{$menu}"), true);
             foreach (["*", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"] as $nivel) {
                 if (!empty($m[$nivel])) {
                     foreach ($m[$nivel] as $entity) {
@@ -206,7 +213,7 @@ class Menu
                     $this->menu[] = [
                         'lib' => Check::words(trim(strip_tags($menu['lib'])), 1),
                         'file' => Check::words(trim(strip_tags($menu['file'])), 1),
-                        'action' => "page",
+                        'action' => $menu['action'] ?? "page",
                         'title' => ucwords(Check::words(trim(strip_tags($menu['title'])), 3)),
                         'icon' => Check::words(trim(strip_tags($menu['icon'])), 1)
                     ];
