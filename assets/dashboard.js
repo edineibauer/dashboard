@@ -16,8 +16,7 @@ function clearMenu() {
 }
 
 function requestDashboardContent(file) {
-    let attr = $(this).attr("data-atributo");
-    get(attr, function (data) {
+    get(file, function (data) {
         setDashboardContent(data.content);
     })
 }
