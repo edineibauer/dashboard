@@ -15,27 +15,35 @@ function clearMenu() {
     closeSidebar();
 }
 
+function requestDashboardContent(file) {
+    let attr = $(this).attr("data-atributo");
+    get(attr, function (data) {
+        setDashboardContent(data.content);
+    })
+}
+
+function requestDashboardEntity(entity) {
+    post("table", "api", {entity: entity}, function (data) {
+        setDashboardContent(data);
+    })
+}
+
+function setDashboardContent(content) {
+    $("#dashboard").html(content)
+}
+
 $(function () {
     $("#content, #app-sidebar").off("click", ".menu-li").on("click", ".menu-li", function () {
         let action = $(this).attr("data-action");
         if (action === "table") {
-            let param = {
-                entity: $(this).attr("data-entity")
-            };
-            post("table", "api", param, function (data) {
-                $("#dashboard").html(data)
-            })
+            requestDashboardEntity($(this).attr("data-entity"));
         } else if(action === 'form') {
             post("form-crud", "api", {entity: attr}, function (data) {
-                $("#dashboard").html(data)
+                setDashboardContent(data);
             })
 
         } else if(action === 'page') {
-            let attr = $(this).attr("data-atributo");
-            get(attr, function (data) {
-                $("#dashboard").html(data.content)
-            })
-
+            requestDashboardContent($(this).attr("data-atributo"));
         } else if(action === 'link') {
         }
     }).off("click", "#btn-editLogin").on("click", "#btn-editLogin", function () {
