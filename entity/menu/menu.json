@@ -4,7 +4,7 @@
     "title": "Tema",
     "action": "page",
     "lib": "dashboard",
-    "file": "view/tema",
+    "file": "tema",
     "setor": 2
   },
   {
@@ -12,7 +12,7 @@
     "title": "Configurações",
     "action": "page",
     "lib": "dashboard",
-    "file": "view/settings",
+    "file": "settings",
     "setor": 2
   },
   {
@@ -20,7 +20,7 @@
     "title": "Desenvolvimento",
     "action": "page",
     "lib": "dashboard",
-    "file": "view/desenvolvimento",
+    "file": "desenvolvimento",
     "setor": 1
   }
 ]
