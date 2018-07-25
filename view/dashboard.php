@@ -1,6 +1,7 @@
 <?php
 if (!LOGGED) {
-    $data = HOME . "login";
+    $data['response'] = 3;
+    $data['data'] = HOME . "login";
 } else {
     ob_start();
     include_once 'inc/version_control.php';
@@ -40,6 +41,6 @@ if (!LOGGED) {
     </div>
 
     <?php
-    $data = ob_get_contents();
+    $data['data'] = ob_get_contents();
     ob_end_clean();
 }

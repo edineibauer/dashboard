@@ -5,4 +5,4 @@ foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/dashboard/themes")
 }
 
 $tpl = new \Helpers\Template("dashboard");
-$data = $tpl->getShow('tema', $dados);
+$data['data'] = $tpl->getShow('tema', $dados);

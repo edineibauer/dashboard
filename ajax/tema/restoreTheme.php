@@ -12,5 +12,5 @@ if(file_exists(PATH_HOME . "{$assets}/theme/theme-recovery.css")) {
     fwrite($f, $atual);
     fclose($f);
 } else {
-    $data = "ok";
+    $data['data'] = "ok";
 }
