@@ -11,4 +11,4 @@ foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, Recur
     }
 }
 
-$data['data'] = "1";
+$data = "1";

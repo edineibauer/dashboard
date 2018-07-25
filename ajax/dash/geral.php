@@ -32,4 +32,4 @@ if(!empty($_SESSION['userlogin']['setor'])) {
 }
 
 
-$data['data']['content'] = $tpl->getShow('dashboard', $dados);
+$data = $tpl->getShow('dashboard', $dados);
