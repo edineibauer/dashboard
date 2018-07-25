@@ -51,4 +51,4 @@ foreach ($allow['values'] as $i => $setor) {
 }
 
 
-$data['data']['content'] = $tpl->getShow("dev", $dados);
+$data = $tpl->getShow("dev", $dados);

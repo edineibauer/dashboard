@@ -46,4 +46,4 @@ if (!$read->getResult()) {
 $form->setCallback('saveConfigBase');
 $dados['configForm'] = $form->getForm(1);
 
-$data['data']['content'] = $tpl->getShow('settings', $dados);
+$data = $tpl->getShow('settings', $dados);
