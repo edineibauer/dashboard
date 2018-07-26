@@ -48,7 +48,7 @@ class Menu
 
     private function geral()
     {
-        $this->menu['geralNotCopy'] = ["icon" => "timeline", "title" => "Dashboard", "action" => "page", "file" => "dash/geral", "lib" => "dashboard"];
+        $this->menu['geralNotCopy'] = ["icon" => "timeline", "title" => "Dashboard", "action" => "page", "file" => "panel", "lib" => "dashboard"];
     }
 
     /**
