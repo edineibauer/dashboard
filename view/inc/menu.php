@@ -14,10 +14,10 @@ function checkFolder(string $dir, bool $inc) {
 
 $inc = false;
 foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn") as $lib)
-    $inc = checkFolder(PATH_HOME . "vendor/conn/{$lib}/ajax/view/inc/menu-{$_SESSION['userlogin']['setor']}.php", $inc);
+    $inc = checkFolder(PATH_HOME . VENDOR . "{$lib}/dash/{$_SESSION['userlogin']['setor']}/menu.php", $inc);
 
 if(DEV)
-    $inc = checkFolder(PATH_HOME . "ajax/view/inc/menu-{$_SESSION['userlogin']['setor']}.php", $inc);
+    $inc = checkFolder(PATH_HOME . "dash/{$_SESSION['userlogin']['setor']}/menu.php", $inc);
 
 if(!$inc) {
     $menu = new \Dashboard\Menu();

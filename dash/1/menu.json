@@ -4,23 +4,20 @@
     "title": "Tema",
     "action": "page",
     "lib": "dashboard",
-    "file": "tema",
-    "setor": 2
+    "file": "tema"
   },
   {
     "icon": "settings",
     "title": "Configurações",
     "action": "page",
     "lib": "dashboard",
-    "file": "settings",
-    "setor": 2
+    "file": "settings"
   },
   {
     "icon": "settings_input_component",
     "title": "Desenvolvimento",
     "action": "page",
     "lib": "dashboard",
-    "file": "desenvolvimento",
-    "setor": 1
+    "file": "desenvolvimento"
   }
 ]

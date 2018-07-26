@@ -4,19 +4,17 @@ namespace Dashboard;
 
 use ConnCrud\Read;
 use EntityForm\Metadados;
-use \Helpers\Check;
+use Helpers\Check;
 use Helpers\Helper;
 use Helpers\Template;
 
 class Menu
 {
-    private $notShow;
     private $menu;
 
     public function __construct()
     {
         $this->menu = [];
-        $this->notShow = \Helpers\Check::getMenuNotAllow();
         $this->start();
     }
 
@@ -134,91 +132,106 @@ class Menu
      */
     private function listEntity()
     {
+        $menuNotShow = $this->getMenuNotAllow();
         foreach (Helper::listFolder(PATH_HOME . "entity/cache") as $item) {
-            $entity = str_replace('.json', '', $item);
-            if (!isset($this->menu[$entity]) && (empty($this->notShow[$_SESSION['userlogin']['setor']]) || !in_array($entity, $this->notShow[$_SESSION['userlogin']['setor']])) && preg_match('/\.json$/i', $item) && $item !== "login_attempt.json" && $item !== "info")
-                $this->menu[$entity] = ["icon" => "account_balance_wallet", "title" => ucwords(trim(str_replace(['-', '_'], [' ', ' '], $entity))), "action" => "table", "entity" => $entity];
+            if (preg_match('/\.json$/i', $item)) {
+                $entity = str_replace('.json', '', $item);
+                if (!isset($this->menu[$entity]) && !in_array($entity, $menuNotShow))
+                    $this->menu[$entity] = ["icon" => "account_balance_wallet", "title" => ucwords(trim(str_replace(['-', '_'], [' ', ' '], $entity))), "action" => "table", "entity" => $entity];
+            }
         }
     }
 
     /**
-     * Menu Customizado Extra
+     * Verifica por Menus Extras para adicionar
      */
     private function custom()
     {
-        if (DEV && file_exists(PATH_HOME . "entity/menu")) {
-            foreach (Helper::listFolder(PATH_HOME . "entity/menu") as $menu) {
-                if (preg_match('/\.json$/i', $menu))
-                    $this->customMenuCheck(PATH_HOME . "entity/menu/{$menu}");
-            }
-        }
-        foreach (Helper::listFolder(PATH_HOME . "vendor/conn") as $lib) {
-            if (file_exists(PATH_HOME . "vendor/conn/{$lib}/entity/menu")) {
-                foreach (Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/entity/menu") as $menu) {
-                    if (preg_match('/\.json$/i', $menu))
-                        $this->customMenuCheck(PATH_HOME . "vendor/conn/{$lib}/entity/menu/{$menu}");
-                }
-            }
-        }
-    }
+        if (file_exists(PATH_HOME . "dash/0/menu.json"))
+            $this->addMenuJson(PATH_HOME . "dash/0/menu.json");
 
-    /**
-     * ############################
-     * Acessos Privados de Methodos
-     * ############################
-     */
+        if (file_exists(PATH_HOME . "dash/{$_SESSION['userlogin']['setor']}/menu.json"))
+            $this->addMenuJson(PATH_HOME . "dash/{$_SESSION['userlogin']['setor']}/menu.json");
 
-    /**
-     * @param string $dir
-     */
-    private function customMenuCheck(string $dir)
-    {
-        if (file_exists($dir))
-            $this->showMenuOption(json_decode(file_get_contents($dir), true));
-    }
-
-    /**
-     * @param string $menuDir
-     */
-    private function menuNotShow(string $menuDir)
-    {
-        foreach (Helper::listFolder($menuDir . "entity/notMenu") as $menu) {
-            $m = json_decode(file_get_contents($menuDir . "entity/notMenu/{$menu}"), true);
-            foreach (["*", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"] as $nivel) {
-                if (!empty($m[$nivel])) {
-                    foreach ($m[$nivel] as $entity) {
-                        if (file_exists($menuDir . "entity/cache/{$entity}.json")) {
-                            if ($nivel === "*") {
-                                for ($i = 1; $i < 10; $i++)
-                                    $this->notShow[$i][] = $entity;
-                            } else {
-                                $this->notShow[$nivel][] = $entity;
-                            }
-                        }
-                    }
-                }
-            }
+        foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
+            if (file_exists(PATH_HOME . VENDOR . "{$lib}/dash/0/menu.json"))
+                $this->addMenuJson(PATH_HOME . VENDOR . "{$lib}/dash/0/menu.json");
+            if (file_exists(PATH_HOME . VENDOR . "{$lib}/dash/{$_SESSION['userlogin']['setor']}/menu.json"))
+                $this->addMenuJson(PATH_HOME . VENDOR . "{$lib}/dash/{$_SESSION['userlogin']['setor']}/menu.json");
         }
     }
 
     /**
      * Mostra Menu
-     * @param array $incMenu
+     * @param string $incMenu
      */
-    private function showMenuOption(array $incMenu)
+    private function addMenuJson(string $incMenu)
     {
+        $incMenu = json_decode(file_get_contents($incMenu), true);
         if (!empty($incMenu)) {
             foreach ($incMenu as $menu) {
-                if (empty($menu['setor']) || $menu['setor'] >= $_SESSION['userlogin']['setor']) {
-                    $this->menu[] = [
-                        'lib' => Check::words(trim(strip_tags($menu['lib'])), 1),
-                        'file' => Check::words(trim(strip_tags($menu['file'])), 1),
-                        'action' => $menu['action'] ?? "page",
-                        'title' => ucwords(Check::words(trim(strip_tags($menu['title'])), 3)),
-                        'icon' => Check::words(trim(strip_tags($menu['icon'])), 1)
-                    ];
+                $name = Check::name(trim(strip_tags($menu['title'])));
+                $this->menu[$name] = [
+                    'lib' => Check::words(trim(strip_tags($menu['lib'])), 1),
+                    'file' => Check::words(trim(strip_tags($menu['file'])), 1),
+                    'action' => $menu['action'] ?? "page",
+                    'title' => ucwords(Check::words(trim(strip_tags($menu['title'])), 3)),
+                    'icon' => Check::words(trim(strip_tags($menu['icon'])), 1)
+                ];
+            }
+        }
+    }
+
+    public function getMenuNotAllow()
+    {
+        return $this->getNotAllow('menu_not_show', '-menu');
+    }
+
+    /**
+     * @param string $dir
+     * @param string $option
+     * @return array
+     */
+    private function getNotAllow(string $dir, string $option): array
+    {
+        $file = [];
+        if (file_exists(PATH_HOME . "_config/{$dir}.json"))
+            $file = $this->addNotShow(PATH_HOME . "_config/{$dir}.json", $file, PATH_HOME);
+
+        if (file_exists(PATH_HOME . "dash/0/{$option}.json"))
+            $file = $this->addNotShow(PATH_HOME . "dash/0/{$option}.json", $file, PATH_HOME);
+
+        if (file_exists(PATH_HOME . "dash/{$_SESSION['userlogin']['setor']}/{$option}.json"))
+            $file = $this->addNotShow(PATH_HOME . "dash/{$_SESSION['userlogin']['setor']}/{$option}.json", $file, PATH_HOME);
+
+        foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
+            if (file_exists(PATH_HOME . VENDOR . "{$lib}/dash/0/{$option}.json"))
+                $file = $this->addNotShow(PATH_HOME . VENDOR . "{$lib}/dash/0/{$option}.json", $file, PATH_HOME . VENDOR . $lib);
+            if (file_exists(PATH_HOME . VENDOR . "{$lib}/dash/{$_SESSION['userlogin']['setor']}/{$option}.json"))
+                $file = $this->addNotShow(PATH_HOME . VENDOR . "{$lib}/dash/{$_SESSION['userlogin']['setor']}/{$option}.json", $file, PATH_HOME . VENDOR . $lib);
+        }
+
+        return $file;
+    }
+
+    /**
+     * @param string $dir
+     * @param array $file
+     * @param string $dirPermission
+     * @return array
+     */
+    private function addNotShow(string $dir, array $file, string $dirPermission): array
+    {
+        $m = json_decode(file_get_contents($dir), true);
+        if (!empty($m) && is_array($m)) {
+            foreach ($m as $entity) {
+                if (file_exists($dirPermission . "entity/cache/{$entity}.json")) {
+                    if (!in_array($entity, $file))
+                        $file[] = $entity;
                 }
             }
         }
+
+        return $file;
     }
 }

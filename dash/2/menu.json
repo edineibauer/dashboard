@@ -1,0 +1,16 @@
+[
+  {
+    "icon": "format_paint",
+    "title": "Tema",
+    "action": "page",
+    "lib": "dashboard",
+    "file": "tema"
+  },
+  {
+    "icon": "settings",
+    "title": "Configurações",
+    "action": "page",
+    "lib": "dashboard",
+    "file": "settings"
+  }
+]
