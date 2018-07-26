@@ -3,6 +3,10 @@
     top: 0;
 }
 
+.menu-li {
+    width: 100%!important;
+}
+
 .menu-dashboard-lista {
     width: 450px!important;
     overflow: hidden;
