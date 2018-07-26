@@ -236,7 +236,7 @@ class Menu
         $m = json_decode(file_get_contents($dir), true);
         if (!empty($m) && is_array($m)) {
             foreach ($m as $entity) {
-                if (file_exists($dirPermission . "entity/cache/{$entity}.json")) {
+                if (file_exists($dirPermission . "/entity/cache/{$entity}.json")) {
                     if (!in_array($entity, $file))
                         $file[] = $entity;
                 }
