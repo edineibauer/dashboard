@@ -25,11 +25,11 @@ if (!$inc) {
 
     if (!$inc) {
         //Menu Personalizado Genérico
-        $inc = checkFolder(PATH_HOME . "dash/0/menu.php");
+        $inc = checkFolder(PATH_HOME . "dash/menu.php");
         if (!$inc) {
             foreach (\Helpers\Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
                 if (!$inc)
-                    $inc = checkFolder(PATH_HOME . VENDOR . "{$lib}/dash/0/menu.php");
+                    $inc = checkFolder(PATH_HOME . VENDOR . "{$lib}/dash/menu.php");
             }
 
             //Menu Entity Genérico
