@@ -58,7 +58,7 @@ $(function () {
         })
     });
     setTimeout(function () {
-        get("dash/geral", function (data) {
+        get("dash/panel", function (data) {
             $("#dashboard").html(data.content);
             spaceHeader()
         })
