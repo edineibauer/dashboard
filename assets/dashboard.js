@@ -9,19 +9,21 @@ function hide_sidebar_small() {
     }
 }
 
-function clearMenu() {
+function mainLoading() {
     $(".main").loading();
     hide_sidebar_small();
-    closeSidebar()
+    closeSidebar();
 }
 
 function requestDashboardContent(file) {
+    mainLoading();
     get(file, function (data) {
         setDashboardContent(data.content)
     })
 }
 
 function requestDashboardEntity(entity) {
+    mainLoading();
     post("table", "api", {entity: entity}, function (data) {
         setDashboardContent(data)
     })
