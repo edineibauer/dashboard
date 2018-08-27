@@ -17,7 +17,7 @@ if (!LOGGED) {
             ?>
 
             <div class="col s8 bar">
-                <strong class="padding"><?= $_SESSION['userlogin']['nome'] ?></strong><br>
+                <strong class="padding"><?= $_SESSION['userlogin']['email'] ?></strong><br>
                 <div class="row padding-medium div-btn-editLogin">
                     <button id="btn-editLogin"
                             class="left color-white opacity z-depth-0 border hover-opacity-off radius padding-small color-grey-light margin-0">
