@@ -7,7 +7,7 @@ $txt = trim(strip_tags(filter_input(INPUT_POST, "txt", FILTER_DEFAULT)));
 $assets = DEV ? "assetsPublic" : "assets";
 
 //Cria backup
-copy(PATH_HOME . "{$assets}/theme/theme.min.css", PATH_HOME . "{$assets}/theme/theme-recovery.css");
+copy(PATH_HOME . "{$assets}/theme/theme.min.css", PATH_HOME . "{$assets}/theme/theme-recovery.min.css");
 //Cria novo theme
 $mini = new Minify\CSS($txt);
 $mini->minify(PATH_HOME . $assets . "/theme/theme.min.css");
@@ -37,3 +37,5 @@ $content = str_replace(['{$sitename}', '{$favicon}', '{$theme}', '{$themeColor}'
 $fp = fopen(PATH_HOME . "manifest.json", "w+");
 fwrite($fp, $content);
 fclose($fp);
+
+$data['data'] = "ok";

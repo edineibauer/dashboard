@@ -19,9 +19,11 @@
                     <div class="col s12 m6 padding-small">
                         <select id="select01" class="select border" name="option" onchange="createSuggestion()">
                             <option value="" disabled="" selected="">Temas</option>
+                            <option style="color:#666;background-color:#ffffff" value="#ffffff">White</option>
+                            <option style="color:#fff;background-color:#000000" value="#000000">Black</option>
+                            <option style="color:#fff;background-color:#838487" value="#838487">Gray</option>
                             <option style="color:#fff;background-color:#4c6a92" value="#4c6a92">Riverside</option>
                             <option style="color:#fff;background-color:#92b6d5" value="#92b6d5">Airy Blue</option>
-                            <option style="color:#fff;background-color:#838487" value="#838487">Sharkskin</option>
                             <option style="color:#fff;background-color:#b93a32" value="#b93a32">Aurora Red</option>
                             <option style="color:#fff;background-color:#af9483" value="#af9483">Warm Taupe</option>
                             <option style="color:#fff;background-color:#ad5d5d" value="#ad5d5d">Dusty Cedar</option>
