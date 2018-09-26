@@ -11,6 +11,9 @@ if(file_exists(PATH_HOME . "{$assets}/theme/theme-recovery.min.css")) {
     $f = fopen(PATH_HOME . "{$assets}/theme/theme-recovery.min.css", "w+");
     fwrite($f, $atual);
     fclose($f);
+
+    unlink(PATH_HOME . "{$assets}/core.min.css");
+
     $data['data'] = "ok";
 
 } else {
