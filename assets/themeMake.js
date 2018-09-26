@@ -41,7 +41,7 @@ function createTheme(inVar) {
     hex = w3color("hsl(" + x.h + "," + sat + "," + x.l + ")").toHexString();
     z = document.getElementById("t1l5");
     z.style.backgroundColor = hex;
-    z.innerHTML = hex + " w3-theme-l5";
+    z.innerHTML = hex + " theme-l5";
     theme1.l5 = hex;
     col = "#000";
     if (w3color(hex).isDark(165)) {col = "#fff"}
@@ -52,7 +52,7 @@ function createTheme(inVar) {
     hex = w3color("hsl(" + x.h + "," + sat + "," + x.l + ")").toHexString();
     z = document.getElementById("t1l4");
     z.style.backgroundColor = hex;
-    z.innerHTML = hex + " w3-theme-l4";
+    z.innerHTML = hex + " theme-l4";
     theme1.l4 = hex;
     col = "#000";
     if (w3color(hex).isDark(165)) {col = "#fff"}
@@ -63,7 +63,7 @@ function createTheme(inVar) {
     hex = w3color("hsl(" + x.h + "," + sat + "," + x.l + ")").toHexString();
     z = document.getElementById("t1l3");
     z.style.backgroundColor = hex;
-    z.innerHTML = hex + " w3-theme-l3";
+    z.innerHTML = hex + " theme-l3";
     theme1.l3 = hex;
     col = "#000";
     if (w3color(hex).isDark(165)) {col = "#fff"}
@@ -74,7 +74,7 @@ function createTheme(inVar) {
     hex = w3color("hsl(" + x.h + "," + sat + "," + x.l + ")").toHexString();
     z = document.getElementById("t1l2");
     z.style.backgroundColor = hex;
-    z.innerHTML = hex + " w3-theme-l2";
+    z.innerHTML = hex + " theme-l2";
     theme1.l2 = hex;
     col = "#000";
     if (w3color(hex).isDark(165)) {col = "#fff"}
@@ -85,7 +85,7 @@ function createTheme(inVar) {
     hex = w3color("hsl(" + x.h + "," + sat + "," + x.l + ")").toHexString();
     z = document.getElementById("t1l1");
     z.style.backgroundColor = hex;
-    z.innerHTML = hex + " w3-theme-l1";
+    z.innerHTML = hex + " theme-l1";
     theme1.l1 = hex;
     col = "#000";
     if (w3color(hex).isDark(165)) {col = "#fff"}
@@ -96,7 +96,7 @@ function createTheme(inVar) {
     hex = w3color(y).toHexString();
     z = document.getElementById("t1d0");
     z.style.backgroundColor = hex;
-    z.innerHTML = hex + " w3-theme";
+    z.innerHTML = hex + " theme";
     theme1.d0 = hex;
     col = "#000";
     if (w3color(hex).isDark(165)) {col = "#fff"}
@@ -107,7 +107,7 @@ function createTheme(inVar) {
     hex = w3color("hsl(" + x.h + "," + x.s + "," + x.l + ")").toHexString();
     z = document.getElementById("t1d1");
     z.style.backgroundColor = hex;
-    z.innerHTML = hex + " w3-theme-d1";
+    z.innerHTML = hex + " theme-d1";
     theme1.d1 = hex;
     col = "#000";
     if (w3color(hex).isDark(165)) {col = "#fff"}
@@ -118,7 +118,7 @@ function createTheme(inVar) {
     hex = w3color("hsl(" + x.h + "," + x.s + "," + x.l + ")").toHexString();
     z = document.getElementById("t1d2");
     z.style.backgroundColor = hex;
-    z.innerHTML = hex + " w3-theme-d2";
+    z.innerHTML = hex + " theme-d2";
     theme1.d2 = hex;
     col = "#000";
     if (w3color(hex).isDark(165)) {col = "#fff"};
@@ -129,7 +129,7 @@ function createTheme(inVar) {
     hex = w3color("hsl(" + x.h + "," + x.s + "," + x.l + ")").toHexString();
     z = document.getElementById("t1d3");
     z.style.backgroundColor = hex;
-    z.innerHTML = hex + " w3-theme-d3";
+    z.innerHTML = hex + " theme-d3";
     theme1.d3 = hex;
     col = "#000";
     if (w3color(hex).isDark(165)) {col = "#fff"}
@@ -140,7 +140,7 @@ function createTheme(inVar) {
     hex = w3color("hsl(" + x.h + "," + x.s + "," + x.l + ")").toHexString();
     z = document.getElementById("t1d4");
     z.style.backgroundColor = hex;
-    z.innerHTML = hex + " w3-theme-d4";
+    z.innerHTML = hex + " theme-d4";
     theme1.d4 = hex;
     col = "#000";
     if (w3color(hex).isDark(165)) {col = "#fff"}
@@ -151,7 +151,7 @@ function createTheme(inVar) {
     hex = w3color("hsl(" + x.h + "," + x.s + "," + x.l + ")").toHexString();
     z = document.getElementById("t1d5");
     z.style.backgroundColor = hex;
-    z.innerHTML = hex + " w3-theme-d5";
+    z.innerHTML = hex + " theme-d5";
     theme1.d5 = hex;
     col = "#";
     if (w3color(hex).isDark(165)) {col = "#fff"}
