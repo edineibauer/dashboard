@@ -12,7 +12,7 @@ copy(PATH_HOME . "{$assets}/theme/theme.min.css", PATH_HOME . "{$assets}/theme/t
 $mini = new Minify\CSS($txt);
 $mini->minify(PATH_HOME . $assets . "/theme/theme.min.css");
 //Remove atual CSS
-unlink(PATH_HOME . $assets . "/linkControl.min.css");
+unlink(PATH_HOME . $assets . "/core.min.css");
 
 //Atualiza a VERSION
 $conf = file_get_contents(PATH_HOME . "_config/config.php");
