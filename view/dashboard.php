@@ -6,28 +6,28 @@ if (!LOGGED) {
     ob_start();
     include_once 'inc/version_control.php';
     ?>
-    <nav class="sidebar card collapse color-white animate-left dashboard-nav space-header" id="mySidebar"><br>
+    <nav class="sidebar card collapse color-gray-light no-select animate-left dashboard-nav space-header" id="mySidebar"><br>
         <div class="container row">
             <?php
             if (isset($_SESSION['userlogin']['imagem']) && !empty($_SESSION['userlogin']['imagem'])) {
-                echo '<div class="col s4"><img src="' . HOME . 'image/' . $_SESSION['userlogin']['imagem'] . '&w=80&h=80" width="72" height="72" style="margin-bottom:0!important; width: 72px;height: 72px" class="card radius-circle margin-right"></div>';
+                echo '<div class="left"><img src="' . HOME . 'image/' . $_SESSION['userlogin']['imagem'] . '&w=100&h=100" width="72" height="72" style="margin-bottom:0!important; width: 72px;height: 72px" class="card margin-right"></div>';
             } else {
-                echo '<div class="col s4"><i class="material-icons font-jumbo">people</i></div>';
+                echo '<div class="left"><i class="material-icons font-jumbo">people</i></div>';
             }
             ?>
 
-            <div class="col s8 bar">
-                <strong class="padding"><?= $_SESSION['userlogin']['email'] ?></strong><br>
-                <div class="row padding-medium div-btn-editLogin">
+            <div class="left">
+                <div class="col div-btn-editLogin">
                     <button id="btn-editLogin"
-                            class="left color-white opacity z-depth-0 border hover-opacity-off radius padding-small color-grey-light margin-0">
-                        <i class="material-icons left font-large">edit</i>
-                        <span class="left" style="padding-right: 5px">perfil</span>
+                            class="left color-white z-depth-0 border hover-shadow radius padding-small color-grey-light margin-0">
+                        <i class="material-icons prefix padding-0 font-large">edit</i>
                     </button>
                 </div>
             </div>
+            <strong class="col padding-top no-select"><?= $_SESSION['userlogin']['email'] ?></strong><br>
+
         </div>
-        <hr style="margin: 15px 0 0;">
+        <hr style="margin: 10px 0 0;border-top: solid 1px #ddd;">
         <div class="bar-block">
             <?php
             require_once 'inc/menu.php';
