@@ -4,7 +4,7 @@ if (!LOGGED) {
     $data['data'] = HOME . "login";
 } else {
     ob_start();
-    include_once 'inc/version_control.php';
+    $up = new \Dashboard\UpdateDashboard();
     ?>
     <nav class="sidebar card collapse color-gray-light no-select animate-left dashboard-nav space-header" id="mySidebar"><br>
         <div class="container row">
