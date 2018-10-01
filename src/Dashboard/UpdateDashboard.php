@@ -206,18 +206,17 @@ class UpdateDashboard
     private function createMinifyAssetsLib()
     {
         foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
-            if (file_exists(PATH_HOME . VENDOR . "{$lib}/assets")) {
-                foreach (Helper::listFolder(PATH_HOME . VENDOR . "{$lib}/assets") as $assets) {
-                    $tipo = pathinfo($assets, PATHINFO_EXTENSION);
-                    if (($tipo === "css" || $tipo === "js") && !preg_match('/\.min\.(css|js)$/i', $assets)) {
-                        $name = pathinfo($assets, PATHINFO_FILENAME);
-                        if ($tipo === "css")
-                            $mini = new Minify\CSS(PATH_HOME . VENDOR . "{$lib}/assets/{$assets}");
-                        else
-                            $mini = new Minify\JS(PATH_HOME . VENDOR . "{$lib}/assets/{$assets}");
+            foreach (Helper::listFolder(PATH_HOME . VENDOR . $lib . "/assets") as $file) {
+                $ext = pathinfo($file, PATHINFO_EXTENSION);
+                $name = pathinfo($file, PATHINFO_FILENAME);
 
-                        $mini->minify(PATH_HOME . VENDOR . "{$lib}/assets/{$name}.min.{$tipo}");
-                    }
+                if (in_array($ext, ['css', 'js']) && !preg_match('/\.min$/i', $name) && !file_exists(PATH_HOME . VENDOR . $lib . "/assets/{$name}.min.{$ext}")) {
+                    if ($ext === "js")
+                        $minifier = new Minify\JS(file_get_contents(PATH_HOME . VENDOR . $lib . "/assets/{$name}.js"));
+                    else
+                        $minifier = new Minify\CSS(file_get_contents(PATH_HOME . VENDOR . $lib . "/assets/{$name}.css"));
+
+                    $minifier->minify(PATH_HOME . VENDOR . $lib . "/assets/{$name}.min.{$ext}");
                 }
             }
         }
