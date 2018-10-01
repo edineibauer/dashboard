@@ -86,7 +86,7 @@
 
                 <div class=" col l2 hide-medium hide-small container" style="padding-top:8px">
                     <div class="right">
-                        <img class="radius-circle" src="{$home}vendor/conn/dashboard/assets/avatar.jpg" style="height:55px"><br>
+                        <img class="radius-circle" src="{$home}{$vendor}dashboard/assets/avatar.jpg" style="height:55px"><br>
                     </div>
                 </div>
             </div>
@@ -183,7 +183,7 @@
                            style="position: absolute; top: -30px; right: 16px; background: rgb(162, 63, 63); color: rgb(255, 255, 255);">+</a>
                         <div class="row">
                             <div class="col" style="width:100px">
-                                <img class="radius-circle" src="{$home}vendor/conn/dashboard/assets/avatar.jpg" alt="avatar">
+                                <img class="radius-circle" src="{$home}{$vendor}dashboard/assets/avatar.jpg" alt="avatar">
                             </div>
                             <div class="rest container">
                                 <h3 id="mt1-h1" style="color: rgb(238, 211, 211);">Frozen</h3>
@@ -203,7 +203,7 @@
                         <hr>
                         <div class="row">
                             <div class="col" style="width:100px">
-                                <img class="radius-circle" src="{$home}vendor/conn/dashboard/assets/avatar.jpg" alt="avatar">
+                                <img class="radius-circle" src="{$home}{$vendor}dashboard/assets/avatar.jpg" alt="avatar">
                             </div>
                             <div class="rest container">
                                 <h3 id="mt1-h3" style="color: rgb(238, 211, 211);">The Avengers</h3>
@@ -223,5 +223,5 @@
     </div>
 </div>
 
-<script src="{$home}vendor/conn/dashboard/assets/colorMaker.js?v={$version}"></script>
-<script src="{$home}vendor/conn/dashboard/assets/themeMake.js?v={$version}"></script>
+<script src="{$home}{$vendor}dashboard/assets/colorMaker.js?v={$version}"></script>
+<script src="{$home}{$vendor}dashboard/assets/themeMake.js?v={$version}"></script>

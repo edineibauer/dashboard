@@ -1,6 +1,6 @@
 <?php
 
-$dir = PATH_HOME . (DEV ? "assetsPublic" : "assets");
+$dir = PATH_HOME . "assetsPublic";
 foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS),
     RecursiveIteratorIterator::CHILD_FIRST) as $file) {
     if(!in_array($file->getFileName(), ["theme.css", "theme.min.css", "theme", "theme-recovery.css"])) {

@@ -1,18 +1,17 @@
 <?php
-$assets = DEV ? "assetsPublic" : "assets";
-if(file_exists(PATH_HOME . "{$assets}/theme/theme-recovery.min.css")) {
-    $prev = file_get_contents(PATH_HOME . "{$assets}/theme/theme-recovery.min.css");
-    $atual = file_get_contents(PATH_HOME . "{$assets}/theme/theme.min.css");
+if(file_exists(PATH_HOME . "assetsPublic/theme/theme-recovery.min.css")) {
+    $prev = file_get_contents(PATH_HOME . "assetsPublic/theme/theme-recovery.min.css");
+    $atual = file_get_contents(PATH_HOME . "assetsPublic/theme/theme.min.css");
 
-    $f = fopen(PATH_HOME . "{$assets}/theme/theme.min.css", "w+");
+    $f = fopen(PATH_HOME . "assetsPublic/theme/theme.min.css", "w+");
     fwrite($f, $prev);
     fclose($f);
 
-    $f = fopen(PATH_HOME . "{$assets}/theme/theme-recovery.min.css", "w+");
+    $f = fopen(PATH_HOME . "assetsPublic/theme/theme-recovery.min.css", "w+");
     fwrite($f, $atual);
     fclose($f);
 
-    unlink(PATH_HOME . "{$assets}/core.min.css");
+    unlink(PATH_HOME . "assetsPublic/core.min.css");
 
     $data['data'] = "ok";
 

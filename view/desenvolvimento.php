@@ -2,11 +2,10 @@
 
 $tpl = new \Helpers\Template("dashboard");
 $routesAll = [];
-foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn") as $item)
+foreach (\Helpers\Helper::listFolder(PATH_HOME . VENDOR) as $item)
     $routesAll[] = $item;
 
-if (DEV)
-    $routesAll[] = DOMINIO;
+$routesAll[] = DOMINIO;
 
 $dados['routes'] = json_decode(file_get_contents(PATH_HOME . "_config/route.json"), true);
 $dados['routesAll'] = "";
@@ -20,7 +19,7 @@ foreach ($routesAll as $item) {
     $dados['routesAll'] .= $tpl->getShow("checkbox", $dataRoute);
 }
 
-$dados['dominio'] = DEV && DOMINIO === "dashboard" ? "" : "vendor/conn/dashboard/";
+$dados['dominio'] = DOMINIO === "dashboard" ? "" : VENDOR . "dashboard/";
 $dados['permissao'] = "";
 $dados['version'] = VERSION;
 

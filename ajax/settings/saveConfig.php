@@ -5,7 +5,7 @@ $value = trim(strip_tags(filter_input(INPUT_POST, "value", FILTER_DEFAULT)));
 function createHtaccess($www = null, $domain = null, $protocol = null)
 {
     $dados = "RewriteCond %{HTTP_HOST} ^" . ($www === "www" ? "{$domain}\nRewriteRule ^ {$protocol}www.{$domain}%{REQUEST_URI}" : "www.(.*) [NC]\nRewriteRule ^(.*) {$protocol}%1/$1") . " [L,R=301]";
-    $content = str_replace(['{$dados}', '{$home}'], [$dados, HOME], file_get_contents(PATH_HOME . "vendor/conn/config/tpl/htaccess.txt"));
+    $content = str_replace(['{$dados}', '{$home}'], [$dados, HOME], file_get_contents(PATH_HOME . VENDOR . "config/tpl/htaccess.txt"));
 
     $fp = fopen(PATH_HOME . ".htaccess", "w+");
     fwrite($fp, $content);
@@ -38,10 +38,10 @@ if (\Helpers\Check::isJson($value) && preg_match('/url\":/i', $value)) {
 
 /** MANIFEST UPDATE CREATE */
 function createManifest() {
-    $theme = explode("}", explode(".theme{", file_get_contents(PATH_HOME . "assets" . (DEV ? "Public" : "") . "/theme/theme.min.css"))[1])[0];
+    $theme = explode("}", explode(".theme{", file_get_contents(PATH_HOME . "assetsPublic/theme/theme.min.css"))[1])[0];
     $themeBack = explode("!important", explode("background-color:", $theme)[1])[0];
     $themeColor = explode("!important", explode("color:", $theme)[1])[0];
-    $content = str_replace(['{$sitename}', '{$favicon}', '{$theme}', '{$themeColor}'], [SITENAME, FAVICON, $themeBack, $themeColor], file_get_contents(PATH_HOME . "vendor/conn/config/tpl/manifest.txt"));
+    $content = str_replace(['{$sitename}', '{$favicon}', '{$theme}', '{$themeColor}'], [SITENAME, FAVICON, $themeBack, $themeColor], file_get_contents(PATH_HOME . VENDOR . "config/tpl/manifest.txt"));
 
     $fp = fopen(PATH_HOME . "manifest.json", "w");
     fwrite($fp, $content);

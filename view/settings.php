@@ -2,7 +2,7 @@
 $tpl = new \Helpers\Template("dashboard");
 $read = new \ConnCrud\Read();
 $dados['reautor'] = "";
-$dados['dominio'] = DEV && DOMINIO === "dashboard" ? "" : "vendor/conn/dashboard/";
+$dados['dominio'] = DOMINIO === "dashboard" ? "" : VENDOR . "dashboard/";
 $dados['version'] = VERSION;
 $dados['config'] = [
     "sitename" => SITENAME,

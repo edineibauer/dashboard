@@ -1,6 +1,6 @@
 <?php
 $dados['optionsTheme'] = "";
-foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn/dashboard/themes") as $theme) {
+foreach (\Helpers\Helper::listFolder(PATH_HOME . VENDOR . "dashboard/themes") as $theme) {
     $dados['optionsTheme'] .= "<option value='{$theme}' " . (!empty($dados['config']['theme']) && $dados['config']['theme'] === $theme ? "selected='selected'" : "") . ">" . ucwords(str_replace(["theme-", ".css", "-", "_"], ["", "", " ", " "], $theme)) . "</option>";
 }
 
