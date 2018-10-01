@@ -94,7 +94,7 @@ class UpdateDashboard
     private function generateInfo(array $metadados): array
     {
         $data = [
-            "identifier" => $this->id, "title" => null, "link" => null, "status" => null, "date" => null, "datetime" => null, "valor" => null, "email" => null, "tel" => null, "cpf" => null, "cnpj" => null, "cep" => null, "time" => null, "week" => null, "month" => null, "year" => null,
+            "identifier" => 0, "title" => null, "link" => null, "status" => null, "date" => null, "datetime" => null, "valor" => null, "email" => null, "tel" => null, "cpf" => null, "cnpj" => null, "cep" => null, "time" => null, "week" => null, "month" => null, "year" => null,
             "required" => null, "unique" => null, "publisher" => null, "constant" => null, "extend" => null, "extend_mult" => null, "list" => null, "list_mult" => null, "selecao" => null, "selecao_mult" => null,
             "source" => [
                 "image" => null,
@@ -138,7 +138,7 @@ class UpdateDashboard
         Helper::createFolderIfNoExist(PATH_HOME . "entity/cache");
         Helper::createFolderIfNoExist(PATH_HOME . "entity/cache/info");
 
-        foreach (\Helpers\Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
+        foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
             if (file_exists(PATH_HOME . VENDOR . "{$lib}/entity/cache")) {
                 foreach (Helper::listFolder(PATH_HOME . VENDOR . "{$lib}/entity/cache") as $file) {
                     if ($file !== "info" && preg_match('/\w+\.json$/i', $file) && !file_exists(PATH_HOME . "entity/cache/{$file}")) {
@@ -168,7 +168,7 @@ class UpdateDashboard
     {
         //templates mustache
         if (file_exists(PATH_HOME . "{$path}tpl")) {
-            foreach (\Helpers\Helper::listFolder(PATH_HOME . "{$path}tpl") as $tpl) {
+            foreach (Helper::listFolder(PATH_HOME . "{$path}tpl") as $tpl) {
                 if (preg_match('/\.mst$/i', $tpl))
                     $listShell[] = HOME . "{$path}tpl/{$tpl}";
             }
@@ -176,9 +176,9 @@ class UpdateDashboard
 
         //assets
         if (file_exists(PATH_HOME . "{$path}assets")) {
-            foreach (\Helpers\Helper::listFolder(PATH_HOME . "{$path}assets") as $asset) {
+            foreach (Helper::listFolder(PATH_HOME . "{$path}assets") as $asset) {
                 if (!preg_match('/\./i', $asset)) {
-                    foreach (\Helpers\Helper::listFolder(PATH_HOME . "{$path}assets/{$asset}") as $a) {
+                    foreach (Helper::listFolder(PATH_HOME . "{$path}assets/{$asset}") as $a) {
                         if (preg_match('/\./i', $a) && (!preg_match('/\.(js|css)$/i', $a) || preg_match('/\.min\.(js|css)$/i', $a)))
                             $listShell[] = HOME . "{$path}assets/{$asset}/{$a}" . (preg_match('/\.(js|css)$/i', $asset) ? "?v=" . VERSION : "");
                     }
@@ -190,7 +190,7 @@ class UpdateDashboard
 
         //pages
         if (file_exists(PATH_HOME . "{$path}view")) {
-            foreach (\Helpers\Helper::listFolder(PATH_HOME . "{$path}view") as $view) {
+            foreach (Helper::listFolder(PATH_HOME . "{$path}view") as $view) {
                 if (preg_match('/\.php$/i', $view)) {
                     $listData[] = HOME . str_replace(['.php', 'index'], '', $view);
                     $listData[] = HOME . "get/" . str_replace('.php', '', $view);
@@ -270,6 +270,11 @@ class UpdateDashboard
             $shellNewVersion = $shell + 0.01;
             $data = explode("'", explode("swDataConn-", $worker)[1])[0];
             $dataNewVersion = $data + 0.01;
+        } else {
+            $shell = "1.0.0";
+            $shellNewVersion = "1.0.1";
+            $data = "1.0.0";
+            $dataNewVersion = "1.0.1";
         }
 
         $f = fopen(PATH_HOME . "service-worker.js", "w");
@@ -282,5 +287,34 @@ class UpdateDashboard
 
         fwrite($f, $content);
         fclose($f);
+    }
+
+    private function checkSource($valores)
+    {
+        $type = [];
+        $data = [
+            "image" => ["png", "jpg", "jpeg", "gif", "bmp", "tif", "tiff", "psd", "svg"],
+            "video" => ["mp4", "avi", "mkv", "mpeg", "flv", "wmv", "mov", "rmvb", "vob", "3gp", "mpg"],
+            "audio" => ["mp3", "aac", "ogg", "wma", "mid", "alac", "flac", "wav", "pcm", "aiff", "ac3"],
+            "document" => ["txt", "doc", "docx", "dot", "dotx", "dotm", "ppt", "pptx", "pps", "potm", "potx", "pdf", "xls", "xlsx", "xltx", "rtf"],
+            "compact" => ["rar", "zip", "tar", "7z"],
+            "denveloper" => ["html", "css", "scss", "js", "tpl", "json", "xml", "md", "sql", "dll"]
+        ];
+
+        foreach ($data as $tipo => $dados) {
+            if (count(array_intersect($dados, $valores)) > 0)
+                $type[] = $tipo;
+        }
+
+        if (count($type) > 1) {
+            if (count(array_intersect(["document", "compact", "denveloper"], $type)) === 0 && count(array_intersect(["image", "video", "audio"], $type)) > 1)
+                return "multimidia";
+            else if (count(array_intersect(["document", "compact", "denveloper"], $type)) > 1 && count(array_intersect(["image", "video", "audio"], $type)) === 0)
+                return "arquivo";
+            else
+                return "source";
+        } else {
+            return $type[0];
+        }
     }
 }
