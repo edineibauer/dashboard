@@ -80,10 +80,9 @@ class UpdateDashboard
 
     private function updateAssets()
     {
-        $dir = PATH_HOME . (DEV ? "assetsPublic" : "assets");
-        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS),
+        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator("assetsPublic", \RecursiveDirectoryIterator::SKIP_DOTS),
             \RecursiveIteratorIterator::CHILD_FIRST) as $file) {
-            if (!in_array($file->getFileName(), ["theme.min.css", "theme", "global", "global.min.css", "global.min.js"])) {
+            if (!in_array($file->getFileName(), ["theme.min.css", "theme", "theme.css", "theme-recovery.min.css", "theme-recovery.css"])) {
                 if ($file->isDir())
                     rmdir($file->getRealPath());
                 elseif ($file->getFileName())
@@ -139,17 +138,17 @@ class UpdateDashboard
         Helper::createFolderIfNoExist(PATH_HOME . "entity/cache");
         Helper::createFolderIfNoExist(PATH_HOME . "entity/cache/info");
 
-        foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn") as $lib) {
-            if (file_exists(PATH_HOME . "vendor/conn/{$lib}/entity/cache")) {
-                foreach (Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/entity/cache") as $file) {
+        foreach (\Helpers\Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
+            if (file_exists(PATH_HOME . VENDOR . "{$lib}/entity/cache")) {
+                foreach (Helper::listFolder(PATH_HOME . VENDOR . "{$lib}/entity/cache") as $file) {
                     if ($file !== "info" && preg_match('/\w+\.json$/i', $file) && !file_exists(PATH_HOME . "entity/cache/{$file}")) {
-                        copy(PATH_HOME . "vendor/conn/{$lib}/entity/cache/{$file}", PATH_HOME . "entity/cache/{$file}");
-                        if (file_exists(PATH_HOME . "vendor/conn/{$lib}/entity/cache/info/{$file}")) {
-                            copy(PATH_HOME . "vendor/conn/{$lib}/entity/cache/info/{$file}", PATH_HOME . "entity/cache/info/{$file}");
+                        copy(PATH_HOME . VENDOR . "{$lib}/entity/cache/{$file}", PATH_HOME . "entity/cache/{$file}");
+                        if (file_exists(PATH_HOME . VENDOR . "{$lib}/entity/cache/info/{$file}")) {
+                            copy(PATH_HOME . VENDOR . "{$lib}/entity/cache/info/{$file}", PATH_HOME . "entity/cache/info/{$file}");
 
                         } else {
                             //cria info
-                            $data = $this->generateInfo(\EntityForm\Metadados::getDicionario(PATH_HOME . "vendor/conn/{$lib}/entity/cache/{$file}"));
+                            $data = $this->generateInfo(\EntityForm\Metadados::getDicionario(PATH_HOME . VENDOR . "{$lib}/entity/cache/{$file}"));
                             $fp = fopen(PATH_HOME . "entity/cache/info/" . $file, "w");
                             fwrite($fp, json_encode($data));
                             fclose($fp);
@@ -167,10 +166,12 @@ class UpdateDashboard
 
     private function checkCacheContent($path, $listShell, $listData)
     {
-        //templates
-        if (file_exists(PATH_HOME . "{$path}tplFront")) {
-            foreach (\Helpers\Helper::listFolder(PATH_HOME . "{$path}tplFront") as $tpl)
-                $listShell[] = HOME . "{$path}tplFront/{$tpl}";
+        //templates mustache
+        if (file_exists(PATH_HOME . "{$path}tpl")) {
+            foreach (\Helpers\Helper::listFolder(PATH_HOME . "{$path}tpl") as $tpl) {
+                if (preg_match('/\.mst$/i', $tpl))
+                    $listShell[] = HOME . "{$path}tpl/{$tpl}";
+            }
         }
 
         //assets
@@ -188,18 +189,14 @@ class UpdateDashboard
         }
 
         //pages
-        if (file_exists(PATH_HOME . "{$path}ajax/view")) {
-            foreach (\Helpers\Helper::listFolder(PATH_HOME . "{$path}ajax/view") as $view) {
+        if (file_exists(PATH_HOME . "{$path}view")) {
+            foreach (\Helpers\Helper::listFolder(PATH_HOME . "{$path}view") as $view) {
                 if (preg_match('/\.php$/i', $view)) {
-                    $listData[] = HOME . "request/get/view/" . str_replace('.php', '', $view);
                     $listData[] = HOME . str_replace(['.php', 'index'], '', $view);
+                    $listData[] = HOME . "get/" . str_replace('.php', '', $view);
+                    if (file_exists(PATH_HOME . "{$path}view/data/{$view}"))
+                        $listData[] = HOME . "get/data/" . str_replace('.php', '', $view);
                 }
-            }
-        }
-        if (file_exists(PATH_HOME . "{$path}ajax/dobra")) {
-            foreach (\Helpers\Helper::listFolder(PATH_HOME . "{$path}ajax/dobra") as $view) {
-                if (preg_match('/\.php$/i', $view))
-                    $listData[] = HOME . "request/get/dobra/" . str_replace('.php', '', $view);
             }
         }
 
@@ -208,34 +205,34 @@ class UpdateDashboard
 
     private function createMinifyAssetsLib()
     {
-        foreach (Helper::listFolder(PATH_HOME . "vendor/conn") as $lib) {
-            if(file_exists(PATH_HOME . "vendor/conn/{$lib}/assets")) {
-                foreach (Helper::listFolder(PATH_HOME . "vendor/conn/{$lib}/assets") as $assets) {
+        foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
+            if (file_exists(PATH_HOME . VENDOR . "{$lib}/assets")) {
+                foreach (Helper::listFolder(PATH_HOME . VENDOR . "{$lib}/assets") as $assets) {
                     $tipo = pathinfo($assets, PATHINFO_EXTENSION);
-                    if(($tipo === "css" || $tipo === "js") && !preg_match('/\.min\.(css|js)$/i', $assets)) {
+                    if (($tipo === "css" || $tipo === "js") && !preg_match('/\.min\.(css|js)$/i', $assets)) {
                         $name = pathinfo($assets, PATHINFO_FILENAME);
                         if ($tipo === "css")
-                            $mini = new Minify\CSS(PATH_HOME . "vendor/conn/{$lib}/assets/{$assets}");
+                            $mini = new Minify\CSS(PATH_HOME . VENDOR . "{$lib}/assets/{$assets}");
                         else
-                            $mini = new Minify\JS(PATH_HOME . "vendor/conn/{$lib}/assets/{$assets}");
+                            $mini = new Minify\JS(PATH_HOME . VENDOR . "{$lib}/assets/{$assets}");
 
-                        $mini->minify(PATH_HOME . "vendor/conn/{$lib}/assets/{$name}.min.{$tipo}");
+                        $mini->minify(PATH_HOME . VENDOR . "{$lib}/assets/{$name}.min.{$tipo}");
                     }
                 }
             }
         }
 
-        if(DEV && file_exists(PATH_HOME . "assets")) {
-            foreach (Helper::listFolder(PATH_HOME . "assets") as $assets) {
+        if (file_exists(PATH_HOME . "public/assets")) {
+            foreach (Helper::listFolder(PATH_HOME . "public/assets") as $assets) {
                 $tipo = pathinfo($assets, PATHINFO_EXTENSION);
-                if(($tipo === "css" || $tipo === "js") && !preg_match('/\.min\.(css|js)$/i', $assets)) {
+                if (($tipo === "css" || $tipo === "js") && !preg_match('/\.min\.(css|js)$/i', $assets)) {
                     $name = pathinfo($assets, PATHINFO_FILENAME);
                     if ($tipo === "css")
-                        $mini = new Minify\CSS(PATH_HOME . "assets/{$assets}");
+                        $mini = new Minify\CSS(PATH_HOME . "public/assets/{$assets}");
                     else
-                        $mini = new Minify\JS(PATH_HOME . "assets/{$assets}");
+                        $mini = new Minify\JS(PATH_HOME . "public/assets/{$assets}");
 
-                    $mini->minify(PATH_HOME . "assets/{$name}.min.{$tipo}");
+                    $mini->minify(PATH_HOME . "public/assets/{$name}.min.{$tipo}");
                 }
             }
         }
@@ -245,32 +242,27 @@ class UpdateDashboard
     {
         $listShell = [];
         $listData = [];
-        $assets = (DEV ? "assetsPublic/" : "assets/");
         if (!empty(LOGO))
             $listShell[] = HOME . LOGO;
         if (!empty(LOGO))
             $listShell[] = HOME . FAVICON;
 
         //base assets public
-        $listShell[] = HOME . $assets . "linkControl.min.js?v=" . VERSION;
-        $listShell[] = HOME . $assets . "linkControl.min.css?v=" . VERSION;
-        if (file_exists(PATH_HOME . $assets . "fonts.min.css"))
-            $listShell[] = HOME . $assets . "fonts.min.css?v=" . VERSION;
+        $listShell[] = HOME . "assetsPublic/core.min.js?v=" . VERSION;
+        $listShell[] = HOME . "assetsPublic/core.min.css?v=" . VERSION;
+        if (file_exists(PATH_HOME . "assetsPublic/fonts.min.css"))
+            $listShell[] = HOME . "assetsPublic/fonts.min.css?v=" . VERSION;
 
-        foreach (Helper::listFolder(PATH_HOME . $assets . "fonts") as $font) {
+        foreach (Helper::listFolder(PATH_HOME . "assetsPublic/fonts") as $font) {
             if (preg_match('/\.(ttf|woff|woff2)$/', $font))
-                $listShell[] = HOME . $assets . "fonts/{$font}";
+                $listShell[] = HOME . "assetsPublic/fonts/{$font}";
         }
 
-        //theme lib
-        foreach (\Helpers\Helper::listFolder(PATH_HOME . "vendor/conn") as $lib) {
-            if ($lib === "link-control" || file_exists(PATH_HOME . "vendor/conn/{$lib}/view/index.php")) {
-                list($listShell, $listData) = $this->checkCacheContent("vendor/conn/{$lib}/", $listShell, $listData);
-            }
-        }
+        //Cache Content Link Control
+        list($listShell, $listData) = $this->checkCacheContent(VENDOR . "link-control/", $listShell, $listData);
 
-        if (DEV)
-            list($listShell, $listData) = $this->checkCacheContent("", $listShell, $listData);
+        //Cache Content public
+        list($listShell, $listData) = $this->checkCacheContent("public/", $listShell, $listData);
 
         if (file_exists(PATH_HOME . "service-worker.js")) {
             $worker = file_get_contents(PATH_HOME . "service-worker.js");
@@ -281,7 +273,7 @@ class UpdateDashboard
         }
 
         $f = fopen(PATH_HOME . "service-worker.js", "w");
-        $file = file_get_contents(PATH_HOME . "vendor/conn/config/tpl/service-worker.txt");
+        $file = file_get_contents(PATH_HOME . VENDOR . "config/tpl/service-worker.txt");
         $content = str_replace("var filesToCache = [];", "var filesToCache = " . json_encode($listShell, JSON_UNESCAPED_SLASHES) . ";", $file);
         $content = str_replace("var filesToCacheAfter = [];", "var filesToCacheAfter = " . json_encode($listData, JSON_UNESCAPED_SLASHES) . ";", $content);
 
