@@ -35,7 +35,7 @@ class UpdateDashboard
     {
         if (file_exists(PATH_HOME . "_config/updates/version.txt")) {
             $old = file_get_contents(PATH_HOME . "_config/updates/version.txt");
-            $actual = file_get_contents(PATH_HOME . "composer.lock");
+            $actual = json_decode(file_get_contents(PATH_HOME . "composer.lock"), true)['content-hash'];
             if ($old !== $actual || $force) {
                 $version = $this->updateVersionSystem();
                 $this->updateVersion($version);
