@@ -52,9 +52,8 @@ class UpdateDashboard
     private function updateVersionSystem()
     {
         $conf = file_get_contents(PATH_HOME . "_config/config.php");
-        $version = explode("')", explode("'VERSION', '", $conf)[1])[0];
-        $newVersion = $version + 0.01;
-        $conf = str_replace("'VERSION', '{$version}')", "'VERSION', '{$newVersion}')", $conf);
+        $newVersion = VERSION + 0.01;
+        $conf = str_replace("'VERSION', '" . VERSION . "')", "'VERSION', '{$newVersion}')", $conf);
         $f = fopen(PATH_HOME . "_config/config.php", "w");
         fwrite($f, $conf);
         fclose($f);
@@ -415,23 +414,17 @@ class UpdateDashboard
         if (file_exists(PATH_HOME . "service-worker.js")) {
             $worker = file_get_contents(PATH_HOME . "service-worker.js");
             $shell = explode("'", explode("swShellConn-", $worker)[1])[0];
-            $shellNewVersion = $shell + 0.01;
             $data = explode("'", explode("swDataConn-", $worker)[1])[0];
-            $dataNewVersion = $data + 0.01;
         } else {
             $shell = "1.0.0";
-            $shellNewVersion = "1.0.1";
             $data = "1.0.0";
-            $dataNewVersion = "1.0.1";
         }
 
         $f = fopen(PATH_HOME . "service-worker.js", "w");
         $file = file_get_contents(PATH_HOME . VENDOR . "config/tpl/service-worker.txt");
         $content = str_replace("var filesToCache = [];", "var filesToCache = " . json_encode($listShell, JSON_UNESCAPED_SLASHES) . ";", $file);
         $content = str_replace("var filesToCacheAfter = [];", "var filesToCacheAfter = " . json_encode($listData, JSON_UNESCAPED_SLASHES) . ";", $content);
-
-        if (isset($shellNewVersion))
-            $content = str_replace(["swShellConn-{$shell}'", "swDataConn-{$data}'"], ["swShellConn-{$shellNewVersion}'", "swDataConn-{$dataNewVersion}'"], $content);
+        $content = str_replace(["swShellConn-{$shell}'", "swDataConn-{$data}'"], ["swShellConn-{$version}'", "swDataConn-{$version}'"], $content);
 
         fwrite($f, $content);
         fclose($f);
