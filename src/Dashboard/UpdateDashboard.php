@@ -33,17 +33,19 @@ class UpdateDashboard
 
     private function start($force)
     {
-        if (file_exists(PATH_HOME . "_config/updates/version.txt")) {
-            $old = file_get_contents(PATH_HOME . "_config/updates/version.txt");
-            $actual = json_decode(file_get_contents(PATH_HOME . "composer.lock"), true)['content-hash'];
-            if ($old !== $actual || $force) {
-                $version = $this->updateVersionSystem();
-                $this->updateVersion($version);
-            }
+        if(file_exists(PATH_HOME . "composer.lock")) {
+            $keyVersion = json_decode(file_get_contents(PATH_HOME . "composer.lock"), true)['content-hash'];
+            if (file_exists(PATH_HOME . "_config/updates/version.txt")) {
+                $old = file_get_contents(PATH_HOME . "_config/updates/version.txt");
+                if ($old !== $keyVersion || $force) {
+                    $version = $this->updateVersionSystem();
+                    $this->updateVersion($keyVersion, $version);
+                }
 
-        } else {
-            Helper::createFolderIfNoExist(PATH_HOME . "_config/updates");
-            $this->updateVersion();
+            } else {
+                Helper::createFolderIfNoExist(PATH_HOME . "_config/updates");
+                $this->updateVersion($keyVersion, VERSION);
+            }
         }
     }
 
@@ -68,10 +70,10 @@ class UpdateDashboard
             Entity::add("usuarios", ["nome" => "Admin", "nome_usuario" => "admin", "setor" => 1, "email" => (!defined('EMAIL') ? "contato@ontab.com.br" : EMAIL), "password" => "mudar"]);
     }
 
-    private function updateVersion(string $version = VERSION)
+    private function updateVersion(string $versionKey, string $version = VERSION)
     {
         $f = fopen(PATH_HOME . "_config/updates/version.txt", "w+");
-        fwrite($f, file_get_contents(PATH_HOME . "composer.lock"));
+        fwrite($f, $versionKey);
         fclose($f);
 
         $this->updateDependenciesEntity();
