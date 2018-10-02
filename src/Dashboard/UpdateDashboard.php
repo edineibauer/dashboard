@@ -11,6 +11,7 @@ use MatthiasMullie\Minify;
 class UpdateDashboard
 {
     private $result;
+    private $devLibrary;
 
     /**
      * UpdateDashboard constructor.
@@ -18,6 +19,7 @@ class UpdateDashboard
      */
     public function __construct($force = null)
     {
+        $this->devLibrary = "http://uebster.com/library";
         $this->start($force);
     }
 
@@ -35,8 +37,8 @@ class UpdateDashboard
             $old = file_get_contents(PATH_HOME . "_config/updates/version.txt");
             $actual = file_get_contents(PATH_HOME . "composer.lock");
             if ($old !== $actual || $force) {
-                $this->updateVersionSystem();
-                $this->updateVersion();
+                $version = $this->updateVersionSystem();
+                $this->updateVersion($version);
             }
 
         } else {
@@ -54,6 +56,8 @@ class UpdateDashboard
         $f = fopen(PATH_HOME . "_config/config.php", "w");
         fwrite($f, $conf);
         fclose($f);
+
+        return $newVersion;
     }
 
     private function checkAdminExist()
@@ -64,7 +68,7 @@ class UpdateDashboard
             Entity::add("usuarios", ["nome" => "Admin", "nome_usuario" => "admin", "setor" => 1, "email" => (!defined('EMAIL') ? "contato@ontab.com.br" : EMAIL), "password" => "mudar"]);
     }
 
-    private function updateVersion()
+    private function updateVersion(string $version = VERSION)
     {
         $f = fopen(PATH_HOME . "_config/updates/version.txt", "w+");
         fwrite($f, file_get_contents(PATH_HOME . "composer.lock"));
@@ -74,7 +78,7 @@ class UpdateDashboard
         $this->checkAdminExist();
         $this->updateAssets();
         $this->createMinifyAssetsLib();
-        $this->updateServiceWorker();
+        $this->updateServiceWorker($version);
         $this->result = true;
     }
 
@@ -164,7 +168,7 @@ class UpdateDashboard
         }
     }
 
-    private function checkCacheContent($path, $listShell, $listData)
+    private function checkCacheContent($path, $listShell, $listData, string $version)
     {
         //templates mustache
         if (file_exists(PATH_HOME . "{$path}tpl")) {
@@ -179,11 +183,11 @@ class UpdateDashboard
             foreach (Helper::listFolder(PATH_HOME . "{$path}assets") as $asset) {
                 if (!preg_match('/\./i', $asset)) {
                     foreach (Helper::listFolder(PATH_HOME . "{$path}assets/{$asset}") as $a) {
-                        if (preg_match('/\./i', $a) && (!preg_match('/\.(js|css)$/i', $a) || preg_match('/\.min\.(js|css)$/i', $a)))
-                            $listShell[] = HOME . "{$path}assets/{$asset}/{$a}" . (preg_match('/\.(js|css)$/i', $asset) ? "?v=" . VERSION : "");
+                        if (!preg_match('/\.(js|css)$/i', $a) || preg_match('/\.min\.(js|css)$/i', $a))
+                            $listShell[] = HOME . "{$path}assets/{$asset}/{$a}" . (preg_match('/\.(js|css)$/i', $a) ? "?v=" . $version : "");
                     }
                 } elseif (!preg_match('/\.(js|css)$/i', $asset) || preg_match('/\.min\.(js|css)$/i', $asset)) {
-                    $listShell[] = HOME . "{$path}assets/{$asset}" . (preg_match('/\.(js|css)$/i', $asset) ? "?v=" . VERSION : "");
+                    $listShell[] = HOME . "{$path}assets/{$asset}" . (preg_match('/\.(js|css)$/i', $asset) ? "?v=" . $version : "");
                 }
             }
         }
@@ -221,6 +225,14 @@ class UpdateDashboard
             }
         }
 
+        $f = [];
+        if(file_exists(PATH_HOME . "_config/param.json"))
+            $f = json_decode(file_get_contents(PATH_HOME . "_config/param.json"), true);
+
+        $this->createCoreJs($f['js'], 'core');
+        $this->createCoreCss($f['css'], 'core');
+        $this->createCoreFont($f['font'], $f['icon'], 'fonts');
+
         if (file_exists(PATH_HOME . "public/assets")) {
             foreach (Helper::listFolder(PATH_HOME . "public/assets") as $assets) {
                 $tipo = pathinfo($assets, PATHINFO_EXTENSION);
@@ -237,20 +249,156 @@ class UpdateDashboard
         }
     }
 
-    private function updateServiceWorker()
-    {
-        $listShell = [];
-        $listData = [];
-        if (!empty(LOGO))
-            $listShell[] = HOME . LOGO;
-        if (!empty(LOGO))
-            $listShell[] = HOME . FAVICON;
 
-        //base assets public
-        $listShell[] = HOME . "assetsPublic/core.min.js?v=" . VERSION;
-        $listShell[] = HOME . "assetsPublic/core.min.css?v=" . VERSION;
+    /**
+     * @param array $jsList
+     * @param string $name
+     */
+    private function createCoreJs(array $jsList, string $name = "core")
+    {
+        if (!file_exists(PATH_HOME . "assetsPublic/{$name}.min.js")) {
+            $minifier = new Minify\JS("");
+            foreach ($jsList as $js)
+                $minifier->add(PATH_HOME . $this->checkAssetsExist($js, "js"));
+
+            $minifier->minify(PATH_HOME . "assetsPublic/{$name}.min.js");
+        }
+    }
+
+    /**
+     * @param array $cssList
+     * @param string $name
+     */
+    private function createCoreCss(array $cssList, string $name = "core")
+    {
+        if (!file_exists(PATH_HOME . "assetsPublic/{$name}.min.css")) {
+            $minifier = new Minify\CSS("");
+            $minifier->setMaxImportSize(30);
+            foreach ($cssList as $css)
+                $minifier->add(PATH_HOME . $this->checkAssetsExist($css, "css"));
+
+            $minifier->minify(PATH_HOME . "assetsPublic/{$name}.min.css");
+        }
+    }
+
+    /**
+     * @param $fontList
+     * @param null $iconList
+     * @param string $name
+     */
+    private function createCoreFont($fontList, $iconList = null, string $name = 'fonts')
+    {
+        if (!file_exists(PATH_HOME . "assetsPublic/{$name}.min.css")) {
+            $fonts = "";
+            if ($fontList) {
+                foreach ($fontList as $item)
+                    $fonts .= $this->getFontIcon($item, "font");
+            }
+            if ($iconList) {
+                foreach ($iconList as $item)
+                    $fonts .= $this->getFontIcon($item, "icon");
+            }
+
+            $m = new Minify\CSS($fonts);
+            $m->minify(PATH_HOME . "assetsPublic/{$name}.min.css");
+        }
+    }
+
+    /**
+     * Verifica se uma lib existe no sistema, se não existir, baixa do server
+     *
+     * @param string $lib
+     * @param string $extensao
+     * @return string
+     */
+    private function checkAssetsExist(string $lib, string $extensao): string
+    {
+        if (!file_exists("assetsPublic/{$lib}/{$lib}.min.{$extensao}")) {
+            $this->createFolderAssetsLibraries("assetsPublic/{$lib}/{$lib}.min.{$extensao}");
+            if (!Helper::isOnline("{$this->devLibrary}/{$lib}/{$lib}" . ".{$extensao}"))
+                return "";
+
+            if ($extensao === 'js')
+                $mini = new Minify\JS(file_get_contents("{$this->devLibrary}/{$lib}/{$lib}" . ".{$extensao}"));
+            else
+                $mini = new Minify\CSS(file_get_contents("{$this->devLibrary}/{$lib}/{$lib}" . ".{$extensao}"));
+
+            $mini->minify(PATH_HOME . "assetsPublic/{$lib}/{$lib}.min.{$extensao}");
+        }
+
+        return "assetsPublic/{$lib}/{$lib}.min.{$extensao}";
+    }
+
+    /**
+     * @param string $file
+     */
+    private function createFolderAssetsLibraries(string $file)
+    {
+        $link = PATH_HOME;
+        $split = explode('/', $file);
+        foreach ($split as $i => $peca) {
+            if ($i < count($split) - 1) {
+                $link .= ($i > 0 ? "/" : "") . $peca;
+                Helper::createFolderIfNoExist($link);
+            }
+        }
+    }
+
+    /**
+     * @param string $item
+     * @param string $tipo
+     * @return string
+     */
+    private function getFontIcon(string $item, string $tipo): string
+    {
+        $data = "";
+        $urlOnline = $tipo === "font" ? "https://fonts.googleapis.com/css?family=" . ucfirst($item) . ":100,300,400,700" : "https://fonts.googleapis.com/icon?family=" . ucfirst($item) . "+Icons";
+        if (Helper::isOnline($urlOnline)) {
+            $data = file_get_contents($urlOnline);
+            foreach (explode('url(', $data) as $i => $u) {
+                if ($i > 0) {
+                    $url = explode(')', $u)[0];
+                    if (!file_exists(PATH_HOME . "assetsPublic/fonts/" . pathinfo($url, PATHINFO_BASENAME))) {
+                        if (Helper::isOnline($url)) {
+                            Helper::createFolderIfNoExist(PATH_HOME . "assetsPublic/fonts");
+                            $f = fopen(PATH_HOME . "assetsPublic/fonts/" . pathinfo($url, PATHINFO_BASENAME), "w+");
+                            fwrite($f, file_get_contents($url));
+                            fclose($f);
+                            $data = str_replace($url, HOME . "assetsPublic/fonts/" . pathinfo($url, PATHINFO_BASENAME), $data);
+                        } else {
+                            $before = "@font-face" . explode("@font-face", $u[$i - 1])[1] . "url(";
+                            $after = explode("}", $u)[0];
+                            $data = str_replace($before . $after, "", $data);
+                        }
+                    } else {
+                        $data = str_replace($url, HOME . "assetsPublic/fonts/" . pathinfo($url, PATHINFO_BASENAME), $data);
+                    }
+                }
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * @param string $version
+     */
+    private function updateServiceWorker(string $version)
+    {
+        $listShell = [HOME . "assetsPublic/core.min.js?v=" . $version, HOME . "assetsPublic/core.min.css?v=" . $version];
+        $listData = [substr(HOME, 0, -1)];
+
+        if (!empty(LOGO)) {
+            $listShell[] = HOME . LOGO;
+            $listShell[] = HOME . 'image/' . LOGO . "&h=100";
+        }
+
+        if (!empty(FAVICON)) {
+            $listShell[] = HOME . FAVICON;
+            $listShell[] = HOME . 'image/' . FAVICON . "&h=100";
+        }
+
         if (file_exists(PATH_HOME . "assetsPublic/fonts.min.css"))
-            $listShell[] = HOME . "assetsPublic/fonts.min.css?v=" . VERSION;
+            $listShell[] = HOME . "assetsPublic/fonts.min.css?v=" . $version;
 
         foreach (Helper::listFolder(PATH_HOME . "assetsPublic/fonts") as $font) {
             if (preg_match('/\.(ttf|woff|woff2)$/', $font))
@@ -258,10 +406,9 @@ class UpdateDashboard
         }
 
         //Cache Content Link Control
-        list($listShell, $listData) = $this->checkCacheContent(VENDOR . "link-control/", $listShell, $listData);
-
-        //Cache Content public
-        list($listShell, $listData) = $this->checkCacheContent("public/", $listShell, $listData);
+        list($listShell, $listData) = $this->checkCacheContent(VENDOR . "link-control/", $listShell, $listData, $version);
+        list($listShell, $listData) = $this->checkCacheContent(VENDOR . "session-control/", $listShell, $listData, $version);
+        list($listShell, $listData) = $this->checkCacheContent("public/", $listShell, $listData, $version);
 
         if (file_exists(PATH_HOME . "service-worker.js")) {
             $worker = file_get_contents(PATH_HOME . "service-worker.js");
