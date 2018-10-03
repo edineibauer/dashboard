@@ -16,7 +16,7 @@ function checkFolder(string $dir): bool
 $inc = false;
 
 //Menu Personalizado
-$inc = checkFolder(PATH_HOME . "dash/{$_SESSION['userlogin']['setor']}/menu.php");
+$inc = checkFolder(PATH_HOME . "public/dash/{$_SESSION['userlogin']['setor']}/menu.php");
 if (!$inc) {
     foreach (\Helpers\Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
         if (!$inc)
@@ -25,7 +25,7 @@ if (!$inc) {
 
     if (!$inc) {
         //Menu Personalizado Genérico
-        $inc = checkFolder(PATH_HOME . "dash/menu.php");
+        $inc = checkFolder(PATH_HOME . "public/dash/menu.php");
         if (!$inc) {
             foreach (\Helpers\Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
                 if (!$inc)

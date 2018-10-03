@@ -7,9 +7,9 @@ $dados['dashboard'] = "";
 if(!empty($_SESSION['userlogin']['setor'])) {
 
     //SETOR
-    if (file_exists(PATH_HOME . "dash/{$_SESSION['userlogin']['setor']}/panel.php")) {
+    if (file_exists(PATH_HOME . "public/dash/{$_SESSION['userlogin']['setor']}/panel.php")) {
         ob_start();
-        include_once PATH_HOME . "dash/{$_SESSION['userlogin']['setor']}/panel.php";
+        include_once PATH_HOME . "public/dash/{$_SESSION['userlogin']['setor']}/panel.php";
         $dados['dashboard'] = ob_end_flush();
     }
 
@@ -26,9 +26,9 @@ if(!empty($_SESSION['userlogin']['setor'])) {
 
         //GENÉRICO
         if(empty($dados['dashboard'])) {
-            if (file_exists(PATH_HOME . "dash/panel.php")) {
+            if (file_exists(PATH_HOME . "public/dash/panel.php")) {
                 ob_start();
-                include_once PATH_HOME . "dash/panel.php";
+                include_once PATH_HOME . "public/dash/panel.php";
                 $dados['dashboard'] = ob_end_flush();
             }
 

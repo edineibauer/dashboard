@@ -147,11 +147,11 @@ class Menu
      */
     private function custom()
     {
-        if (file_exists(PATH_HOME . "dash/menu.json"))
-            $this->addMenuJson(PATH_HOME . "dash/menu.json");
+        if (file_exists(PATH_HOME . "public/dash/menu.json"))
+            $this->addMenuJson(PATH_HOME . "public/dash/menu.json");
 
-        if (file_exists(PATH_HOME . "dash/{$_SESSION['userlogin']['setor']}/menu.json"))
-            $this->addMenuJson(PATH_HOME . "dash/{$_SESSION['userlogin']['setor']}/menu.json");
+        if (file_exists(PATH_HOME . "public/dash/{$_SESSION['userlogin']['setor']}/menu.json"))
+            $this->addMenuJson(PATH_HOME . "public/dash/{$_SESSION['userlogin']['setor']}/menu.json");
 
         foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
             if (file_exists(PATH_HOME . VENDOR . "{$lib}/dash/menu.json"))
@@ -209,11 +209,11 @@ class Menu
             }
         }
 
-        if (file_exists(PATH_HOME . "dash/{$option}.json"))
-            $file = $this->addNotShow(PATH_HOME . "dash/{$option}.json", $file, PATH_HOME);
+        if (file_exists(PATH_HOME . "public/dash/{$option}.json"))
+            $file = $this->addNotShow(PATH_HOME . "public/dash/{$option}.json", $file, PATH_HOME);
 
-        if (file_exists(PATH_HOME . "dash/{$_SESSION['userlogin']['setor']}/{$option}.json"))
-            $file = $this->addNotShow(PATH_HOME . "dash/{$_SESSION['userlogin']['setor']}/{$option}.json", $file, PATH_HOME);
+        if (file_exists(PATH_HOME . "public/dash/{$_SESSION['userlogin']['setor']}/{$option}.json"))
+            $file = $this->addNotShow(PATH_HOME . "public/dash/{$_SESSION['userlogin']['setor']}/{$option}.json", $file, PATH_HOME);
 
         foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
             if (file_exists(PATH_HOME . VENDOR . "{$lib}/dash/{$option}.json"))
