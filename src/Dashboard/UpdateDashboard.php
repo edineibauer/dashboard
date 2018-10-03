@@ -38,7 +38,7 @@ class UpdateDashboard
             if (file_exists(PATH_HOME . "_config/updates/version.txt")) {
                 $old = file_get_contents(PATH_HOME . "_config/updates/version.txt");
                 if ($old !== $keyVersion || $force) {
-                    $version = $this->updateVersionSystem();
+                    $version = $this->updateVersionNumber();
                     $this->updateVersion($keyVersion, $version);
                 }
 
@@ -49,7 +49,7 @@ class UpdateDashboard
         }
     }
 
-    private function updateVersionSystem()
+    private function updateVersionNumber()
     {
         $conf = file_get_contents(PATH_HOME . "_config/config.php");
         $newVersion = VERSION + 0.01;
@@ -85,15 +85,21 @@ class UpdateDashboard
 
     private function updateAssets()
     {
-        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator("assetsPublic", \RecursiveDirectoryIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::CHILD_FIRST) as $file) {
-            if (!in_array($file->getFileName(), ["theme.min.css", "theme", "theme.css", "theme-recovery.min.css", "theme-recovery.css"])) {
-                if ($file->isDir())
-                    rmdir($file->getRealPath());
-                elseif ($file->getFileName())
-                    unlink($file->getRealPath());
-            }
-        }
+        //Remove only core Assets
+        unlink(PATH_HOME . "assetsPublic/core.min.js");
+        unlink(PATH_HOME . "assetsPublic/core.min.css");
+        unlink(PATH_HOME . "assetsPublic/fonts.min.css");
+
+        //Remove todos os Assets Publics
+        /* foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator("assetsPublic", \RecursiveDirectoryIterator::SKIP_DOTS),
+             \RecursiveIteratorIterator::CHILD_FIRST) as $file) {
+             if (!in_array($file->getFileName(), ["theme.min.css", "theme", "theme.css", "theme-recovery.min.css", "theme-recovery.css"])) {
+                 if ($file->isDir())
+                     rmdir($file->getRealPath());
+                 elseif ($file->getFileName())
+                     unlink($file->getRealPath());
+             }
+         }*/
     }
 
     private function generateInfo(array $metadados): array
@@ -143,10 +149,11 @@ class UpdateDashboard
         Helper::createFolderIfNoExist(PATH_HOME . "entity/cache");
         Helper::createFolderIfNoExist(PATH_HOME . "entity/cache/info");
 
+        //importa entidades ausentes para o sistema
         foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
             if (file_exists(PATH_HOME . VENDOR . "{$lib}/entity/cache")) {
                 foreach (Helper::listFolder(PATH_HOME . VENDOR . "{$lib}/entity/cache") as $file) {
-                    if ($file !== "info" && preg_match('/\w+\.json$/i', $file) && !file_exists(PATH_HOME . "entity/cache/{$file}")) {
+                    if (!file_exists(PATH_HOME . "entity/cache/{$file}") && preg_match('/\w+\.json$/i', $file)) {
                         copy(PATH_HOME . VENDOR . "{$lib}/entity/cache/{$file}", PATH_HOME . "entity/cache/{$file}");
                         if (file_exists(PATH_HOME . VENDOR . "{$lib}/entity/cache/info/{$file}")) {
                             copy(PATH_HOME . VENDOR . "{$lib}/entity/cache/info/{$file}", PATH_HOME . "entity/cache/info/{$file}");
@@ -158,14 +165,11 @@ class UpdateDashboard
                             fwrite($fp, json_encode($data));
                             fclose($fp);
                         }
+
+                        new EntityCreateEntityDatabase(str_replace('.json', '', $file), []);
                     }
                 }
             }
-        }
-
-        foreach (Helper::listFolder(PATH_HOME . "entity/cache") as $entity) {
-            if ($entity !== "info" && preg_match('/\w+\.json$/i', $entity))
-                new EntityCreateEntityDatabase(str_replace('.json', '', $entity), []);
         }
     }
 
@@ -210,6 +214,7 @@ class UpdateDashboard
 
     private function createMinifyAssetsLib()
     {
+        //Para cada arquivo css e js presente nas bibliotecas dentro da pasta assets, minifica quando não existe
         foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
             foreach (Helper::listFolder(PATH_HOME . VENDOR . $lib . "/assets") as $file) {
                 $ext = pathinfo($file, PATHINFO_EXTENSION);
@@ -225,159 +230,6 @@ class UpdateDashboard
                 }
             }
         }
-
-        $f = [];
-        if(file_exists(PATH_HOME . "_config/param.json"))
-            $f = json_decode(file_get_contents(PATH_HOME . "_config/param.json"), true);
-
-        $this->createCoreJs($f['js'], 'core');
-        $this->createCoreCss($f['css'], 'core');
-        $this->createCoreFont($f['font'], $f['icon'], 'fonts');
-
-        if (file_exists(PATH_HOME . "public/assets")) {
-            foreach (Helper::listFolder(PATH_HOME . "public/assets") as $assets) {
-                $tipo = pathinfo($assets, PATHINFO_EXTENSION);
-                if (($tipo === "css" || $tipo === "js") && !preg_match('/\.min\.(css|js)$/i', $assets)) {
-                    $name = pathinfo($assets, PATHINFO_FILENAME);
-                    if ($tipo === "css")
-                        $mini = new Minify\CSS(PATH_HOME . "public/assets/{$assets}");
-                    else
-                        $mini = new Minify\JS(PATH_HOME . "public/assets/{$assets}");
-
-                    $mini->minify(PATH_HOME . "public/assets/{$name}.min.{$tipo}");
-                }
-            }
-        }
-    }
-
-
-    /**
-     * @param array $jsList
-     * @param string $name
-     */
-    private function createCoreJs(array $jsList, string $name = "core")
-    {
-        if (!file_exists(PATH_HOME . "assetsPublic/{$name}.min.js")) {
-            $minifier = new Minify\JS("");
-            foreach ($jsList as $js)
-                $minifier->add(PATH_HOME . $this->checkAssetsExist($js, "js"));
-
-            $minifier->minify(PATH_HOME . "assetsPublic/{$name}.min.js");
-        }
-    }
-
-    /**
-     * @param array $cssList
-     * @param string $name
-     */
-    private function createCoreCss(array $cssList, string $name = "core")
-    {
-        if (!file_exists(PATH_HOME . "assetsPublic/{$name}.min.css")) {
-            $minifier = new Minify\CSS("");
-            $minifier->setMaxImportSize(30);
-            foreach ($cssList as $css)
-                $minifier->add(PATH_HOME . $this->checkAssetsExist($css, "css"));
-
-            $minifier->minify(PATH_HOME . "assetsPublic/{$name}.min.css");
-        }
-    }
-
-    /**
-     * @param $fontList
-     * @param null $iconList
-     * @param string $name
-     */
-    private function createCoreFont($fontList, $iconList = null, string $name = 'fonts')
-    {
-        if (!file_exists(PATH_HOME . "assetsPublic/{$name}.min.css")) {
-            $fonts = "";
-            if ($fontList) {
-                foreach ($fontList as $item)
-                    $fonts .= $this->getFontIcon($item, "font");
-            }
-            if ($iconList) {
-                foreach ($iconList as $item)
-                    $fonts .= $this->getFontIcon($item, "icon");
-            }
-
-            $m = new Minify\CSS($fonts);
-            $m->minify(PATH_HOME . "assetsPublic/{$name}.min.css");
-        }
-    }
-
-    /**
-     * Verifica se uma lib existe no sistema, se não existir, baixa do server
-     *
-     * @param string $lib
-     * @param string $extensao
-     * @return string
-     */
-    private function checkAssetsExist(string $lib, string $extensao): string
-    {
-        if (!file_exists("assetsPublic/{$lib}/{$lib}.min.{$extensao}")) {
-            $this->createFolderAssetsLibraries("assetsPublic/{$lib}/{$lib}.min.{$extensao}");
-            if (!Helper::isOnline("{$this->devLibrary}/{$lib}/{$lib}" . ".{$extensao}"))
-                return "";
-
-            if ($extensao === 'js')
-                $mini = new Minify\JS(file_get_contents("{$this->devLibrary}/{$lib}/{$lib}" . ".{$extensao}"));
-            else
-                $mini = new Minify\CSS(file_get_contents("{$this->devLibrary}/{$lib}/{$lib}" . ".{$extensao}"));
-
-            $mini->minify(PATH_HOME . "assetsPublic/{$lib}/{$lib}.min.{$extensao}");
-        }
-
-        return "assetsPublic/{$lib}/{$lib}.min.{$extensao}";
-    }
-
-    /**
-     * @param string $file
-     */
-    private function createFolderAssetsLibraries(string $file)
-    {
-        $link = PATH_HOME;
-        $split = explode('/', $file);
-        foreach ($split as $i => $peca) {
-            if ($i < count($split) - 1) {
-                $link .= ($i > 0 ? "/" : "") . $peca;
-                Helper::createFolderIfNoExist($link);
-            }
-        }
-    }
-
-    /**
-     * @param string $item
-     * @param string $tipo
-     * @return string
-     */
-    private function getFontIcon(string $item, string $tipo): string
-    {
-        $data = "";
-        $urlOnline = $tipo === "font" ? "https://fonts.googleapis.com/css?family=" . ucfirst($item) . ":100,300,400,700" : "https://fonts.googleapis.com/icon?family=" . ucfirst($item) . "+Icons";
-        if (Helper::isOnline($urlOnline)) {
-            $data = file_get_contents($urlOnline);
-            foreach (explode('url(', $data) as $i => $u) {
-                if ($i > 0) {
-                    $url = explode(')', $u)[0];
-                    if (!file_exists(PATH_HOME . "assetsPublic/fonts/" . pathinfo($url, PATHINFO_BASENAME))) {
-                        if (Helper::isOnline($url)) {
-                            Helper::createFolderIfNoExist(PATH_HOME . "assetsPublic/fonts");
-                            $f = fopen(PATH_HOME . "assetsPublic/fonts/" . pathinfo($url, PATHINFO_BASENAME), "w+");
-                            fwrite($f, file_get_contents($url));
-                            fclose($f);
-                            $data = str_replace($url, HOME . "assetsPublic/fonts/" . pathinfo($url, PATHINFO_BASENAME), $data);
-                        } else {
-                            $before = "@font-face" . explode("@font-face", $u[$i - 1])[1] . "url(";
-                            $after = explode("}", $u)[0];
-                            $data = str_replace($before . $after, "", $data);
-                        }
-                    } else {
-                        $data = str_replace($url, HOME . "assetsPublic/fonts/" . pathinfo($url, PATHINFO_BASENAME), $data);
-                    }
-                }
-            }
-        }
-        return $data;
     }
 
     /**
