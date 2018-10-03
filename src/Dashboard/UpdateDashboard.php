@@ -11,7 +11,6 @@ use MatthiasMullie\Minify;
 class UpdateDashboard
 {
     private $result;
-    private $devLibrary;
 
     /**
      * UpdateDashboard constructor.
@@ -19,7 +18,6 @@ class UpdateDashboard
      */
     public function __construct($force = null)
     {
-        $this->devLibrary = "http://uebster.com/library";
         $this->start($force);
     }
 
