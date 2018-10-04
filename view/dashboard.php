@@ -6,7 +6,7 @@ if (!LOGGED) {
     ob_start();
     $up = new \Dashboard\UpdateDashboard();
     ?>
-    <nav class="sidebar card collapse color-gray-light no-select animate-left dashboard-nav space-header" id="mySidebar"><br>
+    <nav class="sidebar z-depth-2 collapse color-gray-light no-select animate-left dashboard-nav space-header" id="mySidebar"><br>
         <div class="container row">
             <?php
             if (isset($_SESSION['userlogin']['imagem']) && !empty($_SESSION['userlogin']['imagem'])) {
