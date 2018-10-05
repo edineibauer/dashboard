@@ -43,7 +43,7 @@ if (!LOGGED) {
     <?php
     if(!defined("KEY")) {
         ?>
-        <div style="position:absolute; z-index: 99999999; bottom:10px;right: 20px;"
+        <div style="position:fixed; z-index: 99999999; bottom:10px;right: 20px;"
              class="padding-medium color-red opacity z-depth-2 radius">
             <i style="color:black">Segurança <b class="color-text-white">DESATIVADA! </b> Ative o software com <b>Urgência</b></i>
         </div>
