@@ -1,5 +1,5 @@
 <?php
-if (!LOGGED) {
+if (empty($_SESSION['userlogin'])) {
     $data['response'] = 3;
     $data['data'] = HOME . "login";
 } else {
