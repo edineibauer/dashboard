@@ -107,7 +107,7 @@ class UpdateDashboard
             foreach (Helper::listFolder(PATH_HOME . VENDOR . $lib . "/assets") as $file) {
                 $ext = pathinfo($file, PATHINFO_EXTENSION);
                 $name = pathinfo($file, PATHINFO_FILENAME);
-                if (in_array($ext, ['css', 'js']) && !file_exists(PATH_HOME . VENDOR . $lib . "/assets/{$name}.min.{$ext}")) {
+                if (in_array($ext, ['css', 'js']) && !file_exists(PATH_HOME . VENDOR . $lib . "/assets/{$name}.min.{$ext}") && !preg_match('/\w+\.min\.(css|js)$/i', $name)) {
                     if ($ext === "js")
                         $minifier = new Minify\JS(file_get_contents(PATH_HOME . VENDOR . $lib . "/assets/{$name}.js"));
                     else
