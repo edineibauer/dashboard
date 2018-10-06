@@ -17,10 +17,6 @@ html {
     margin-left: 200px
 }
 
-.dashboard-nav {
-    width: 200px !important
-}
-
 .dashboard-nav::-webkit-scrollbar {
     width: 5px;
 }
