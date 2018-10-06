@@ -76,6 +76,7 @@ class UpdateDashboard
         $this->updateDependenciesEntity();
         $this->checkAdminExist();
         $this->updateAssets();
+        $this->createMinifyAssetsLib();
         $this->updateServiceWorker($version);
         $this->result = true;
     }
@@ -97,6 +98,24 @@ class UpdateDashboard
                      unlink($file->getRealPath());
              }
          }*/
+    }
+
+    private function createMinifyAssetsLib()
+    {
+        //Para cada arquivo css e js presente nas bibliotecas dentro da pasta assets, minifica quando não existe
+        foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
+            foreach (Helper::listFolder(PATH_HOME . VENDOR . $lib . "/assets") as $file) {
+                $ext = pathinfo($file, PATHINFO_EXTENSION);
+                $name = pathinfo($file, PATHINFO_FILENAME);
+                if (in_array($ext, ['css', 'js']) && !file_exists(PATH_HOME . VENDOR . $lib . "/assets/{$name}.min.{$ext}")) {
+                    if ($ext === "js")
+                        $minifier = new Minify\JS(file_get_contents(PATH_HOME . VENDOR . $lib . "/assets/{$name}.js"));
+                    else
+                        $minifier = new Minify\CSS(file_get_contents(PATH_HOME . VENDOR . $lib . "/assets/{$name}.css"));
+                    $minifier->minify(PATH_HOME . VENDOR . $lib . "/assets/{$name}.min.{$ext}");
+                }
+            }
+        }
     }
 
     private function generateInfo(array $metadados): array
