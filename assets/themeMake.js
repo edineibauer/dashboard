@@ -232,7 +232,7 @@ function restoreTheme() {
         if (d === "no") {
             toast("tema anterior não encontrado", "warning");
         } else {
-            $("link[href='" + HOME + "assetsPublic/theme/theme.min.css?v=" + VERSION +"]'").attr("href", HOME + "assetsPublic/theme/theme.min.css?v=99" + Math.ceil(Math.random() * 1000));
+            $("link[href='" + HOME + "assetsPublic/theme.min.css?v=" + VERSION +"]'").attr("href", HOME + "assetsPublic/theme.min.css?v=99" + Math.ceil(Math.random() * 1000));
 
             setTimeout(function () {
                 toast("Pronto! Recarregando...");
@@ -246,7 +246,7 @@ function saveTheme() {
     if(localStorage.txt) {
         toast("Tema Salvo");
         post('dashboard', 'tema/saveTheme', {txt: localStorage.txt}, function () {
-            $("link[href='" + HOME + "assetsPublic/theme/theme.min.css?v=" + VERSION +"]'").attr("href", HOME + "assetsPublic/theme/theme.min.css?v=99" + Math.ceil(Math.random() * 1000));
+            $("link[href='" + HOME + "assetsPublic/theme.min.css?v=" + VERSION +"]'").attr("href", HOME + "assetsPublic/theme.min.css?v=99" + Math.ceil(Math.random() * 1000));
 
             setTimeout(function () {
                 toast("Aplicando...");

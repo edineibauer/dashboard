@@ -5,10 +5,10 @@ use MatthiasMullie\Minify;
 $txt = trim(strip_tags(filter_input(INPUT_POST, "txt", FILTER_DEFAULT)));
 
 //Cria backup
-copy(PATH_HOME . "assetsPublic/theme/theme.min.css", PATH_HOME . "assetsPublic/theme/theme-recovery.min.css");
+copy(PATH_HOME . "assetsPublic/theme.min.css", PATH_HOME . "assetsPublic/theme-recovery.min.css");
 //Cria novo theme
 $mini = new Minify\CSS($txt);
-$mini->minify(PATH_HOME . "assetsPublic/theme/theme.min.css");
+$mini->minify(PATH_HOME . "assetsPublic/theme.min.css");
 //Remove atual CSS
 unlink(PATH_HOME . "assetsPublic/core.min.css");
 
@@ -27,7 +27,7 @@ fwrite($f, file_get_contents(PATH_HOME . "composer.lock"));
 fclose($f);
 
 //Update Manifest
-$theme = explode("}", explode(".theme{", file_get_contents(PATH_HOME . "assetsPublic/theme/theme.min.css"))[1])[0];
+$theme = explode("}", explode(".theme{", file_get_contents(PATH_HOME . "assetsPublic/theme.min.css"))[1])[0];
 $themeBack = explode("!important", explode("background-color:", $theme)[1])[0];
 $themeColor = explode("!important", explode("color:", $theme)[1])[0];
 $content = str_replace(['{$sitename}', '{$favicon}', '{$theme}', '{$themeColor}'], [SITENAME, FAVICON, $themeBack, $themeColor], file_get_contents(PATH_HOME . VENDOR . "config/tpl/manifest.txt"));
