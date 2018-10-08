@@ -80,6 +80,7 @@ class UpdateDashboard
         $this->checkAdminExist();
         $this->updateAssets();
         $this->createMinifyAssetsLib();
+        $this->createManifest();
         $this->updateServiceWorker($version);
         $this->result = true;
     }
@@ -323,6 +324,22 @@ class UpdateDashboard
         }
 
         return [$listAssets, $listData];
+    }
+
+    /**
+     * Create Manifest
+     */
+    private function createManifest()
+    {
+        //Create Manifest
+        $theme = explode("}", explode(".theme{", file_get_contents(PATH_HOME . "assetsPublic/theme.min.css"))[1])[0];
+        $themeBack = explode("!important", explode("background-color:", $theme)[1])[0];
+        $themeColor = explode("!important", explode("color:", $theme)[1])[0];
+        $content = str_replace(['{$sitename}', '{$favicon}', '{$theme}', '{$themeColor}'], [SITENAME, FAVICON, $themeBack, $themeColor], file_get_contents(PATH_HOME . VENDOR . "config/tpl/manifest.txt"));
+
+        $fp = fopen(PATH_HOME . "manifest.json", "w");
+        fwrite($fp, $content);
+        fclose($fp);
     }
 
     /**

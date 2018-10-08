@@ -11,7 +11,7 @@ if(file_exists(PATH_HOME . "assetsPublic/theme-recovery.min.css")) {
     fwrite($f, $atual);
     fclose($f);
 
-    unlink(PATH_HOME . "assetsPublic/core.min.css");
+    new \Dashboard\UpdateDashboard(1);
 
     $data['data'] = "ok";
 
