@@ -22,7 +22,7 @@ if ($field === "PROTOCOL") {
 }
 
 if ((!empty($config['ssl']) && $config['ssl'] !== SSL) || (!empty($config['www']) && $config['www'] !== WWW)) {
-    new \Dashboard\UpdateDashboard(['manifest', 'serviceworker', 'assets', 'lib']);
+    new \Dashboard\UpdateDashboard(['manifest', 'assets', 'lib']);
 } elseif ((!empty($config['sitename']) && $config['sitename'] !== SITENAME) || (!empty($config['favicon']) && $config['favicon'] !== FAVICON)) {
-    new \Dashboard\UpdateDashboard(['manifest', 'serviceworker']);
+    new \Dashboard\UpdateDashboard(['manifest']);
 }

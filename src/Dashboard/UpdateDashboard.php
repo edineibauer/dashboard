@@ -102,17 +102,18 @@ class UpdateDashboard
             if (in_array('admin', $updates))
                 $this->checkAdminExist();
 
-            if (in_array('assets', $updates))
+            if (in_array('assets', $updates)) {
                 $this->updateAssets();
+                $this->updateServiceWorker($version);
+            }
 
             if (in_array('lib', $updates))
                 $this->createMinifyAssetsLib();
 
-            if (in_array('manifest', $updates))
+            if (in_array('manifest', $updates)) {
                 $this->createManifest();
-
-            if (in_array('serviceworker', $updates))
                 $this->updateServiceWorker($version);
+            }
         }
     }
 
