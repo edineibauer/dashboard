@@ -6,6 +6,7 @@ use EntityForm\EntityCreateEntityDatabase;
 use Helpers\Helper;
 use \ConnCrud\Read;
 use \Entity\Entity;
+use \Config\Config;
 use MatthiasMullie\Minify;
 
 class UpdateDashboard

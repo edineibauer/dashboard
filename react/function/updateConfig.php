@@ -9,7 +9,7 @@ foreach ($dados as $column => $value) {
         $config[$column] = $value;
 }
 
-Config::createConfig($config);
+Config\Config::createConfig($config);
 
 
 
