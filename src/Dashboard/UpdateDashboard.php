@@ -35,14 +35,18 @@ class UpdateDashboard
             $keyVersion = json_decode(file_get_contents(PATH_HOME . "composer.lock"), true)['content-hash'];
             if (file_exists(PATH_HOME . "_config/updates/version.txt")) {
                 $old = file_get_contents(PATH_HOME . "_config/updates/version.txt");
-                if ($old !== $keyVersion || $force) {
-                    $version = $this->updateVersionNumber();
-                    $this->updateVersion($keyVersion, $version);
-                }
+                if ($old !== $keyVersion || $force)
+                    $this->updateVersion($this->updateVersionNumber());
 
             } else {
+
+                //Cria Version hash info
                 Helper::createFolderIfNoExist(PATH_HOME . "_config/updates");
-                $this->updateVersion($keyVersion, VERSION);
+                $f = fopen(PATH_HOME . "_config/updates/version.txt", "w");
+                fwrite($f, $keyVersion);
+                fclose($f);
+
+                $this->updateVersion(VERSION);
             }
         }
     }
@@ -67,12 +71,11 @@ class UpdateDashboard
             Entity::add("usuarios", ["nome" => "Admin", "nome_usuario" => "admin", "setor" => 1, "email" => (!defined('EMAIL') ? "contato@ontab.com.br" : EMAIL), "password" => "mudar"]);
     }
 
-    private function updateVersion(string $versionKey, string $version = VERSION)
+    /**
+     * @param string $version
+     */
+    private function updateVersion(string $version)
     {
-        $f = fopen(PATH_HOME . "_config/updates/version.txt", "w+");
-        fwrite($f, $versionKey);
-        fclose($f);
-
         $this->updateDependenciesEntity();
         $this->checkAdminExist();
         $this->updateAssets();
@@ -88,16 +91,103 @@ class UpdateDashboard
         unlink(PATH_HOME . "assetsPublic/core.min.css");
         unlink(PATH_HOME . "assetsPublic/fonts.min.css");
 
-        //Remove todos os Assets Publics
-        /* foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator("assetsPublic", \RecursiveDirectoryIterator::SKIP_DOTS),
-             \RecursiveIteratorIterator::CHILD_FIRST) as $file) {
-             if (!in_array($file->getFileName(), ["theme.min.css", "theme", "theme.css", "theme-recovery.min.css", "theme-recovery.css"])) {
-                 if ($file->isDir())
-                     rmdir($file->getRealPath());
-                 elseif ($file->getFileName())
-                     unlink($file->getRealPath());
-             }
-         }*/
+        //gera core novamente
+        $f = [];
+        if (file_exists(PATH_HOME . "_config/param.json"))
+            $f = json_decode(file_get_contents(PATH_HOME . "_config/param.json"), true);
+
+        $list = implode('/', array_merge($f['js'], $f['css']));
+        $data = json_decode(file_get_contents(REPOSITORIO . "app/library/{$list}"), true);
+        if ($data['response'] === 1 && !empty($data['data'])) {
+            $this->createCoreJs($f['js'], $data['data'], 'core');
+            $this->createCoreCss($f['css'], $data['data'], 'core');
+        }
+
+        $this->createCoreFont($f['font'], $f['icon'], 'fonts');
+    }
+
+    /**
+     * @param array $jsList
+     * @param array $data
+     * @param string $name
+     */
+    private function createCoreJs(array $jsList, array $data, string $name = "core")
+    {
+        if (!file_exists(PATH_HOME . "assetsPublic/{$name}.min.js")) {
+            Helper::createFolderIfNoExist(PATH_HOME . "assetsPublic");
+            $minifier = new Minify\JS("");
+
+            foreach ($data as $datum) {
+                if (in_array($datum['nome'], $jsList)) {
+                    foreach ($datum['arquivos'] as $file) {
+                        if ($file['type'] === "text/javascript")
+                            $minifier->add($file['content']);
+                    }
+                }
+            }
+
+            $minifier->minify(PATH_HOME . "assetsPublic/{$name}.min.js");
+        }
+    }
+
+    /**
+     * @param array $cssList
+     * @param array $data
+     * @param string $name
+     */
+    private function createCoreCss(array $cssList, array $data, string $name = "core")
+    {
+        if (!file_exists(PATH_HOME . "assetsPublic/{$name}.min.css")) {
+            Helper::createFolderIfNoExist(PATH_HOME . "assetsPublic");
+            $minifier = new Minify\CSS("");
+
+            foreach ($data as $datum) {
+                if ($datum['nome'] === "theme") {
+                    foreach ($datum['arquivos'] as $file) {
+                        if ($file['type'] === "text/css") {
+                            if (!file_exists(PATH_HOME . "assetsPublic/theme.min.css")) {
+                                $mini = new Minify\CSS($file['content']);
+                                $mini->minify(PATH_HOME . "assetsPublic/theme.min.css");
+                                $minifier->add($file['content']);
+                            } else {
+                                $minifier->add(file_get_contents(PATH_HOME . "assetsPublic/theme.min.css"));
+                            }
+                        }
+                    }
+                } elseif (in_array($datum['nome'], $cssList)) {
+                    foreach ($datum['arquivos'] as $file) {
+                        if ($file['type'] === "text/css")
+                            $minifier->add($file['content']);
+                    }
+                }
+            }
+
+            $minifier->minify(PATH_HOME . "assetsPublic/{$name}.min.css");
+        }
+    }
+
+    /**
+     * @param $fontList
+     * @param null $iconList
+     * @param string $name
+     */
+    private function createCoreFont($fontList, $iconList = null, string $name = 'fonts')
+    {
+        if (!file_exists(PATH_HOME . "assetsPublic/{$name}.min.css")) {
+            Helper::createFolderIfNoExist(PATH_HOME . "assetsPublic");
+            $fonts = "";
+            if ($fontList) {
+                foreach ($fontList as $item)
+                    $fonts .= $this->getFontIcon($item, "font");
+            }
+            if ($iconList) {
+                foreach ($iconList as $item)
+                    $fonts .= $this->getFontIcon($item, "icon");
+            }
+
+            $m = new Minify\CSS($fonts);
+            $m->minify(PATH_HOME . "assetsPublic/{$name}.min.css");
+        }
     }
 
     private function createMinifyAssetsLib()
@@ -306,5 +396,40 @@ class UpdateDashboard
         } else {
             return $type[0];
         }
+    }
+
+    /**
+     * @param string $item
+     * @param string $tipo
+     * @return string
+     */
+    private function getFontIcon(string $item, string $tipo): string
+    {
+        $data = "";
+        $urlOnline = $tipo === "font" ? "https://fonts.googleapis.com/css?family=" . ucfirst($item) . ":100,300,400,700" : "https://fonts.googleapis.com/icon?family=" . ucfirst($item) . "+Icons";
+        if (Helper::isOnline($urlOnline)) {
+            $data = file_get_contents($urlOnline);
+            foreach (explode('url(', $data) as $i => $u) {
+                if ($i > 0) {
+                    $url = explode(')', $u)[0];
+                    if (!file_exists(PATH_HOME . "assetsPublic/fonts/" . pathinfo($url, PATHINFO_BASENAME))) {
+                        if (Helper::isOnline($url)) {
+                            Helper::createFolderIfNoExist(PATH_HOME . "assetsPublic/fonts");
+                            $f = fopen(PATH_HOME . "assetsPublic/fonts/" . pathinfo($url, PATHINFO_BASENAME), "w+");
+                            fwrite($f, file_get_contents($url));
+                            fclose($f);
+                            $data = str_replace($url, HOME . "assetsPublic/fonts/" . pathinfo($url, PATHINFO_BASENAME), $data);
+                        } else {
+                            $before = "@font-face" . explode("@font-face", $u[$i - 1])[1] . "url(";
+                            $after = explode("}", $u)[0];
+                            $data = str_replace($before . $after, "", $data);
+                        }
+                    } else {
+                        $data = str_replace($url, HOME . "assetsPublic/fonts/" . pathinfo($url, PATHINFO_BASENAME), $data);
+                    }
+                }
+            }
+        }
+        return $data;
     }
 }
