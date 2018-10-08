@@ -189,13 +189,20 @@ class UpdateDashboard
         }
     }
 
-    private function checkCacheContent($path, $listShell, $listData, string $version)
+    /**
+     * @param string $path
+     * @param array $listAssets
+     * @param array $listData
+     * @param string $version
+     * @return array
+     */
+    private function checkCacheContent(string $path, array $listAssets, array $listData, string $version)
     {
         //templates mustache
         if (file_exists(PATH_HOME . "{$path}tpl")) {
             foreach (Helper::listFolder(PATH_HOME . "{$path}tpl") as $tpl) {
                 if (preg_match('/\.mst$/i', $tpl))
-                    $listShell[] = HOME . "{$path}tpl/{$tpl}";
+                    $listAssets[] = HOME . "{$path}tpl/{$tpl}";
             }
         }
 
@@ -205,10 +212,10 @@ class UpdateDashboard
                 if (!preg_match('/\./i', $asset)) {
                     foreach (Helper::listFolder(PATH_HOME . "{$path}assets/{$asset}") as $a) {
                         if (!preg_match('/\.(js|css)$/i', $a) || preg_match('/\.min\.(js|css)$/i', $a))
-                            $listShell[] = HOME . "{$path}assets/{$asset}/{$a}" . (preg_match('/\.(js|css)$/i', $a) ? "?v=" . $version : "");
+                            $listAssets[] = HOME . "{$path}assets/{$asset}/{$a}" . (preg_match('/\.(js|css)$/i', $a) ? "?v=" . $version : "");
                     }
                 } elseif (!preg_match('/\.(js|css)$/i', $asset) || preg_match('/\.min\.(js|css)$/i', $asset)) {
-                    $listShell[] = HOME . "{$path}assets/{$asset}" . (preg_match('/\.(js|css)$/i', $asset) ? "?v=" . $version : "");
+                    $listAssets[] = HOME . "{$path}assets/{$asset}" . (preg_match('/\.(js|css)$/i', $asset) ? "?v=" . $version : "");
                 }
             }
         }
@@ -225,7 +232,7 @@ class UpdateDashboard
             }
         }
 
-        return [$listShell, $listData];
+        return [$listAssets, $listData];
     }
 
     /**
@@ -234,16 +241,17 @@ class UpdateDashboard
     private function updateServiceWorker(string $version)
     {
         $listShell = [HOME . "assetsPublic/core.min.js?v=" . $version, HOME . "assetsPublic/core.min.css?v=" . $version];
-        $listData = [substr(HOME, 0, -1)];
+        $listAssets = [];
+        $listData = [];
 
         if (!empty(LOGO)) {
-            $listShell[] = HOME . LOGO;
-            $listShell[] = HOME . 'image/' . LOGO . "&h=100";
+            $listAssets[] = HOME . LOGO;
+            $listAssets[] = HOME . 'image/' . LOGO . "&h=100";
         }
 
         if (!empty(FAVICON)) {
-            $listShell[] = HOME . FAVICON;
-            $listShell[] = HOME . 'image/' . FAVICON . "&h=100";
+            $listAssets[] = HOME . FAVICON;
+            $listAssets[] = HOME . 'image/' . FAVICON . "&h=100";
         }
 
         if (file_exists(PATH_HOME . "assetsPublic/fonts.min.css"))
@@ -255,24 +263,20 @@ class UpdateDashboard
         }
 
         //Cache Content Link Control
-        list($listShell, $listData) = $this->checkCacheContent(VENDOR . "link-control/", $listShell, $listData, $version);
-        list($listShell, $listData) = $this->checkCacheContent(VENDOR . "session-control/", $listShell, $listData, $version);
-        list($listShell, $listData) = $this->checkCacheContent("public/", $listShell, $listData, $version);
-
-        if (file_exists(PATH_HOME . "service-worker.js")) {
-            $worker = file_get_contents(PATH_HOME . "service-worker.js");
-            $shell = explode("'", explode("swShellConn-", $worker)[1])[0];
-            $data = explode("'", explode("swDataConn-", $worker)[1])[0];
-        } else {
-            $shell = "1.0.0";
-            $data = "1.0.0";
-        }
+        list($listAssets, $listData) = $this->checkCacheContent("public/", $listAssets, $listData, $version);
 
         $f = fopen(PATH_HOME . "service-worker.js", "w");
-        $file = file_get_contents(PATH_HOME . VENDOR . "config/tpl/service-worker.txt");
-        $content = str_replace("var filesToCache = [];", "var filesToCache = " . json_encode($listShell, JSON_UNESCAPED_SLASHES) . ";", $file);
-        $content = str_replace("var filesToCacheAfter = [];", "var filesToCacheAfter = " . json_encode($listData, JSON_UNESCAPED_SLASHES) . ";", $content);
-        $content = str_replace(["swShellConn-{$shell}'", "swDataConn-{$data}'"], ["swShellConn-{$version}'", "swDataConn-{$version}'"], $content);
+
+        $dadosService = json_decode(str_replace('{$home}', substr(HOME, 0, -1), file_get_contents(PATH_HOME . VENDOR . 'config/tpl/service-worker.json')), true);
+        $dadosService['filesShell'] = array_merge($dadosService['filesShell'], $listShell);
+        $dadosService['filesAssets'] = array_merge($dadosService['filesAssets'], $listAssets);
+        $dadosService['filesData'] = array_merge($dadosService['filesData'], $listData);
+
+        $content = file_get_contents(PATH_HOME . VENDOR . "config/tpl/service-worker.txt");
+        $content = str_replace("let filesShell = [];", "let filesShell = " . json_encode($dadosService['filesShell'], JSON_UNESCAPED_SLASHES) . ";", $content);
+        $content = str_replace("let filesAssets = [];", "let filesAssets = " . json_encode($dadosService['filesAssets'], JSON_UNESCAPED_SLASHES) . ";", $content);
+        $content = str_replace("let filesData = [];", "let filesData = " . json_encode($dadosService['filesData'], JSON_UNESCAPED_SLASHES) . ";", $content);
+        $content = str_replace("-1.0.0';", $version . "';", $content);
 
         fwrite($f, $content);
         fclose($f);
