@@ -240,7 +240,7 @@ class UpdateDashboard
      */
     private function updateServiceWorker(string $version)
     {
-        $listShell = [HOME . "assetsPublic/core.min.js?v=" . $version, HOME . "assetsPublic/core.min.css?v=" . $version];
+        $listShell = [HOME . "assetsPublic/core.min.js?v=" . $version, HOME . "assetsPublic/core.min.css?v=" . $version, HOME . "assetsPublic/fonts.min.css?v=" . $version];
         $listAssets = [];
         $listData = [];
 
@@ -253,9 +253,6 @@ class UpdateDashboard
             $listAssets[] = HOME . FAVICON;
             $listAssets[] = HOME . 'image/' . FAVICON . "&h=100";
         }
-
-        if (file_exists(PATH_HOME . "assetsPublic/fonts.min.css"))
-            $listShell[] = HOME . "assetsPublic/fonts.min.css?v=" . $version;
 
         foreach (Helper::listFolder(PATH_HOME . "assetsPublic/fonts") as $font) {
             if (preg_match('/\.(ttf|woff|woff2)$/', $font))
@@ -276,7 +273,7 @@ class UpdateDashboard
         $content = str_replace("let filesShell = [];", "let filesShell = " . json_encode($dadosService['filesShell'], JSON_UNESCAPED_SLASHES) . ";", $content);
         $content = str_replace("let filesAssets = [];", "let filesAssets = " . json_encode($dadosService['filesAssets'], JSON_UNESCAPED_SLASHES) . ";", $content);
         $content = str_replace("let filesData = [];", "let filesData = " . json_encode($dadosService['filesData'], JSON_UNESCAPED_SLASHES) . ";", $content);
-        $content = str_replace("-1.0.0';", $version . "';", $content);
+        $content = str_replace("-1.0.0';", "-{$version}';", $content);
 
         fwrite($f, $content);
         fclose($f);
