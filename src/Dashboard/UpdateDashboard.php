@@ -14,11 +14,11 @@ class UpdateDashboard
 
     /**
      * UpdateDashboard constructor.
-     * @param mixed $force
+     * @param array $custom
      */
-    public function __construct($force = null)
+    public function __construct(array $custom = [])
     {
-        $this->start($force);
+        $this->start($custom);
     }
 
     /**
@@ -29,14 +29,21 @@ class UpdateDashboard
         return $this->result;
     }
 
-    private function start($force)
+    /**
+     * @param array $custom
+     */
+    private function start(array $custom)
     {
-        if(file_exists(PATH_HOME . "composer.lock")) {
+        if (file_exists(PATH_HOME . "composer.lock")) {
             $keyVersion = json_decode(file_get_contents(PATH_HOME . "composer.lock"), true)['content-hash'];
-            if (file_exists(PATH_HOME . "_config/updates/version.txt")) {
+            if (!empty($custom)) {
+                $version = (in_array('assets', $custom) || in_array('lib', $custom) || in_array('manifest', $custom) || in_array('serviceworker', $custom) ? $this->updateVersionNumber() : VERSION);
+                $this->updateVersion($version, $custom);
+
+            } elseif (file_exists(PATH_HOME . "_config/updates/version.txt")) {
                 $old = file_get_contents(PATH_HOME . "_config/updates/version.txt");
-                if ($old !== $keyVersion || $force)
-                    $this->updateVersion($this->updateVersionNumber());
+                if ($old !== $keyVersion)
+                    $this->updateVersion($this->updateVersionNumber(), $custom);
 
             } else {
 
@@ -46,7 +53,7 @@ class UpdateDashboard
                 fwrite($f, $keyVersion);
                 fclose($f);
 
-                $this->updateVersion(VERSION);
+                $this->updateVersion(VERSION, $custom);
             }
         }
     }
@@ -73,16 +80,40 @@ class UpdateDashboard
 
     /**
      * @param string $version
+     * @param array $updates
      */
-    private function updateVersion(string $version)
+    private function updateVersion(string $version, array $updates)
     {
-        $this->updateDependenciesEntity();
-        $this->checkAdminExist();
-        $this->updateAssets();
-        $this->createMinifyAssetsLib();
-        $this->createManifest();
-        $this->updateServiceWorker($version);
-        $this->result = true;
+        if (empty($updates)) {
+            $this->updateDependenciesEntity();
+            $this->checkAdminExist();
+            $this->updateAssets();
+            $this->createMinifyAssetsLib();
+            $this->createManifest();
+            $this->updateServiceWorker($version);
+            $this->result = true;
+        } else {
+
+            //atualizações personalizadas
+
+            if (in_array('entity', $updates))
+                $this->updateDependenciesEntity();
+
+            if (in_array('admin', $updates))
+                $this->checkAdminExist();
+
+            if (in_array('assets', $updates))
+                $this->updateAssets();
+
+            if (in_array('lib', $updates))
+                $this->createMinifyAssetsLib();
+
+            if (in_array('manifest', $updates))
+                $this->createManifest();
+
+            if (in_array('serviceworker', $updates))
+                $this->updateServiceWorker($version);
+        }
     }
 
     private function updateAssets()
@@ -331,6 +362,9 @@ class UpdateDashboard
      */
     private function createManifest()
     {
+        //Cria Tamanhos de Ícones
+        $this->createFaviconSizes();
+
         //Create Manifest
         $theme = explode("}", explode(".theme{", file_get_contents(PATH_HOME . "assetsPublic/theme.min.css"))[1])[0];
         $themeBack = explode("!important", explode("background-color:", $theme)[1])[0];
@@ -343,10 +377,29 @@ class UpdateDashboard
     }
 
     /**
+     *
+     */
+    private function createFaviconSizes()
+    {
+        $ext = pathinfo(FAVICON, PATHINFO_EXTENSION);
+        $name = pathinfo(FAVICON, PATHINFO_FILENAME);
+        $fav = \WideImage\WideImage::load(PATH_HOME . FAVICON);
+        $fav->resize(256, 256)->saveToFile(PATH_HOME . "uploads/site/{$name}-256.{$ext}");
+        $fav->resize(192, 192)->saveToFile(PATH_HOME . "uploads/site/{$name}-192.{$ext}");
+        $fav->resize(152, 152)->saveToFile(PATH_HOME . "uploads/site/{$name}-152.{$ext}");
+        $fav->resize(144, 144)->saveToFile(PATH_HOME . "uploads/site/{$name}-144.{$ext}");
+        $fav->resize(128, 128)->saveToFile(PATH_HOME . "uploads/site/{$name}-128.{$ext}");
+        $fav->resize(90, 90)->saveToFile(PATH_HOME . "uploads/site/{$name}-90.{$ext}");
+    }
+
+    /**
      * @param string $version
      */
     private function updateServiceWorker(string $version)
     {
+        //Recria htacces para garantir que links estarão correto
+        Config::createHtaccess();
+
         $listShell = [HOME . "assetsPublic/core.min.js?v=" . $version, HOME . "assetsPublic/core.min.css?v=" . $version, HOME . "assetsPublic/fonts.min.css?v=" . $version];
         $listAssets = [];
         $listData = [];

@@ -26,7 +26,7 @@ if ($read->getResult()) {
         $dados['reautor'] .= "<option value='{$log['id']}'>{$log['nome']}</option>";
 }
 
-$form = new \FormCrud\Form("config");
+//Garante criação dos dados de configuração caso não exista
 $read->exeRead(PRE . "config", "WHERE id=1");
 if (!$read->getResult()) {
     $criarData = [
@@ -43,7 +43,7 @@ if (!$read->getResult()) {
     $d->save();
 }
 
-$form->setCallback('saveConfigBase');
+$form = new \FormCrud\Form("config");
 $dados['configForm'] = $form->getForm(1);
 
 $data['data'] = $tpl->getShow('settings', $dados);

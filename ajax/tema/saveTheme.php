@@ -11,6 +11,6 @@ copy(PATH_HOME . "assetsPublic/theme.min.css", PATH_HOME . "assetsPublic/theme-r
 $mini = new Minify\CSS($txt);
 $mini->minify(PATH_HOME . "assetsPublic/theme.min.css");
 
-new \Dashboard\UpdateDashboard(1);
+new \Dashboard\UpdateDashboard(['assets']);
 
 $data['data'] = "ok";

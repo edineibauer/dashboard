@@ -1,3 +1,3 @@
 <?php
-$up = new \Dashboard\UpdateDashboard(1);
+$up = new \Dashboard\UpdateDashboard(['assets', 'lib', 'manifest', 'serviceworker']);
 $data['data'] = "1";
