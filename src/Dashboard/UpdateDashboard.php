@@ -120,9 +120,14 @@ class UpdateDashboard
     private function updateAssets()
     {
         //Remove only core Assets
-        unlink(PATH_HOME . "assetsPublic/core.min.js");
-        unlink(PATH_HOME . "assetsPublic/core.min.css");
-        unlink(PATH_HOME . "assetsPublic/fonts.min.css");
+        if (file_exists(PATH_HOME . "assetsPublic/core.min.js"))
+            unlink(PATH_HOME . "assetsPublic/core.min.js");
+
+        if (file_exists(PATH_HOME . "assetsPublic/core.min.css"))
+            unlink(PATH_HOME . "assetsPublic/core.min.css");
+
+        if (file_exists(PATH_HOME . "assetsPublic/fonts.min.css"))
+            unlink(PATH_HOME . "assetsPublic/fonts.min.css");
 
         //gera core novamente
         $f = [];
