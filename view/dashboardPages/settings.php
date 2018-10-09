@@ -1,7 +1,6 @@
 <?php
 $tpl = new \Helpers\Template("dashboard");
 $read = new \ConnCrud\Read();
-$dados['reautor'] = "";
 $dados['dominio'] = DOMINIO === "dashboard" ? "" : VENDOR . "dashboard/";
 $dados['version'] = VERSION;
 $dados['config'] = [
@@ -19,12 +18,6 @@ $dados['config'] = [
     "email" => defined('EMAIL') && !empty(EMAIL) ? EMAIL : "",
     "emailkey" => defined('EMAILKEY') && !empty(EMAILKEY) ? EMAILKEY : "",
 ];
-
-$read->exeRead("usuarios", "ORDER BY setor,nivel,nome DESC LIMIT 50");
-if ($read->getResult()) {
-    foreach ($read->getResult() as $log)
-        $dados['reautor'] .= "<option value='{$log['id']}'>{$log['nome']}</option>";
-}
 
 //Garante criação dos dados de configuração caso não exista
 $read->exeRead(PRE . "config", "WHERE id=1");

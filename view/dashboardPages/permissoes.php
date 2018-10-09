@@ -29,4 +29,4 @@ foreach ($allow['values'] as $i => $setor) {
         ]);
 }
 
-$data['data'] = $tpl->getShow("dev", $dados);
+$data['data'] = $tpl->getShow("permissoes", $dados);
