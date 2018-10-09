@@ -38,14 +38,18 @@ class UpdateDashboard
         if (file_exists(PATH_HOME . "composer.lock")) {
             $keyVersion = json_decode(file_get_contents(PATH_HOME . "composer.lock"), true)['content-hash'];
             if (!empty($custom)) {
-                $version = (in_array('assets', $custom) || in_array('lib', $custom) || in_array('manifest', $custom) || in_array('serviceworker', $custom) ? $this->updateVersionNumber() : VERSION);
-                $this->updateVersion($version, $custom);
+
+                if(in_array('assets', $custom) || in_array('lib', $custom) || in_array('manifest', $custom) || in_array('serviceworker', $custom)
+                    $this->updateVersionNumber();
+
+                $this->updateVersion($custom);
 
             } elseif (file_exists(PATH_HOME . "_config/updates/version.txt")) {
                 $old = file_get_contents(PATH_HOME . "_config/updates/version.txt");
-                if ($old !== $keyVersion)
-                    $this->updateVersion($this->updateVersionNumber(), $custom);
-
+                if ($old !== $keyVersion) {
+                    $this->updateVersionNumber();
+                    $this->updateVersion($custom);
+                }
             } else {
 
                 //Cria Version hash info
@@ -54,21 +58,19 @@ class UpdateDashboard
                 fwrite($f, $keyVersion);
                 fclose($f);
 
-                $this->updateVersion(VERSION, $custom);
+                $this->updateVersion($custom);
             }
         }
     }
 
+    /**
+     * Atualiza a Versão do site
+     */
     private function updateVersionNumber()
     {
-        $conf = file_get_contents(PATH_HOME . "_config/config.php");
-        $newVersion = VERSION + 0.01;
-        $conf = str_replace("'VERSION', '" . VERSION . "')", "'VERSION', '{$newVersion}')", $conf);
-        $f = fopen(PATH_HOME . "_config/config.php", "w");
-        fwrite($f, $conf);
-        fclose($f);
-
-        return $newVersion;
+        $dados = json_decode(file_get_contents(PATH_HOME . "_config/config.json"), true);
+        $dados['version'] += 0.01;
+        Config::createConfig($dados);
     }
 
     private function checkAdminExist()
@@ -80,19 +82,19 @@ class UpdateDashboard
     }
 
     /**
-     * @param string $version
      * @param array $updates
      */
-    private function updateVersion(string $version, array $updates)
+    private function updateVersion(array $updates)
     {
+        $dados = json_decode(file_get_contents(PATH_HOME . "_config/config.json"), true);
+
         if (empty($updates)) {
             $this->updateDependenciesEntity();
             $this->checkAdminExist();
             $this->updateAssets();
             $this->createMinifyAssetsLib();
-            $this->createManifest();
-            $this->updateServiceWorker($version);
-            $this->result = true;
+            $this->createManifest($dados);
+            $this->updateServiceWorker($dados);
         } else {
 
             //atualizações personalizadas
@@ -105,17 +107,19 @@ class UpdateDashboard
 
             if (in_array('assets', $updates)) {
                 $this->updateAssets();
-                $this->updateServiceWorker($version);
+                $this->updateServiceWorker($dados);
             }
 
             if (in_array('lib', $updates))
                 $this->createMinifyAssetsLib();
 
             if (in_array('manifest', $updates)) {
-                $this->createManifest();
-                $this->updateServiceWorker($version);
+                $this->createManifest($dados);
+                $this->updateServiceWorker($dados);
             }
         }
+
+        $this->result = true;
     }
 
     private function updateAssets()
@@ -366,19 +370,20 @@ class UpdateDashboard
 
     /**
      * Create Manifest
+     * @param array $dados
      */
-    private function createManifest()
+    private function createManifest(array $dados)
     {
         //Cria Tamanhos de Ícones
-        $this->createFaviconSizes();
+        $this->createFaviconSizes($dados);
 
         //Create Manifest
         $theme = explode("}", explode(".theme{", file_get_contents(PATH_HOME . "assetsPublic/theme.min.css"))[1])[0];
         $themeBack = explode("!important", explode("background-color:", $theme)[1])[0];
         $themeColor = explode("!important", explode("color:", $theme)[1])[0];
-        $faviconName = pathinfo(FAVICON, PATHINFO_FILENAME);
-        $faviconExt = pathinfo(FAVICON, PATHINFO_EXTENSION);
-        $content = str_replace(['{$sitename}', '{$faviconName}', '{$faviconExt}', '{$theme}', '{$themeColor}'], [SITENAME, $faviconName, $faviconExt, $themeBack, $themeColor], file_get_contents(PATH_HOME . VENDOR . "config/tpl/manifest.txt"));
+        $faviconName = pathinfo($dados['favicon'], PATHINFO_FILENAME);
+        $faviconExt = pathinfo($dados['favicon'], PATHINFO_EXTENSION);
+        $content = str_replace(['{$sitename}', '{$faviconName}', '{$faviconExt}', '{$theme}', '{$themeColor}'], [$dados['sitename'], $faviconName, $faviconExt, $themeBack, $themeColor], file_get_contents(PATH_HOME . VENDOR . "config/tpl/manifest.txt"));
 
         $fp = fopen(PATH_HOME . "manifest.json", "w");
         fwrite($fp, $content);
@@ -386,13 +391,13 @@ class UpdateDashboard
     }
 
     /**
-     *
+     * @param array $dados
      */
-    private function createFaviconSizes()
+    private function createFaviconSizes(array $dados)
     {
-        $ext = pathinfo(FAVICON, PATHINFO_EXTENSION);
-        $name = pathinfo(FAVICON, PATHINFO_FILENAME);
-        $fav = \WideImage\WideImage::load(PATH_HOME . FAVICON);
+        $ext = pathinfo($dados['favicon'], PATHINFO_EXTENSION);
+        $name = pathinfo($dados['favicon'], PATHINFO_FILENAME);
+        $fav = \WideImage\WideImage::load(PATH_HOME . $dados['favicon']);
         $fav->resize(256, 256)->saveToFile(PATH_HOME . "uploads/site/{$name}-256.{$ext}");
         $fav->resize(192, 192)->saveToFile(PATH_HOME . "uploads/site/{$name}-192.{$ext}");
         $fav->resize(152, 152)->saveToFile(PATH_HOME . "uploads/site/{$name}-152.{$ext}");
@@ -402,25 +407,25 @@ class UpdateDashboard
     }
 
     /**
-     * @param string $version
+     * @param array $dados
      */
-    private function updateServiceWorker(string $version)
+    private function updateServiceWorker(array $dados)
     {
         //Recria htacces para garantir que links estarão correto
         Config::createHtaccess();
 
-        $listShell = [HOME . "assetsPublic/core.min.js?v=" . $version, HOME . "assetsPublic/core.min.css?v=" . $version, HOME . "assetsPublic/fonts.min.css?v=" . $version];
+        $listShell = [HOME . "assetsPublic/core.min.js?v=" . $dados['version'], HOME . "assetsPublic/core.min.css?v=" . $dados['version'], HOME . "assetsPublic/fonts.min.css?v=" . $dados['version']];
         $listAssets = [];
         $listData = [];
 
-        if (!empty(LOGO)) {
-            $listAssets[] = HOME . LOGO;
-            $listAssets[] = HOME . 'image/' . LOGO . "&h=100";
+        if (!empty($dados['logo'])) {
+            $listAssets[] = HOME . $dados['logo'];
+            $listAssets[] = HOME . 'image/' . $dados['logo'] . "&h=100";
         }
 
-        if (!empty(FAVICON)) {
-            $listAssets[] = HOME . FAVICON;
-            $listAssets[] = HOME . 'image/' . FAVICON . "&h=100";
+        if (!empty($dados['favicon'])) {
+            $listAssets[] = HOME . $dados['favicon'];
+            $listAssets[] = HOME . 'image/' . $dados['favicon'] . "&h=100";
         }
 
         foreach (Helper::listFolder(PATH_HOME . "assetsPublic/fonts") as $font) {
@@ -429,7 +434,7 @@ class UpdateDashboard
         }
 
         //Cache Content Link Control
-        list($listAssets, $listData) = $this->checkCacheContent("public/", $listAssets, $listData, $version);
+        list($listAssets, $listData) = $this->checkCacheContent("public/", $listAssets, $listData, $dados['version']);
 
         $f = fopen(PATH_HOME . "service-worker.js", "w");
 
@@ -442,7 +447,7 @@ class UpdateDashboard
         $content = str_replace("let filesShell = [];", "let filesShell = " . json_encode($dadosService['filesShell'], JSON_UNESCAPED_SLASHES) . ";", $content);
         $content = str_replace("let filesAssets = [];", "let filesAssets = " . json_encode($dadosService['filesAssets'], JSON_UNESCAPED_SLASHES) . ";", $content);
         $content = str_replace("let filesData = [];", "let filesData = " . json_encode($dadosService['filesData'], JSON_UNESCAPED_SLASHES) . ";", $content);
-        $content = str_replace("-1.0.0';", "-{$version}';", $content);
+        $content = str_replace("-1.0.0';", "-{$dados['version']}';", $content);
 
         fwrite($f, $content);
         fclose($f);
