@@ -4,20 +4,20 @@
     "title": "Tema",
     "action": "page",
     "lib": "dashboard",
-    "file": "dashboard/tema"
+    "file": "dashboardPages/tema"
   },
   {
     "icon": "settings",
     "title": "Configurações",
     "action": "page",
     "lib": "dashboard",
-    "file": "dashboard/settings"
+    "file": "dashboardPages/settings"
   },
   {
     "icon": "settings_input_component",
     "title": "Desenvolvimento",
     "action": "page",
     "lib": "dashboard",
-    "file": "dashboard/desenvolvimento"
+    "file": "dashboardPages/desenvolvimento"
   }
 ]

@@ -30,7 +30,7 @@ if (empty($_SESSION['userlogin'])) {
         <hr style="margin: 10px 0 0;border-top: solid 1px #ddd;">
         <div class="bar-block">
             <?php
-            require_once 'dashboard/inc/menu.php';
+            require_once 'dashboardPages/inc/menu.php';
             ?>
             <br><br>
         </div>
