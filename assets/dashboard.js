@@ -30,7 +30,8 @@ function requestDashboardEntity(entity) {
 }
 
 function setDashboardContent(content) {
-    $("#dashboard").html(content)
+    if (typeof(content) === "string")
+        $("#dashboard").html(content)
 }
 
 $(function () {
