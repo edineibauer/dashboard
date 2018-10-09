@@ -60,7 +60,7 @@ $(function () {
         })
     });
     setTimeout(function () {
-        get("panel", function (data) {
+        get("dashboard/panel", function (data) {
             $("#dashboard").html(data.content);
             spaceHeader()
         })

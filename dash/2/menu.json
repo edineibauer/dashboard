@@ -4,13 +4,13 @@
     "title": "Tema",
     "action": "page",
     "lib": "dashboard",
-    "file": "tema"
+    "file": "dashboard/tema"
   },
   {
     "icon": "settings",
     "title": "Configurações",
     "action": "page",
     "lib": "dashboard",
-    "file": "settings"
+    "file": "dashboard/settings"
   }
 ]
