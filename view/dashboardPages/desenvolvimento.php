@@ -1,6 +1,8 @@
 <?php
 
 $tpl = new \Helpers\Template("dashboard");
+$read = new \ConnCrud\Read();
+
 $routesAll = [DOMINIO];
 foreach (\Helpers\Helper::listFolder(PATH_HOME . VENDOR) as $item)
     $routesAll[] = $item;
