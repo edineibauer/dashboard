@@ -5,21 +5,16 @@ foreach ($dados as $column => $value) {
     $column = strtolower(trim(strip_tags($column)));
     $column = str_replace(['nome_do_site', 'subtitulo', 'descricao', 'https'], ['sitename', 'sitesub', 'sitedesc', 'ssl'], $column);
     $value = trim(strip_tags($value));
-    if (isset($config[$column]))
-        $config[$column] = $value;
+    if (isset($config[$column])) {
+        if($column === "favicon" || $column === "logo") {
+            $config[$column] = json_decode($value, true)[0]['url'];
+        } else {
+            $config[$column] = $value;
+        }
+    }
 }
 
 Config\Config::createConfig($config);
-
-
-
-if ($field === "PROTOCOL") {
-    $www = explode("'", explode("'WWW', '", $file)[1])[0];
-    createHtaccess($www, DOMINIO, $value);
-} elseif ($field === "WWW") {
-    $prot = explode("'", explode("'PROTOCOL', '", $file)[1])[0];
-    createHtaccess($value, DOMINIO, $prot);
-}
 
 if ((!empty($config['ssl']) && $config['ssl'] !== SSL) || (!empty($config['www']) && $config['www'] !== WWW)) {
     new \Dashboard\UpdateDashboard(['manifest', 'assets', 'lib']);

@@ -376,7 +376,9 @@ class UpdateDashboard
         $theme = explode("}", explode(".theme{", file_get_contents(PATH_HOME . "assetsPublic/theme.min.css"))[1])[0];
         $themeBack = explode("!important", explode("background-color:", $theme)[1])[0];
         $themeColor = explode("!important", explode("color:", $theme)[1])[0];
-        $content = str_replace(['{$sitename}', '{$favicon}', '{$theme}', '{$themeColor}'], [SITENAME, FAVICON, $themeBack, $themeColor], file_get_contents(PATH_HOME . VENDOR . "config/tpl/manifest.txt"));
+        $faviconName = pathinfo(FAVICON, PATHINFO_FILENAME);
+        $faviconExt = pathinfo(FAVICON, PATHINFO_EXTENSION);
+        $content = str_replace(['{$sitename}', '{$faviconName}', '{$faviconExt}', '{$theme}', '{$themeColor}'], [SITENAME, $faviconName, $faviconExt, $themeBack, $themeColor], file_get_contents(PATH_HOME . VENDOR . "config/tpl/manifest.txt"));
 
         $fp = fopen(PATH_HOME . "manifest.json", "w");
         fwrite($fp, $content);
