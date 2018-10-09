@@ -135,7 +135,7 @@ class UpdateDashboard
         if (file_exists(PATH_HOME . "_config/param.json"))
             $f = json_decode(file_get_contents(PATH_HOME . "_config/param.json"), true);
 
-        $list = implode('/', array_merge($f['js'], $f['css']));
+        $list = implode('/', array_unique(array_merge($f['js'], $f['css'])));
         $data = json_decode(file_get_contents(REPOSITORIO . "app/library/{$list}"), true);
         if ($data['response'] === 1 && !empty($data['data'])) {
             $this->createCoreJs($f['js'], $data['data'], 'core');
