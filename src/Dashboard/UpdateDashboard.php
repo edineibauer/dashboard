@@ -39,7 +39,7 @@ class UpdateDashboard
             $keyVersion = json_decode(file_get_contents(PATH_HOME . "composer.lock"), true)['content-hash'];
             if (!empty($custom)) {
 
-                if(in_array('assets', $custom) || in_array('lib', $custom) || in_array('manifest', $custom) || in_array('serviceworker', $custom)
+                if(in_array('assets', $custom) || in_array('lib', $custom) || in_array('manifest', $custom) || in_array('serviceworker', $custom))
                     $this->updateVersionNumber();
 
                 $this->updateVersion($custom);
