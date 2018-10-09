@@ -36,6 +36,8 @@ class UpdateDashboard
     private function start(array $custom)
     {
         if (file_exists(PATH_HOME . "composer.lock")) {
+            $this->checkConfigJsonExist();
+
             $keyVersion = json_decode(file_get_contents(PATH_HOME . "composer.lock"), true)['content-hash'];
             if (!empty($custom)) {
 
@@ -60,6 +62,27 @@ class UpdateDashboard
 
                 $this->updateVersion($custom);
             }
+        }
+    }
+
+    /**
+     * Cria arquivo de configurações json se não existir
+     */
+    private function checkConfigJsonExist()
+    {
+        if(!file_exists(PATH_HOME . "_config/config.json")) {
+            $conf = file_get_contents(PATH_HOME . "_config/config.php");
+
+            $config = [];
+            foreach (explode("define('", $conf) as $i => $item) {
+                if($i > 0) {
+                    $d = explode("'", $item);
+                    $config[strtolower(trim($d[0]))] = $d[2];
+                }
+            }
+
+            Config::writeFile("_config/.htaccess", "Deny from all");
+            Config::createConfig($config);
         }
     }
 
