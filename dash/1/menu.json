@@ -14,10 +14,17 @@
     "file": "dashboardPages/settings"
   },
   {
-    "icon": "settings_input_component",
+    "icon": "settings_ethernet",
     "title": "Desenvolvimento",
     "action": "page",
     "lib": "dashboard",
     "file": "dashboardPages/desenvolvimento"
+  },
+  {
+    "icon": "block",
+    "title": "Permissões",
+    "action": "page",
+    "lib": "dashboard",
+    "file": "dashboardPages/permissoes"
   }
 ]
