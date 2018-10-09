@@ -184,23 +184,29 @@ class UpdateDashboard
             Helper::createFolderIfNoExist(PATH_HOME . "assetsPublic");
             $minifier = new Minify\CSS("");
 
-            foreach ($data as $datum) {
-                if ($datum['nome'] === "theme") {
-                    foreach ($datum['arquivos'] as $file) {
-                        if ($file['type'] === "text/css") {
-                            if (!file_exists(PATH_HOME . "assetsPublic/theme.min.css")) {
-                                $mini = new Minify\CSS($file['content']);
-                                $mini->minify(PATH_HOME . "assetsPublic/theme.min.css");
-                                $minifier->add($file['content']);
-                            } else {
-                                $minifier->add(file_get_contents(PATH_HOME . "assetsPublic/theme.min.css"));
+            foreach ($cssList as $item) {
+                $datum = array_values(array_filter(array_map(function ($d) use ($item) {
+                    return $d['nome'] === $item ? $d : [];
+                }, $data)))[0];
+
+                if(!empty($datum['arquivos'])) {
+                    if ($item === "theme") {
+                        foreach ($datum['arquivos'] as $file) {
+                            if ($file['type'] === "text/css") {
+                                if (!file_exists(PATH_HOME . "assetsPublic/theme.min.css")) {
+                                    $mini = new Minify\CSS($file['content']);
+                                    $mini->minify(PATH_HOME . "assetsPublic/theme.min.css");
+                                    $minifier->add($file['content']);
+                                } else {
+                                    $minifier->add(file_get_contents(PATH_HOME . "assetsPublic/theme.min.css"));
+                                }
                             }
                         }
-                    }
-                } elseif (in_array($datum['nome'], $cssList)) {
-                    foreach ($datum['arquivos'] as $file) {
-                        if ($file['type'] === "text/css")
-                            $minifier->add($file['content']);
+                    } else {
+                        foreach ($datum['arquivos'] as $file) {
+                            if ($file['type'] === "text/css")
+                                $minifier->add($file['content']);
+                        }
                     }
                 }
             }
