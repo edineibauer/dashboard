@@ -431,6 +431,10 @@ class UpdateDashboard
     {
         $ext = pathinfo($dados['favicon'], PATHINFO_EXTENSION);
         $name = pathinfo($dados['favicon'], PATHINFO_FILENAME);
+
+        Helper::createFolderIfNoExist(PATH_HOME . "uploads");
+        Helper::createFolderIfNoExist(PATH_HOME . "uploads/site");
+
         $fav = \WideImage\WideImage::load(PATH_HOME . $dados['favicon']);
         $fav->resize(256, 256)->saveToFile(PATH_HOME . "uploads/site/{$name}-256.{$ext}");
         $fav->resize(192, 192)->saveToFile(PATH_HOME . "uploads/site/{$name}-192.{$ext}");
