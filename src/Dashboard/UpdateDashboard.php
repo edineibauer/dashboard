@@ -42,14 +42,14 @@ class UpdateDashboard
             if (!empty($custom)) {
 
                 if(in_array('assets', $custom) || in_array('lib', $custom) || in_array('manifest', $custom) || in_array('serviceworker', $custom))
-                    $this->updateVersionNumber();
+                    $this->updateVersionNumber($keyVersion);
 
                 $this->updateVersion($custom);
 
             } elseif (file_exists(PATH_HOME . "_config/updates/version.txt")) {
                 $old = file_get_contents(PATH_HOME . "_config/updates/version.txt");
                 if ($old !== $keyVersion) {
-                    $this->updateVersionNumber();
+                    $this->updateVersionNumber($keyVersion);
                     $this->updateVersion($custom);
                 }
             } else {
@@ -88,12 +88,17 @@ class UpdateDashboard
 
     /**
      * Atualiza a Versão do site
+     * @param string $hash
      */
-    private function updateVersionNumber()
+    private function updateVersionNumber(string $hash)
     {
         $dados = json_decode(file_get_contents(PATH_HOME . "_config/config.json"), true);
         $dados['version'] += 0.01;
         Config::createConfig($dados);
+
+        $f = fopen(PATH_HOME . "_config/updates/version.txt", "w");
+        fwrite($f, $hash);
+        fclose($f);
     }
 
     private function checkAdminExist()
@@ -269,7 +274,7 @@ class UpdateDashboard
             foreach (Helper::listFolder(PATH_HOME . VENDOR . $lib . "/assets") as $file) {
                 $ext = pathinfo($file, PATHINFO_EXTENSION);
                 $name = pathinfo($file, PATHINFO_FILENAME);
-                if (in_array($ext, ['css', 'js']) && !file_exists(PATH_HOME . VENDOR . $lib . "/assets/{$name}.min.{$ext}") && !preg_match('/\w+\.min\.(css|js)$/i', $name)) {
+                if (in_array($ext, ['css', 'js']) && !file_exists(PATH_HOME . VENDOR . $lib . "/assets/{$name}.min.{$ext}") && !preg_match('/\.min\.(css|js)$/i', $file)) {
                     if ($ext === "js")
                         $minifier = new Minify\JS(file_get_contents(PATH_HOME . VENDOR . $lib . "/assets/{$name}.js"));
                     else
@@ -412,7 +417,7 @@ class UpdateDashboard
         $themeColor = explode("!important", explode("color:", $theme)[1])[0];
         $faviconName = pathinfo($dados['favicon'], PATHINFO_FILENAME);
         $faviconExt = pathinfo($dados['favicon'], PATHINFO_EXTENSION);
-        $content = str_replace(['{$sitename}', '{$faviconName}', '{$faviconExt}', '{$theme}', '{$themeColor}'], [$dados['sitename'], $faviconName, $faviconExt, $themeBack, $themeColor], file_get_contents(PATH_HOME . VENDOR . "config/tpl/manifest.txt"));
+        $content = str_replace(['{$sitename}', '{$faviconName}', '{$faviconExt}', '{$theme}', '{$themeColor}'], [$dados['sitename'], $faviconName, $faviconExt, $themeBack, $themeColor], file_get_contents(PATH_HOME . VENDOR . "config/installTemplates/manifest.txt"));
 
         $fp = fopen(PATH_HOME . "manifest.json", "w");
         fwrite($fp, $content);
@@ -467,12 +472,12 @@ class UpdateDashboard
 
         $f = fopen(PATH_HOME . "service-worker.js", "w");
 
-        $dadosService = json_decode(str_replace('{$home}', substr(HOME, 0, -1), file_get_contents(PATH_HOME . VENDOR . 'config/tpl/service-worker.json')), true);
+        $dadosService = json_decode(str_replace('{$home}', substr(HOME, 0, -1), file_get_contents(PATH_HOME . VENDOR . 'config/installTemplates/service-worker.json')), true);
         $dadosService['filesShell'] = array_merge($dadosService['filesShell'], $listShell);
         $dadosService['filesAssets'] = array_merge($dadosService['filesAssets'], $listAssets);
         $dadosService['filesData'] = array_merge($dadosService['filesData'], $listData);
 
-        $content = file_get_contents(PATH_HOME . VENDOR . "config/tpl/service-worker.txt");
+        $content = file_get_contents(PATH_HOME . VENDOR . "config/installTemplates/service-worker.txt");
         $content = str_replace("let filesShell = [];", "let filesShell = " . json_encode($dadosService['filesShell'], JSON_UNESCAPED_SLASHES) . ";", $content);
         $content = str_replace("let filesAssets = [];", "let filesAssets = " . json_encode($dadosService['filesAssets'], JSON_UNESCAPED_SLASHES) . ";", $content);
         $content = str_replace("let filesData = [];", "let filesData = " . json_encode($dadosService['filesData'], JSON_UNESCAPED_SLASHES) . ";", $content);
