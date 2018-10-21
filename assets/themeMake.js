@@ -174,14 +174,18 @@ function createTheme(inVar) {
     txt += ".theme-action {color:" + theme1.td5 + " !important; background-color:" + theme1.d5 +" !important}<br><br>";
 
     txt += ".theme {color:" + theme1.td0 + " !important; background-color:" + theme1.d0 +" !important}<br>";
-    txt += ".text-theme, input:focus ~ label {color:" + theme1.d0 + " !important}<br>";
-    txt += ".text-theme-l {color:" + theme1.l3 + " !important}<br>";
-    txt += ".text-theme-d {color:" + theme1.d3 + " !important}<br>";
-    txt += ".border-theme {border-color:" + theme1.d0 + " !important}<br><br>";
+    txt += ".theme-aux {background-color:" + theme1.td0 + " !important}<br>";
+    txt += ".theme-text-aux {color:" + theme1.td0 + " !important}<br>";
+    txt += ".theme-text, input:focus ~ label {color:" + theme1.d0 + " !important}<br>";
+    txt += ".theme-text-l {color:" + theme1.l2 + " !important}<br>";
+    txt += ".theme-text-d {color:" + theme1.d2 + " !important}<br>";
+    txt += ".theme-border {border-color:" + theme1.d0 + " !important}<br><br>";
+    txt += ".theme-border-l {border-color:" + theme1.l2 + " !important}<br><br>";
+    txt += ".theme-border-d {border-color:" + theme1.d2 + " !important}<br><br>";
 
-    txt += ".hover-theme:hover {color:" + theme1.td0 + " !important; background-color:" + theme1.d0 +" !important}<br>";
-    txt += ".hover-text-theme:hover {color:" + theme1.d0 + " !important}<br>";
-    txt += ".hover-border-theme:hover {border-color:" + theme1.d0 + " !important}<br>";
+    txt += ".theme-hover:hover {color:" + theme1.td0 + " !important; background-color:" + theme1.d0 +" !important}<br>";
+    txt += ".theme-text-hover:hover {color:" + theme1.d0 + " !important}<br>";
+    txt += ".theme-border-hover:hover {border-color:" + theme1.d0 + " !important}<br>";
 
     txt += "input:focus, textarea:focus, select:focus, select {border-bottom-color:" + theme1.d0 + " !important}<br><br>";
     txt += ".input-bar:before, .input-bar:after, button {background-color:" + theme1.d0 + "}<br><br>";
