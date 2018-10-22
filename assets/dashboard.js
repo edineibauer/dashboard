@@ -35,7 +35,7 @@ function setDashboardContent(content) {
 }
 
 $(function () {
-    $("#content, #app-sidebar").off("click", ".menu-li").on("click", ".menu-li", function () {
+    $("#core-content, #core-applications").off("click", ".menu-li").on("click", ".menu-li", function () {
         let action = $(this).attr("data-action");
         if (action === "table") {
             requestDashboardEntity($(this).attr("data-entity"))

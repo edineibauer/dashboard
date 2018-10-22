@@ -1,5 +1,5 @@
 <{($action == "link")? "a href='{$link}' target='_blank'" : "div"}
-class='menu-li menu-dashboard-lista hover-theme bar-item button z-depth-0 padding-small'
+class='menu-li menu-dashboard-lista theme-hover bar-item button z-depth-0 padding-small'
 data-action="{$action}"
 {if $action == "table"}
     data-entity='{$entity}'
