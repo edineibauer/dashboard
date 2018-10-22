@@ -234,7 +234,7 @@ function restoreTheme() {
     toast("Restaurando Tema");
     post('dashboard', 'tema/restoreTheme', function (d) {
         if (d === "no") {
-            toast("tema anterior não encontrado", "warning");
+            toast("tema anterior não encontrado", 3000, "toast-warning");
         } else {
             $("link[href='" + HOME + "assetsPublic/theme.min.css?v=" + VERSION +"]'").attr("href", HOME + "assetsPublic/theme.min.css?v=99" + Math.ceil(Math.random() * 1000));
 
@@ -258,7 +258,7 @@ function saveTheme() {
             },1000);
         });
     } else {
-        toast("selecione um tema antes", "warning");
+        toast("selecione um tema antes", 3000, "toast-warning");
     }
 }
 
