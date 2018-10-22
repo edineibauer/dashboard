@@ -47,13 +47,6 @@ $(function () {
             requestDashboardContent($(this).attr("data-atributo"))
         } else if (action === 'link') {
         }
-    }).off("click", "#btn-editLogin").on("click", "#btn-editLogin", function () {
-        $(this).panel(themeDashboard("Editar Perfil", {lib: 'dashboard', file: 'edit/perfil'}, function (idOntab) {
-            data = formGetData($("#" + idOntab).find(".ontab-content").find(".form-crud"));
-            post('dashboard', 'edit/session', {dados: data}, function () {
-                location.reload()
-            })
-        }))
     }).off("click", ".close-dashboard-note").on("click", ".close-dashboard-note", function () {
         let $this = $(this);
         post('dashboard', 'dash/delete', {id: $this.attr("id")}, function (data) {

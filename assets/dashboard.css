@@ -4,7 +4,7 @@ html {
 
 .dashboard-nav {
     z-index: 21;
-    top: inherit
+    top: inherit;
 }
 
 .menu-dashboard-lista {
@@ -46,17 +46,4 @@ html {
     right: 3px;
     color: #999;
     font-size: .8em
-}
-
-.div-btn-editLogin {
-    padding-bottom: 15px !important
-}
-
-#btn-editLogin {
-    height: 31px
-}
-
-#btn-editLogin i {
-    padding-right: 5px;
-    margin-top: 1px
 }

@@ -18,8 +18,7 @@ if (empty($_SESSION['userlogin'])) {
 
             <div class="left">
                 <div class="col div-btn-editLogin">
-                    <button id="btn-editLogin"
-                            class="left color-white z-depth-0 border hover-shadow radius padding-small color-grey-light margin-0">
+                    <button class="btn-editLogin left color-white z-depth-0 border hover-shadow radius padding-small color-grey-light margin-0">
                         <i class="material-icons prefix padding-0 font-large">edit</i>
                     </button>
                 </div>
@@ -32,7 +31,6 @@ if (empty($_SESSION['userlogin'])) {
             <?php
             require_once 'dashboardPages/inc/menu.php';
             ?>
-            <br><br>
         </div>
     </nav>
 
