@@ -4,7 +4,7 @@ html {
 
 .dashboard-nav {
     z-index: 21;
-    top: 0
+    top: inherit
 }
 
 .menu-dashboard-lista {
