@@ -16,8 +16,11 @@
                     </button>
                 </div>
                 <div class="rest s12">
-                    <div class="col s12 m6 padding-small">
-                        <select id="select01" class="select border" name="option" onchange="createSuggestion()">
+                    <div class="col s12 m2 padding-small">
+                        <input type="text" id="colorHex" onkeyup="createSuggestion('colorHex')" onchange="createSuggestion('colorHex')" />
+                    </div>
+                    <div class="col s12 m4 padding-small">
+                        <select id="select01" class="select border" name="option" onchange="createSuggestion('select01')">
                             <option value="" disabled="" selected="">Temas</option>
                             <option style="color:#666;background-color:#ffffff" value="#ffffff">White</option>
                             <option style="color:#fff;background-color:#000000" value="#000000">Black</option>
@@ -54,14 +57,14 @@
                         </select>
                     </div>
                     <div class="col s6 m3 padding-small">
-                        <span class="left padding-medium">Hue</span>
+                        <span class="left padding-medium">H</span>
                         <input type="text" id="hue" size="8" style="width:50px;height:34px;padding:19px 4px" value="0"
                                disabled="">
                         <button class="btn color-grey hover-shadow opacity hover-opacity-off" style="margin-bottom:4px" onclick="huePlus(-5)">-</button>
                         <button class="btn color-grey hover-shadow opacity hover-opacity-off" style="margin-bottom:4px" onclick="huePlus(+5)">+</button>
                     </div>
                     <div class="col s6 m3 padding-small">
-                        <span class="left padding-medium">Sat</span>
+                        <span class="left padding-medium">S</span>
                         <input type="text" id="saturation" size="8" style="width:50px;height:34px;padding:19px 4px"
                                value="0" disabled="">
                         <button class="btn color-grey hover-shadow opacity hover-opacity-off" style="margin-bottom:4px" onclick="saturationPlus(-0.05)">-</button>

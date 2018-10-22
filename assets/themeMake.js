@@ -5,7 +5,7 @@ function huePlus(amount) {
     y.h = y.h + amount;
     if (y.h < 0) {y.h = 355;}
     document.getElementById("color").value = w3color("hsl(" + y.h + "," + y.s + "," + y.l + ")").toHexString();
-    createTheme(-1);
+    createTheme();
 }
 function saturationPlus(amount) {
     var x,y;
@@ -15,13 +15,17 @@ function saturationPlus(amount) {
     if (y.s > 0.98) {y.s = 100;}
     if (y.s < 0.02) {y.s = 0.01;}
     document.getElementById("color").value = w3color("hsl(" + y.h + "," + y.s + "," + y.l + ")").toHexString();
-    createTheme(-1);
+    createTheme();
 }
-function createSuggestion() {
-    document.getElementById("color").value = document.getElementById("select01").value;
-    createTheme(-1);
+function createSuggestion(id) {
+    let v = document.getElementById(id).value;
+    let patt = new RegExp(/^#\w{6}$/i);
+    if(patt.test(v)) {
+        document.getElementById("color").value = document.getElementById(id).value;
+        createTheme();
+    }
 }
-function createTheme(inVar) {
+function createTheme() {
     var theme1 = new Object;
     var i,c,h,s,l,b,v;
     var x, y, z, txt, sat, light, hex, col, ele;
