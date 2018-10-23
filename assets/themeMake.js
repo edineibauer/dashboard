@@ -199,6 +199,9 @@ function createTheme() {
     txt += "input:focus, textarea:focus, select:focus, select {border-bottom-color:" + theme1.d0 + " !important}<br><br>";
     txt += ".input-bar:before, .input-bar:after, button {background-color:" + theme1.d0 + "!important}<br><br>";
 
+    /* PAGINAÇÃO */
+    txt += ".bar .button.active {background-color:" + theme1.d0 + "!important}<br><br>";
+
     /* TEXTAREA STYLE */
     txt += ".jqte_focused {border-bottom-color:" + theme1.d0 + " !important; border-left-color:" + theme1.d0 + " !important;}<br>";
 
