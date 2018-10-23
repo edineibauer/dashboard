@@ -263,14 +263,10 @@ function restoreTheme() {
 
 function saveTheme() {
     if(localStorage.txt) {
-        toast("Tema Salvo");
+        toast("Aplicando Tema");
         post('dashboard', 'tema/saveTheme', {txt: localStorage.txt}, function () {
             $("link[href='" + HOME + "assetsPublic/theme.min.css?v=" + VERSION +"]'").attr("href", HOME + "assetsPublic/theme.min.css?v=99" + Math.ceil(Math.random() * 1000));
-
-            setTimeout(function () {
-                toast("Aplicando...");
-                location.href = HOME + "dashboard";
-            },1000);
+            location.href = HOME + "dashboard";
         });
     } else {
         toast("selecione um tema antes", 3000, "toast-warning");
