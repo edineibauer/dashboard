@@ -190,7 +190,6 @@ function createTheme() {
     txt += ".theme-hover:hover {color:" + theme1.td0 + " !important; background-color:" + theme1.d0 +" !important}<br>";
     txt += ".theme-text-hover:hover {color:" + theme1.d0 + " !important}<br>";
     txt += ".theme-border-hover:hover {border-color:" + theme1.d0 + " !important}<br>";
-
     txt += "input:focus, textarea:focus, select:focus, select {border-bottom-color:" + theme1.d0 + " !important}<br><br>";
     txt += ".input-bar:before, .input-bar:after, button {background-color:" + theme1.d0 + "!important}<br><br>";
     txt += ".jqte_focused {border-bottom-color:" + theme1.d0 + " !important; border-left-color:" + theme1.d0 + " !important;}<br>";
