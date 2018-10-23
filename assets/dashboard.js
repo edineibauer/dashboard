@@ -1,8 +1,3 @@
-function logoutDashboard() {
-    if (confirm("Desconectar?"))
-        window.location = HOME + "logout"
-}
-
 function hide_sidebar_small() {
     if (screen.width < 993) {
         $("#myOverlay, #mySidebar").css("display", "none")
