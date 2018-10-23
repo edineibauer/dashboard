@@ -8,7 +8,8 @@
     <div class="col padding-small">
         <div class="col card">
             <input type="hidden" id="color" onchange="createTheme(-1)" size="8" style="height:0;width: 0" value="#efc050">
-            <div class="row padding-medium">
+            <div class="row padding-medium" style="padding-bottom: 0!important;">
+                <div class="col padding-small"></div>
                 <div class="col right" style="width: 280px">
                     <button class="btn color-blue hover-shadow right" onclick="restoreTheme()">tema anterior</button>
                     <button class="btn color-teal hover-shadow right" onclick="saveTheme()"><i class="material-icons left padding-right">save</i>

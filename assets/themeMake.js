@@ -249,7 +249,7 @@ function createTheme() {
 }
 
 function restoreTheme() {
-    toast("Restaurando Tema", 3000, "toast-success");
+    toast("Restaurando Tema", 8000, "toast-success");
     post('dashboard', 'tema/restoreTheme', function (d) {
         if (d === "no") {
             toast("tema anterior não encontrado", 3000, "toast-warning");
@@ -262,7 +262,7 @@ function restoreTheme() {
 
 function saveTheme() {
     if(localStorage.txt) {
-        toast("Aplicando Tema", 3000, "toast-success");
+        toast("Aplicando Tema", 8000, "toast-success");
         post('dashboard', 'tema/saveTheme', {txt: localStorage.txt}, function () {
             $("link[href='" + HOME + "assetsPublic/theme.min.css?v=" + VERSION +"]'").attr("href", HOME + "assetsPublic/theme.min.css?v=99" + Math.ceil(Math.random() * 1000));
             location.href = HOME + "dashboard";
