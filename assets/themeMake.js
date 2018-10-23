@@ -203,8 +203,8 @@ function createTheme() {
     txt += ".jqte_focused {border-bottom-color:" + theme1.d0 + " !important; border-left-color:" + theme1.d0 + " !important;}<br>";
 
     /* LOADING LINE STYLE */
-    txt += "@keyframes loading {0% {left: 0;width: 0;background: " + theme1.l2 + ";}20% {width: 120px}100% {left: 100%;width: 0;background: " + theme1.l3 + "}}";
-    txt += "@-webkit-keyframes loading {0% {left: 0;width: 0;background: " + theme1.l2 + ";}20% {width: 120px}100% {left: 100%;width: 0;background: " + theme1.l3 + "}}";
+    txt += "@keyframes loading {0% {left: 0;width: 0;background: " + theme1.d1 + ";}20% {width: 120px}100% {left: 100%;width: 0;background: " + theme1.d3 + "}}";
+    txt += "@-webkit-keyframes loading {0% {left: 0;width: 0;background: " + theme1.d1 + ";}20% {width: 120px}100% {left: 100%;width: 0;background: " + theme1.d3 + "}}";
 
 
     localStorage.setItem('txt', txt);
