@@ -191,12 +191,21 @@ function createTheme() {
     txt += ".theme-text-hover:hover {color:" + theme1.d0 + " !important}<br>";
     txt += ".theme-border-hover:hover {border-color:" + theme1.d0 + " !important}<br>";
 
-    txt += ".switch input:checked + .slider {background-color:" + theme1.l1 + "!important}<br>";
-    txt += ".switch input:checked + .slider:after {background-color:" + theme1.d2 + "!important}<br>";
+    /* SWITCH STYLE */
+    txt += ".switch input:checked + .slider {background-color:" + theme1.l2 + "!important}<br>";
+    txt += ".switch input:checked + .slider:after {background-color:" + theme1.d0 + "!important}<br>";
+
+    /* INPUT BAR STYLE */
     txt += "input:focus, textarea:focus, select:focus, select {border-bottom-color:" + theme1.d0 + " !important}<br><br>";
     txt += ".input-bar:before, .input-bar:after, button {background-color:" + theme1.d0 + "!important}<br><br>";
+
+    /* TEXTAREA STYLE */
     txt += ".jqte_focused {border-bottom-color:" + theme1.d0 + " !important; border-left-color:" + theme1.d0 + " !important;}<br>";
-    txt += "@keyframes loading {0% {left: 0;width: 0;background: " + theme1.d2 + ";}20% {width: 120px}100% {left: 100%;width: 0;background: " + theme1.d5 + "}}";
+
+    /* LOADING LINE STYLE */
+    txt += "@keyframes loading {0% {left: 0;width: 0;background: " + theme1.l2 + ";}20% {width: 120px}100% {left: 100%;width: 0;background: " + theme1.l3 + "}}";
+    txt += "@-webkit-keyframes loading {0% {left: 0;width: 0;background: " + theme1.l2 + ";}20% {width: 120px}100% {left: 100%;width: 0;background: " + theme1.l3 + "}}";
+
 
     localStorage.setItem('txt', txt);
 
