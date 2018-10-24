@@ -136,8 +136,9 @@ class Menu
         foreach (Helper::listFolder(PATH_HOME . "entity/cache") as $item) {
             if (preg_match('/\.json$/i', $item)) {
                 $entity = str_replace('.json', '', $item);
+                $icon = Metadados::getInfo($entity)['icon'];
                 if (!isset($this->menu[$entity]) && !in_array($entity, $menuNotShow))
-                    $this->menu[$entity] = ["icon" => "account_balance_wallet", "title" => ucwords(trim(str_replace(['-', '_'], [' ', ' '], $entity))), "action" => "table", "entity" => $entity];
+                    $this->menu[$entity] = ["icon" => (!empty($icon) ? $icon : "account_balance_wallet"), "title" => ucwords(trim(str_replace(['-', '_'], [' ', ' '], $entity))), "action" => "table", "entity" => $entity];
             }
         }
     }
