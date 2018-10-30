@@ -11,7 +11,14 @@
     "title": "Configurações",
     "action": "page",
     "lib": "dashboard",
-    "file": "dashboardPages/settings"
+    "file": "dashboardPages/configuracoes"
+  },
+  {
+    "icon": "settings_input_component",
+    "title": "Integrações",
+    "action": "page",
+    "lib": "dashboard",
+    "file": "dashboardPages/integracoes"
   },
   {
     "icon": "settings_ethernet",
