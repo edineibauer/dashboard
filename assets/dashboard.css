@@ -5,6 +5,7 @@ html {
 .dashboard-nav {
     z-index: 21;
     top: inherit;
+    padding-bottom:45px;
 }
 
 .menu-dashboard-lista {
