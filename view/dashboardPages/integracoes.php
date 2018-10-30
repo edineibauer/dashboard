@@ -23,9 +23,4 @@ foreach (\Helpers\Helper::listFolder(PATH_HOME . VENDOR) as $item) {
     }
 }
 
-if(!file_exists(PATH_HOME . VENDOR . "dashboard/assets/integracoes.min.js") && file_exists(PATH_HOME . VENDOR . "dashboard/assets/integracoes.js")) {
-    $m = new \MatthiasMullie\Minify\JS(PATH_HOME . VENDOR . "dashboard/assets/integracoes.js");
-    $minifier->minify(PATH_HOME . VENDOR . "dashboard/assets/integracoes.min.js");
-}
-
 $data['data'] = $tpl->getShow('integracoes', $integ);
