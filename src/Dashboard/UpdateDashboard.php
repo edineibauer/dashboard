@@ -343,10 +343,16 @@ class UpdateDashboard
                 foreach (Helper::listFolder(PATH_HOME . VENDOR . "{$lib}/entity/cache") as $file) {
                     if (!file_exists(PATH_HOME . "entity/cache/{$file}") && preg_match('/\w+\.json$/i', $file)) {
                         copy(PATH_HOME . VENDOR . "{$lib}/entity/cache/{$file}", PATH_HOME . "entity/cache/{$file}");
-                        if (file_exists(PATH_HOME . VENDOR . "{$lib}/entity/cache/info/{$file}")) {
-                            copy(PATH_HOME . VENDOR . "{$lib}/entity/cache/info/{$file}", PATH_HOME . "entity/cache/info/{$file}");
 
-                        } else {
+                        /* INFO */
+                        if (file_exists(PATH_HOME . VENDOR . "{$lib}/entity/cache/info/{$file}")) {
+                            if(file_exists(PATH_HOME . "entity/cache/info/{$file}"))
+                                unlink(PATH_HOME . "entity/cache/info/{$file}");
+
+                            copy(PATH_HOME . VENDOR . "{$lib}/entity/cache/info/{$file}", PATH_HOME . "entity/cache/info/{$file}");
+                        }
+
+                        } elseif(!file_exists(PATH_HOME . "entity/cache/info/{$file}")) {
                             //cria info
                             $data = $this->generateInfo(\EntityForm\Metadados::getDicionario(PATH_HOME . VENDOR . "{$lib}/entity/cache/{$file}"));
                             $fp = fopen(PATH_HOME . "entity/cache/info/" . $file, "w");
