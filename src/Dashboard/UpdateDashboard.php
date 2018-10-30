@@ -38,7 +38,7 @@ class UpdateDashboard
         if (file_exists(PATH_HOME . "composer.lock")) {
             $this->checkConfigJsonExist();
 
-            $keyVersion = json_decode(file_get_contents(PATH_HOME . "composer.lock"), true)['content-hash'];
+            $keyVersion = file_get_contents(PATH_HOME . "composer.lock");
             if (!empty($custom)) {
 
                 if(in_array('assets', $custom) || in_array('lib', $custom) || in_array('manifest', $custom) || in_array('serviceworker', $custom))
