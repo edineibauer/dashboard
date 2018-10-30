@@ -1,6 +1,11 @@
 <?php
 $tpl = new \Helpers\Template("dashboard");
-$integ = ['integration' => []];
+$integ = [
+    'integration' => [],
+    'home' => HOME,
+    'version' => VERSION,
+    'vendor' => VENDOR
+];
 $dados = [];
 
 if(file_exists(PATH_HOME . "_config/config.json"))

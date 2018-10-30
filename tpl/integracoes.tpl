@@ -6,7 +6,7 @@
 
 <div class="col s12 padding-small">
 
-    <div class="col s12 m6">
+    <div class="col s12 m6 padding-medium">
         {foreach key=i item=item from=$integration}
             {if $i%2 === 0}
                 <section class="card padding-8 border-bottom">
@@ -20,14 +20,14 @@
                     </header>
 
                     <div class="col padding-medium font-medium">
-                        {foreach key=key item=it form=$item['constantes']}
-                            {if($it['input'] === "text")}
+                        {foreach key=key item=it from=$item['constantes']}
+                            {if ($it['input'] === "text")}
                                 <label class="col padding-small">
                                     <span class="col">{$key}</span>
                                     <input type="text" id="{$it['column']}" value="{$it['value']}"
                                            class="font-xlarge inputConfig">
                                 </label>
-                            {elseif($it['input'] === "textarea")}
+                            {elseif ($it['input'] === "textarea")}
                                 <label class="col padding-small">
                                     <span class="col">{$key}</span>
                                     <textarea id="{$it['column']}" rows="4"
@@ -40,7 +40,7 @@
             {/if}
         {/foreach}
     </div>
-    <div class="col s12 m6">
+    <div class="col s12 m6 padding-medium">
         {foreach key=i item=item from=$integration}
             {if $i%2 === 1}
                 <section class="card padding-8 border-bottom">
@@ -54,14 +54,14 @@
                     </header>
 
                     <div class="col padding-medium font-medium">
-                        {foreach key=key item=it form=$item['constantes']}
-                            {if($it['input'] === "text")}
+                        {foreach key=key item=it from=$item['constantes']}
+                            {if ($it['input'] === "text")}
                                 <label class="col padding-small">
                                     <span class="col">{$key}</span>
                                     <input type="text" id="{$it['column']}" value="{$it['value']}"
                                            class="font-xlarge inputConfig">
                                 </label>
-                            {elseif($it['input'] === "textarea")}
+                            {elseif ($it['input'] === "textarea")}
                                 <label class="col padding-small">
                                     <span class="col">{$key}</span>
                                     <textarea id="{$it['column']}" rows="4"
@@ -76,4 +76,4 @@
     </div>
 </div>
 
-<script src="{$home}{$dominio}assets/integracoes.min.js?v={$version}"></script>
+<script src="{$home}{$vendor}dashboard/assets/integracoes.min.js?v={$version}"></script>
