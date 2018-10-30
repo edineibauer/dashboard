@@ -350,7 +350,6 @@ class UpdateDashboard
                                 unlink(PATH_HOME . "entity/cache/info/{$file}");
 
                             copy(PATH_HOME . VENDOR . "{$lib}/entity/cache/info/{$file}", PATH_HOME . "entity/cache/info/{$file}");
-                        }
 
                         } elseif(!file_exists(PATH_HOME . "entity/cache/info/{$file}")) {
                             //cria info
