@@ -4,7 +4,6 @@ if (empty($_SESSION['userlogin'])) {
     $data['data'] = HOME . "login";
 } else {
     ob_start();
-    $up = new \Dashboard\UpdateDashboard();
     ?>
     <nav class="sidebar z-depth-2 collapse color-gray-light no-select animate-left dashboard-nav space-header" id="mySidebar"><br>
         <div class="container row">
