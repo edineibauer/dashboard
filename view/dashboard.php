@@ -38,7 +38,7 @@ if (empty($_SESSION['userlogin'])) {
     </div>
 
     <?php
-    if(!defined("KEY")) {
+    if(!defined("KEY") && !preg_match('/^http:\/\/(localhost|127.0.0.1)(\/|:)/i', HOME)) {
         ?>
         <div style="position:fixed; z-index: 99999999; bottom:10px;right: 20px;"
              class="padding-medium color-red opacity z-depth-2 radius">
