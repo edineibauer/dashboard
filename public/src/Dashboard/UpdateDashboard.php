@@ -38,18 +38,18 @@ class UpdateDashboard
         if (file_exists(PATH_HOME . "composer.lock")) {
             $this->checkConfigJsonExist();
 
-            $keyVersion = file_get_contents(PATH_HOME . "composer.lock");
             if (!empty($custom)) {
 
                 if(in_array('assets', $custom) || in_array('lib', $custom) || in_array('manifest', $custom) || in_array('serviceworker', $custom))
-                    $this->updateVersionNumber($keyVersion);
+                    $this->updateVersionNumber();
 
                 $this->updateVersion($custom);
 
             } elseif (file_exists(PATH_HOME . "_config/updates/version.txt")) {
+                $keyVersion = file_get_contents(PATH_HOME . "composer.lock");
                 $old = file_get_contents(PATH_HOME . "_config/updates/version.txt");
                 if ($old !== $keyVersion) {
-                    $this->updateVersionNumber($keyVersion);
+                    $this->updateVersionNumber();
                     $this->updateVersion($custom);
                 }
             } else {
@@ -57,7 +57,7 @@ class UpdateDashboard
                 //Cria Version hash info
                 Helper::createFolderIfNoExist(PATH_HOME . "_config/updates");
                 $f = fopen(PATH_HOME . "_config/updates/version.txt", "w");
-                fwrite($f, $keyVersion);
+                fwrite($f, file_get_contents(PATH_HOME . "composer.lock"));
                 fclose($f);
 
                 $this->updateVersion($custom);
@@ -88,16 +88,15 @@ class UpdateDashboard
 
     /**
      * Atualiza a Versão do site
-     * @param string $hash
      */
-    private function updateVersionNumber(string $hash)
+    private function updateVersionNumber()
     {
         $dados = json_decode(file_get_contents(PATH_HOME . "_config/config.json"), true);
         $dados['version'] += 0.01;
         Config::createConfig($dados);
 
         $f = fopen(PATH_HOME . "_config/updates/version.txt", "w");
-        fwrite($f, $hash);
+        fwrite($f, file_get_contents(PATH_HOME . "composer.lock"));
         fclose($f);
     }
 
