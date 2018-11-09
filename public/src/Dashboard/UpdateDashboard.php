@@ -427,7 +427,7 @@ class UpdateDashboard
         $themeColor = explode("!important", explode("color:", $theme)[1])[0];
         $faviconName = pathinfo($dados['favicon'], PATHINFO_FILENAME);
         $faviconExt = pathinfo($dados['favicon'], PATHINFO_EXTENSION);
-        $content = str_replace(['{$sitename}', '{$faviconName}', '{$faviconExt}', '{$theme}', '{$themeColor}'], [$dados['sitename'], $faviconName, $faviconExt, $themeBack, $themeColor], file_get_contents(PATH_HOME . VENDOR . "config/installTemplates/manifest.txt"));
+        $content = str_replace(['{$sitename}', '{$faviconName}', '{$faviconExt}', '{$theme}', '{$themeColor}'], [$dados['sitename'], $faviconName, $faviconExt, $themeBack, $themeColor], file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/manifest.txt"));
 
         $fp = fopen(PATH_HOME . "manifest.json", "w");
         fwrite($fp, $content);
@@ -486,12 +486,12 @@ class UpdateDashboard
 
         $f = fopen(PATH_HOME . "service-worker.js", "w");
 
-        $dadosService = json_decode(str_replace('{$home}', substr(HOME, 0, -1), file_get_contents(PATH_HOME . VENDOR . 'config/installTemplates/service-worker.json')), true);
+        $dadosService = json_decode(str_replace('{$home}', substr(HOME, 0, -1), file_get_contents(PATH_HOME . VENDOR . 'config/public/installTemplates/service-worker.json')), true);
         $dadosService['filesShell'] = array_merge($dadosService['filesShell'], $listShell);
         $dadosService['filesAssets'] = array_merge($dadosService['filesAssets'], $listAssets);
         $dadosService['filesData'] = array_merge($dadosService['filesData'], $listData);
 
-        $content = file_get_contents(PATH_HOME . VENDOR . "config/installTemplates/service-worker.txt");
+        $content = file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/service-worker.txt");
         $content = str_replace("let filesShell = [];", "let filesShell = " . json_encode($dadosService['filesShell'], JSON_UNESCAPED_SLASHES) . ";", $content);
         $content = str_replace("let filesAssets = [];", "let filesAssets = " . json_encode($dadosService['filesAssets'], JSON_UNESCAPED_SLASHES) . ";", $content);
         $content = str_replace("let filesData = [];", "let filesData = " . json_encode($dadosService['filesData'], JSON_UNESCAPED_SLASHES) . ";", $content);
