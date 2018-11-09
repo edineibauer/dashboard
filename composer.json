@@ -13,6 +13,8 @@
     "php": "^7.1",
     "conn/session-control": "*",
     "conn/table": "*",
+    "conn/form-crud": "*",
+    "conn/entity-form": "*",
     "smottt/wideimage": "^1.1",
     "ext-json": "*"
   },
