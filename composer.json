@@ -20,7 +20,7 @@
   },
   "autoload": {
     "psr-0": {
-      "Dashboard": "src/"
+      "Dashboard": "public/src/"
     }
   }
 }

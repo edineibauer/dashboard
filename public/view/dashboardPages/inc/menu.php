@@ -20,7 +20,7 @@ $inc = checkFolder(PATH_HOME . "public/dash/{$_SESSION['userlogin']['setor']}/me
 if (!$inc) {
     foreach (\Helpers\Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
         if (!$inc)
-            $inc = checkFolder(PATH_HOME . VENDOR . "{$lib}/dash/{$_SESSION['userlogin']['setor']}/menu.php");
+            $inc = checkFolder(PATH_HOME . VENDOR . "{$lib}/public/dash/{$_SESSION['userlogin']['setor']}/menu.php");
     }
 
     if (!$inc) {
@@ -29,7 +29,7 @@ if (!$inc) {
         if (!$inc) {
             foreach (\Helpers\Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
                 if (!$inc)
-                    $inc = checkFolder(PATH_HOME . VENDOR . "{$lib}/dash/menu.php");
+                    $inc = checkFolder(PATH_HOME . VENDOR . "{$lib}/public/dash/menu.php");
             }
 
             //Menu Entity Genérico

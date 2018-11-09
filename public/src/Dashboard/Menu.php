@@ -156,10 +156,10 @@ class Menu
             $this->addMenuJson(PATH_HOME . "public/dash/{$_SESSION['userlogin']['setor']}/menu.json");
 
         foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
-            if (file_exists(PATH_HOME . VENDOR . "{$lib}/dash/menu.json"))
-                $this->addMenuJson(PATH_HOME . VENDOR . "{$lib}/dash/menu.json");
-            if (file_exists(PATH_HOME . VENDOR . "{$lib}/dash/{$_SESSION['userlogin']['setor']}/menu.json"))
-                $this->addMenuJson(PATH_HOME . VENDOR . "{$lib}/dash/{$_SESSION['userlogin']['setor']}/menu.json");
+            if (file_exists(PATH_HOME . VENDOR . "{$lib}/public/dash/menu.json"))
+                $this->addMenuJson(PATH_HOME . VENDOR . "{$lib}/public/dash/menu.json");
+            if (file_exists(PATH_HOME . VENDOR . "{$lib}/public/dash/{$_SESSION['userlogin']['setor']}/menu.json"))
+                $this->addMenuJson(PATH_HOME . VENDOR . "{$lib}/public/dash/{$_SESSION['userlogin']['setor']}/menu.json");
         }
     }
 
@@ -218,10 +218,10 @@ class Menu
             $file = $this->addNotShow(PATH_HOME . "public/dash/{$_SESSION['userlogin']['setor']}/{$option}.json", $file, PATH_HOME);
 
         foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
-            if (file_exists(PATH_HOME . VENDOR . "{$lib}/dash/{$option}.json"))
-                $file = $this->addNotShow(PATH_HOME . VENDOR . "{$lib}/dash/{$option}.json", $file, PATH_HOME . VENDOR . $lib);
-            if (file_exists(PATH_HOME . VENDOR . "{$lib}/dash/{$_SESSION['userlogin']['setor']}/{$option}.json"))
-                $file = $this->addNotShow(PATH_HOME . VENDOR . "{$lib}/dash/{$_SESSION['userlogin']['setor']}/{$option}.json", $file, PATH_HOME . VENDOR . $lib);
+            if (file_exists(PATH_HOME . VENDOR . "{$lib}/public/dash/{$option}.json"))
+                $file = $this->addNotShow(PATH_HOME . VENDOR . "{$lib}/public/dash/{$option}.json", $file, PATH_HOME . VENDOR . $lib);
+            if (file_exists(PATH_HOME . VENDOR . "{$lib}/public/dash/{$_SESSION['userlogin']['setor']}/{$option}.json"))
+                $file = $this->addNotShow(PATH_HOME . VENDOR . "{$lib}/public/dash/{$_SESSION['userlogin']['setor']}/{$option}.json", $file, PATH_HOME . VENDOR . $lib);
         }
 
         return $file;

@@ -53,4 +53,4 @@
     </div>
 </section>
 
-<script src="{$home}{$dominio}assets/desenvolvimento.min.js?v={$version}"></script>
+<script src="{$home}{$vendor}dashboard/public/assets/desenvolvimento.min.js?v={$version}"></script>

@@ -19,7 +19,7 @@ foreach ($routesAll as $item) {
     $dados['routesAll'] .= $tpl->getShow("checkbox", $dataRoute);
 }
 
-$dados['dominio'] = DOMINIO === "dashboard" ? "" : VENDOR . "dashboard/";
+$dados['dominio'] = VENDOR . "dashboard/";
 $dados['version'] = VERSION;
 
 

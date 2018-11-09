@@ -17,4 +17,4 @@
     </div>
 </section>
 
-<script src="{$home}{$dominio}assets/permissoes.min.js?v={$version}"></script>
+<script src="{$home}{$vendor}dashboard/public/assets/permissoes.min.js?v={$version}"></script>

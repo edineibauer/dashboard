@@ -76,4 +76,4 @@
     </div>
 </div>
 
-<script src="{$home}{$vendor}dashboard/assets/integracoes.min.js?v={$version}"></script>
+<script src="{$home}{$vendor}dashboard/public/assets/integracoes.min.js?v={$version}"></script>

@@ -1,6 +1,6 @@
 <?php
 $tpl = new \Helpers\Template("dashboard");
-$dados['dominio'] = DOMINIO === "dashboard" ? "" : VENDOR . "dashboard/";
+$dados['dominio'] = VENDOR . "dashboard/";
 $dados['version'] = VERSION;
 $dados['dashboard'] = "";
 
@@ -16,9 +16,9 @@ if(!empty($_SESSION['userlogin']['setor'])) {
     //SETOR LIBS
     if(empty($dados['dashboard'])) {
         foreach (\Helpers\Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
-            if (file_exists(PATH_HOME . VENDOR . "{$lib}/dash/{$_SESSION['userlogin']['setor']}/panel.php")) {
+            if (file_exists(PATH_HOME . VENDOR . "{$lib}/public/dash/{$_SESSION['userlogin']['setor']}/panel.php")) {
                 ob_start();
-                include_once PATH_HOME . VENDOR . "{$lib}/dash/{$_SESSION['userlogin']['setor']}/panel.php";
+                include_once PATH_HOME . VENDOR . "{$lib}/public/dash/{$_SESSION['userlogin']['setor']}/panel.php";
                 $dados['dashboard'] = ob_end_flush();
                 break;
             }
@@ -35,9 +35,9 @@ if(!empty($_SESSION['userlogin']['setor'])) {
             //GENÉRICO LIBS
             if(empty($dados['dashboard'])) {
                 foreach (\Helpers\Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
-                    if (file_exists(PATH_HOME . VENDOR . "{$lib}/dash/panel.php")) {
+                    if (file_exists(PATH_HOME . VENDOR . "{$lib}/public/dash/panel.php")) {
                         ob_start();
-                        include_once PATH_HOME . VENDOR . "{$lib}/dash/panel.php";
+                        include_once PATH_HOME . VENDOR . "{$lib}/public/dash/panel.php";
                         $dados['dashboard'] = ob_end_flush();
                         break;
                     }

@@ -1,5 +1,5 @@
 <?php
-$dados['dominio'] = DOMINIO === "dashboard" ? "" : VENDOR . "dashboard/";
+$dados['dominio'] = VENDOR . "dashboard/public/";
 $dados['version'] = VERSION;
 
 $menuNotShow = \Helpers\Check::getMenuNotAllow();

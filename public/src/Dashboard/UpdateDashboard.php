@@ -276,15 +276,15 @@ class UpdateDashboard
     {
         //Para cada arquivo css e js presente nas bibliotecas dentro da pasta assets, minifica quando não existe
         foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
-            foreach (Helper::listFolder(PATH_HOME . VENDOR . $lib . "/assets") as $file) {
+            foreach (Helper::listFolder(PATH_HOME . VENDOR . $lib . "/public/assets") as $file) {
                 $ext = pathinfo($file, PATHINFO_EXTENSION);
                 $name = pathinfo($file, PATHINFO_FILENAME);
-                if (in_array($ext, ['css', 'js']) && !file_exists(PATH_HOME . VENDOR . $lib . "/assets/{$name}.min.{$ext}") && !preg_match('/\.min\.(css|js)$/i', $file)) {
+                if (in_array($ext, ['css', 'js']) && !file_exists(PATH_HOME . VENDOR . $lib . "/public/assets/{$name}.min.{$ext}") && !preg_match('/\.min\.(css|js)$/i', $file)) {
                     if ($ext === "js")
-                        $minifier = new Minify\JS(file_get_contents(PATH_HOME . VENDOR . $lib . "/assets/{$name}.js"));
+                        $minifier = new Minify\JS(file_get_contents(PATH_HOME . VENDOR . $lib . "/public/assets/{$name}.js"));
                     else
-                        $minifier = new Minify\CSS(file_get_contents(PATH_HOME . VENDOR . $lib . "/assets/{$name}.css"));
-                    $minifier->minify(PATH_HOME . VENDOR . $lib . "/assets/{$name}.min.{$ext}");
+                        $minifier = new Minify\CSS(file_get_contents(PATH_HOME . VENDOR . $lib . "/public/assets/{$name}.css"));
+                    $minifier->minify(PATH_HOME . VENDOR . $lib . "/public/assets/{$name}.min.{$ext}");
                 }
             }
         }
@@ -339,21 +339,21 @@ class UpdateDashboard
 
         //importa entidades ausentes para o sistema
         foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
-            if (file_exists(PATH_HOME . VENDOR . "{$lib}/entity/cache")) {
-                foreach (Helper::listFolder(PATH_HOME . VENDOR . "{$lib}/entity/cache") as $file) {
+            if (file_exists(PATH_HOME . VENDOR . "{$lib}/public/entity/cache")) {
+                foreach (Helper::listFolder(PATH_HOME . VENDOR . "{$lib}/public/entity/cache") as $file) {
                     if (!file_exists(PATH_HOME . "entity/cache/{$file}") && preg_match('/\w+\.json$/i', $file)) {
-                        copy(PATH_HOME . VENDOR . "{$lib}/entity/cache/{$file}", PATH_HOME . "entity/cache/{$file}");
+                        copy(PATH_HOME . VENDOR . "{$lib}/public/entity/cache/{$file}", PATH_HOME . "entity/cache/{$file}");
 
                         /* INFO */
-                        if (file_exists(PATH_HOME . VENDOR . "{$lib}/entity/cache/info/{$file}")) {
+                        if (file_exists(PATH_HOME . VENDOR . "{$lib}/public/entity/cache/info/{$file}")) {
                             if(file_exists(PATH_HOME . "entity/cache/info/{$file}"))
                                 unlink(PATH_HOME . "entity/cache/info/{$file}");
 
-                            copy(PATH_HOME . VENDOR . "{$lib}/entity/cache/info/{$file}", PATH_HOME . "entity/cache/info/{$file}");
+                            copy(PATH_HOME . VENDOR . "{$lib}/public/entity/cache/info/{$file}", PATH_HOME . "entity/cache/info/{$file}");
 
                         } elseif(!file_exists(PATH_HOME . "entity/cache/info/{$file}")) {
                             //cria info
-                            $data = $this->generateInfo(\EntityForm\Metadados::getDicionario(PATH_HOME . VENDOR . "{$lib}/entity/cache/{$file}"));
+                            $data = $this->generateInfo(\Entity\Metadados::getDicionario(PATH_HOME . VENDOR . "{$lib}/public/entity/cache/{$file}"));
                             $fp = fopen(PATH_HOME . "entity/cache/info/" . $file, "w");
                             fwrite($fp, json_encode($data));
                             fclose($fp);
