@@ -95,7 +95,7 @@ class UpdateDashboard
         $dados['version'] += 0.01;
         Config::createConfig($dados);
 
-        $f = fopen(PATH_HOME . "_config/updates/version.txt", "w");
+        $f = fopen(PATH_HOME . "_config/updates/version.txt", "w+");
         fwrite($f, file_get_contents(PATH_HOME . "composer.lock"));
         fclose($f);
     }
