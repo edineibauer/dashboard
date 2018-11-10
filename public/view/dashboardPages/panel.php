@@ -10,7 +10,8 @@ if(!empty($_SESSION['userlogin']['setor'])) {
     if (file_exists(PATH_HOME . "public/dash/{$_SESSION['userlogin']['setor']}/panel.php")) {
         ob_start();
         include_once PATH_HOME . "public/dash/{$_SESSION['userlogin']['setor']}/panel.php";
-        $dados['dashboard'] = ob_end_flush();
+        $dados['dashboard'] = ob_get_contents();
+        ob_end_clean();
     }
 
     //SETOR LIBS
@@ -19,7 +20,8 @@ if(!empty($_SESSION['userlogin']['setor'])) {
             if (file_exists(PATH_HOME . VENDOR . "{$lib}/public/dash/{$_SESSION['userlogin']['setor']}/panel.php")) {
                 ob_start();
                 include_once PATH_HOME . VENDOR . "{$lib}/public/dash/{$_SESSION['userlogin']['setor']}/panel.php";
-                $dados['dashboard'] = ob_end_flush();
+                $dados['dashboard'] = ob_get_contents();
+                ob_end_clean();
                 break;
             }
         }
@@ -29,7 +31,8 @@ if(!empty($_SESSION['userlogin']['setor'])) {
             if (file_exists(PATH_HOME . "public/dash/panel.php")) {
                 ob_start();
                 include_once PATH_HOME . "public/dash/panel.php";
-                $dados['dashboard'] = ob_end_flush();
+                $dados['dashboard'] = ob_get_contents();
+                ob_end_clean();
             }
 
             //GENÉRICO LIBS
@@ -38,7 +41,8 @@ if(!empty($_SESSION['userlogin']['setor'])) {
                     if (file_exists(PATH_HOME . VENDOR . "{$lib}/public/dash/panel.php")) {
                         ob_start();
                         include_once PATH_HOME . VENDOR . "{$lib}/public/dash/panel.php";
-                        $dados['dashboard'] = ob_end_flush();
+                        $dados['dashboard'] = ob_get_contents();
+                        ob_end_clean();
                         break;
                     }
                 }
