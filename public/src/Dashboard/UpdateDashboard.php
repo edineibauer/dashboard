@@ -40,7 +40,7 @@ class UpdateDashboard
 
             if (!empty($custom)) {
 
-                if(in_array('assets', $custom) || in_array('lib', $custom) || in_array('manifest', $custom) || in_array('serviceworker', $custom))
+                if (in_array('assets', $custom) || in_array('lib', $custom) || in_array('manifest', $custom) || in_array('serviceworker', $custom))
                     $this->updateVersionNumber();
 
                 $this->updateVersion($custom);
@@ -53,6 +53,20 @@ class UpdateDashboard
                     $this->updateVersion($custom);
                 }
             } else {
+
+                //check if is the first time in the system to clear database
+                if (!file_exists(PATH_HOME . "entity/cache")) {
+                    //nenhuma entidade, zera banco
+                    $sql = new \ConnCrud\SqlCommand();
+                    $sql->exeCommand("SHOW TABLES");
+                    if ($sql->getResult()) {
+                        $sqlDelete = new \ConnCrud\SqlCommand();
+                        foreach ($sql->getResult() as $item) {
+                            if (!empty($item['Tables_in_' . DATABASE]))
+                                $sqlDelete->exeCommand("DROP TABLE IF EXISTS " . $item['Tables_in_' . DATABASE]);
+                        }
+                    }
+                }
 
                 //Cria Version hash info
                 Helper::createFolderIfNoExist(PATH_HOME . "_config/updates");
@@ -70,12 +84,12 @@ class UpdateDashboard
      */
     private function checkConfigJsonExist()
     {
-        if(!file_exists(PATH_HOME . "_config/config.json")) {
+        if (!file_exists(PATH_HOME . "_config/config.json")) {
             $conf = file_get_contents(PATH_HOME . "_config/config.php");
 
             $config = [];
             foreach (explode("define('", $conf) as $i => $item) {
-                if($i > 0) {
+                if ($i > 0) {
                     $d = explode("'", $item);
                     $config[strtolower(trim($d[0]))] = $d[2];
                 }
@@ -162,7 +176,7 @@ class UpdateDashboard
         if (file_exists(PATH_HOME . "assetsPublic/fonts.min.css"))
             unlink(PATH_HOME . "assetsPublic/fonts.min.css");
 
-        if (file_exists(PATH_HOME . "assetsPublic/view")){
+        if (file_exists(PATH_HOME . "assetsPublic/view")) {
             foreach (Helper::listFolder(PATH_HOME . "assetsPublic/view") as $item)
                 unlink(PATH_HOME . "assetsPublic/view/{$item}");
         }
@@ -222,7 +236,7 @@ class UpdateDashboard
                     return $d['nome'] === $item ? $d : [];
                 }, $data)))[0];
 
-                if(!empty($datum['arquivos'])) {
+                if (!empty($datum['arquivos'])) {
                     if ($item === "theme") {
                         foreach ($datum['arquivos'] as $file) {
                             if ($file['type'] === "text/css") {
@@ -346,12 +360,12 @@ class UpdateDashboard
 
                         /* INFO */
                         if (file_exists(PATH_HOME . VENDOR . "{$lib}/public/entity/cache/info/{$file}")) {
-                            if(file_exists(PATH_HOME . "entity/cache/info/{$file}"))
+                            if (file_exists(PATH_HOME . "entity/cache/info/{$file}"))
                                 unlink(PATH_HOME . "entity/cache/info/{$file}");
 
                             copy(PATH_HOME . VENDOR . "{$lib}/public/entity/cache/info/{$file}", PATH_HOME . "entity/cache/info/{$file}");
 
-                        } elseif(!file_exists(PATH_HOME . "entity/cache/info/{$file}")) {
+                        } elseif (!file_exists(PATH_HOME . "entity/cache/info/{$file}")) {
                             //cria info
                             $data = $this->generateInfo(\Entity\Metadados::getDicionario(PATH_HOME . VENDOR . "{$lib}/public/entity/cache/{$file}"));
                             $fp = fopen(PATH_HOME . "entity/cache/info/" . $file, "w");
