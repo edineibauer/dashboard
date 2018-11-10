@@ -184,44 +184,28 @@ class Menu
         }
     }
 
+    /**
+     * Retorna lista com entidades que não devem ser exibidas na dashboard
+     */
     public function getMenuNotAllow()
     {
-        return $this->getNotAllow('menu_not_show', '-menu');
-    }
+        $path = "public/dash/-menu.json";
+        if (!empty($_SESSION['userlogin']))
+            $pathSession = "public/dash/{$_SESSION['userlogin']['setor']}/-menu.json";
 
-    /**
-     * @param string $dir
-     * @param string $option
-     * @return array
-     */
-    private function getNotAllow(string $dir, string $option): array
-    {
         $file = [];
-        if (file_exists(PATH_HOME . "_config/{$dir}.json")){
-            $m = json_decode(file_get_contents(PATH_HOME . "_config/{$dir}.json"), true);
-            if (!empty($m) && is_array($m)) {
-                foreach ($m as $setor => $entitys) {
-                    if($setor == $_SESSION['userlogin']['setor']){
-                        foreach ($entitys as $entity) {
-                            if (file_exists(PATH_HOME . "entity/cache/{$entity}.json") && !in_array($entity, $file))
-                                $file[] = $entity;
-                        }
-                    }
-                }
-            }
-        }
 
-        if (file_exists(PATH_HOME . "public/dash/{$option}.json"))
-            $file = $this->addNotShow(PATH_HOME . "public/dash/{$option}.json", $file, PATH_HOME);
+        if (file_exists(PATH_HOME . $path))
+            $file = $this->addNotShow(PATH_HOME . $path, $file, PATH_HOME);
 
-        if (file_exists(PATH_HOME . "public/dash/{$_SESSION['userlogin']['setor']}/{$option}.json"))
-            $file = $this->addNotShow(PATH_HOME . "public/dash/{$_SESSION['userlogin']['setor']}/{$option}.json", $file, PATH_HOME);
+        if (isset($pathSession) && file_exists(PATH_HOME . $pathSession))
+            $file = $this->addNotShow(PATH_HOME . $pathSession, $file, PATH_HOME);
 
         foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
-            if (file_exists(PATH_HOME . VENDOR . "{$lib}/public/dash/{$option}.json"))
-                $file = $this->addNotShow(PATH_HOME . VENDOR . "{$lib}/public/dash/{$option}.json", $file, PATH_HOME . VENDOR . $lib);
-            if (file_exists(PATH_HOME . VENDOR . "{$lib}/public/dash/{$_SESSION['userlogin']['setor']}/{$option}.json"))
-                $file = $this->addNotShow(PATH_HOME . VENDOR . "{$lib}/public/dash/{$_SESSION['userlogin']['setor']}/{$option}.json", $file, PATH_HOME . VENDOR . $lib);
+            if (file_exists(PATH_HOME . VENDOR . "{$lib}/{$path}"))
+                $file = $this->addNotShow(PATH_HOME . VENDOR . "{$lib}/{$path}", $file, PATH_HOME . VENDOR . $lib);
+            if (isset($pathSession) && file_exists(PATH_HOME . VENDOR . "{$lib}/{$pathSession}"))
+                $file = $this->addNotShow(PATH_HOME . VENDOR . "{$lib}/{$pathSession}", $file, PATH_HOME . VENDOR . $lib);
         }
 
         return $file;
@@ -238,10 +222,8 @@ class Menu
         $m = json_decode(file_get_contents($dir), true);
         if (!empty($m) && is_array($m)) {
             foreach ($m as $entity) {
-                if (file_exists($dirPermission . "/entity/cache/{$entity}.json")) {
-                    if (!in_array($entity, $file))
-                        $file[] = $entity;
-                }
+                if (file_exists($dirPermission . "/public/entity/cache/{$entity}.json") && !in_array($entity, $file))
+                    $file[] = $entity;
             }
         }
 
