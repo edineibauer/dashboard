@@ -16,7 +16,7 @@ if (!$read->getResult()) {
         "favicon" => defined('FAVICON') && !empty(FAVICON) ? '[{"url": "' . FAVICON . '", "name": "", "size": 1078, "type": "image/png"}]' : null,
     ];
 
-    $d = new \EntityForm\Dicionario("config");
+    $d = new \Entity\Dicionario("config");
     $d->setData($criarData);
     $d->save();
 }

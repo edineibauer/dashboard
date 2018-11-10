@@ -3,7 +3,7 @@
 namespace Dashboard;
 
 use ConnCrud\Read;
-use EntityForm\Metadados;
+use Entity\Metadados;
 use Helpers\Check;
 use Helpers\Helper;
 use Helpers\Template;
