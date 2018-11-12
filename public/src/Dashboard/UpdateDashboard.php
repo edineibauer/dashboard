@@ -181,6 +181,12 @@ class UpdateDashboard
                 unlink(PATH_HOME . "assetsPublic/view/{$item}");
         }
 
+        if(file_exists(PATH_HOME . "cacheImage"))
+            unlink(PATH_HOME . "cacheImage");
+
+        if(file_exists(PATH_HOME . "templates_c"))
+            unlink(PATH_HOME . "templates_c");
+
         //gera core novamente
         $f = [];
         if (file_exists(PATH_HOME . "_config/param.json"))
