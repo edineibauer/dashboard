@@ -1,5 +1,0 @@
-{
-  "entity": "config",
-  "action": "update",
-  "function": "updateConfig"
-}

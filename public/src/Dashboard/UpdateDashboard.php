@@ -181,10 +181,10 @@ class UpdateDashboard
                 unlink(PATH_HOME . "assetsPublic/view/{$item}");
         }
 
-        if(file_exists(PATH_HOME . "cacheImage"))
+        if (file_exists(PATH_HOME . "cacheImage"))
             unlink(PATH_HOME . "cacheImage");
 
-        if(file_exists(PATH_HOME . "templates_c"))
+        if (file_exists(PATH_HOME . "templates_c"))
             unlink(PATH_HOME . "templates_c");
 
         //gera core novamente
@@ -200,6 +200,61 @@ class UpdateDashboard
         }
 
         $this->createCoreFont($f['font'], $f['icon'], 'fonts');
+
+        $this->copyInstallTemplate();
+    }
+
+    /**
+     * Copia os templates para o sistema em caso de atualizações
+     */
+    private function copyInstallTemplate()
+    {
+        Config\Config::writeFile(PATH_HOME . "index.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/index.txt"));
+        Config\Config::writeFile(PATH_HOME . "tim.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/tim.txt"));
+        Config\Config::writeFile(PATH_HOME . "apiGet.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/apiGet.txt"));
+        Config\Config::writeFile(PATH_HOME . "apiGetPublic.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/apiGetPublic.txt"));
+        Config\Config::writeFile(PATH_HOME . "apiSet.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/apiSet.txt"));
+        Config\Config::writeFile(PATH_HOME . "apiRequest.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/apiRequest.txt"));
+        Config\Config::writeFile(PATH_HOME . "public/view/index.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/viewIndex.txt"));
+        Config\Config::writeFile(PATH_HOME . "public/cron/index.php", str_replace('{$path_home}', PATH_HOME, file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/cronIndex.txt")));
+
+        //Bloqueios por .htaccess
+        Config\Config::writeFile(PATH_HOME . "_config/.htaccess", "Deny from all");
+        Config\Config::writeFile(PATH_HOME . "entity/.htaccess", "Deny from all");
+        Config\Config::writeFile(PATH_HOME . "public/react/.htaccess", "Deny from all");
+        Config\Config::writeFile(PATH_HOME . "public/cron/.htaccess", "Deny from all");
+        Config\Config::writeFile(PATH_HOME . "public/api/.htaccess", "Deny from all");
+        Config\Config::writeFile(PATH_HOME . "vendor/.htaccess", $this->getAccessFile());
+        Config\Config::createHtaccess(DOMINIO, WWW, SSL);
+
+        if(!file_exists(PATH_HOME . "_config/entity_not_show.json"))
+            Config\Config::writeFile(PATH_HOME . "_config/entity_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
+
+        if(!file_exists(PATH_HOME . "_config/entity_not_show.json"))
+            Config\Config::writeFile(PATH_HOME . "_config/menu_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
+
+        if(!file_exists(PATH_HOME . "entity/general/general_info.json"))
+            Config\Config::writeFile(PATH_HOME . "entity/general/general_info.json", "[]");
+    }
+
+    private function getAccessFile()
+    {
+        return '<Files "*.json">
+            Order Deny,Allow
+            Deny from all
+        </Files>
+        <Files "*.php">
+            Order Deny,Allow
+            Deny from all
+        </Files>
+        <Files "*.html">
+            Order Deny,Allow
+            Deny from all
+        </Files>
+        <Files "*.tpl">
+            Order Deny,Allow
+            Deny from all
+        </Files>';
     }
 
     /**
