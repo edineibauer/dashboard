@@ -466,12 +466,12 @@ class UpdateDashboard
         Helper::createFolderIfNoExist(PATH_HOME . "uploads/site");
 
         $fav = \WideImage\WideImage::load(PATH_HOME . $dados['favicon']);
-        $fav->resize(256, 256)->saveToFile(PATH_HOME . "uploads/site/{$name}-256.{$ext}");
-        $fav->resize(192, 192)->saveToFile(PATH_HOME . "uploads/site/{$name}-192.{$ext}");
-        $fav->resize(152, 152)->saveToFile(PATH_HOME . "uploads/site/{$name}-152.{$ext}");
-        $fav->resize(144, 144)->saveToFile(PATH_HOME . "uploads/site/{$name}-144.{$ext}");
-        $fav->resize(128, 128)->saveToFile(PATH_HOME . "uploads/site/{$name}-128.{$ext}");
-        $fav->resize(90, 90)->saveToFile(PATH_HOME . "uploads/site/{$name}-90.{$ext}");
+        $fav->resize(256, 256, 'fill')->saveToFile(PATH_HOME . "uploads/site/{$name}-256.{$ext}");
+        $fav->resize(192, 192, 'fill')->saveToFile(PATH_HOME . "uploads/site/{$name}-192.{$ext}");
+        $fav->resize(152, 152, 'fill')->saveToFile(PATH_HOME . "uploads/site/{$name}-152.{$ext}");
+        $fav->resize(144, 144, 'fill')->saveToFile(PATH_HOME . "uploads/site/{$name}-144.{$ext}");
+        $fav->resize(128, 128, 'fill')->saveToFile(PATH_HOME . "uploads/site/{$name}-128.{$ext}");
+        $fav->resize(90, 90, 'fill')->saveToFile(PATH_HOME . "uploads/site/{$name}-90.{$ext}");
     }
 
     /**
