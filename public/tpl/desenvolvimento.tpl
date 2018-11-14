@@ -31,6 +31,7 @@
     </div>
 </section>
 
+{*
 <section class="card padding-8 border-bottom">
     <header class="container col">
         <h2>Reautorar Conteúdo sem Autor
@@ -52,5 +53,6 @@
         </div>
     </div>
 </section>
+*}
 
 <script src="{$home}{$vendor}dashboard/public/assets/desenvolvimento.min.js?v={$version}"></script>
