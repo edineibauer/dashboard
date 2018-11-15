@@ -1,0 +1,45 @@
+{
+  "1": [],
+  "2": [],
+  "3": [
+    "convenios",
+    "endereco"
+  ],
+  "4": {
+    "1": "convenios",
+    "3": "cliente_p_fisica",
+    "4": "cliente_p_juridica",
+    "5": "planos",
+    "6": "clientes"
+  },
+  "0": {
+    "0": "cep",
+    "2": "servicos",
+    "3": "pessoa_fisica",
+    "4": "endereco",
+    "5": "usuarios",
+    "6": "dashboard_note",
+    "7": "credenciado_juridico",
+    "8": "credenciado_fisico",
+    "9": "cliente_p_juridica",
+    "10": "cliente_p_fisica",
+    "11": "config",
+    "12": "clientes",
+    "13": "pontuar_multiplica",
+    "14": "planos"
+  },
+  "6": {
+    "1": "planos"
+  },
+  "5": {
+    "0": "credenciado_fisico",
+    "1": "credenciado_juridico",
+    "2": "transacao",
+    "3": "servicos",
+    "5": "pontuar_multiplica",
+    "6": "planos"
+  },
+  "7": [
+    "planos"
+  ]
+}

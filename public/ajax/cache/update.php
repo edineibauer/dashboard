@@ -1,3 +1,4 @@
 <?php
-$up = new \Dashboard\UpdateDashboard(['assets', 'lib', 'manifest']);
-$data['data'] = "1";
+
+unlink(PATH_HOME . "_config/updates/version.txt");
+$up = new \Dashboard\UpdateDashboard();

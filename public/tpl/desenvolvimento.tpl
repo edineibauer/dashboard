@@ -10,11 +10,19 @@
     </header>
 
     <div class="container">
-        <div class="left padding-xlarge">
-            <button id="clear-cache" class="btn color-orange hover-shadow">Atualizar Sistema</button>
+        <div class="left padding-medium padding-16">
+            <i class="material-icons" title="atualiza a versão do sistema forçadamente">info</i>
+            <button id="clear-cache" class="btn hover-shadow">Atualizar Versão</button>
         </div>
-        <div class="left padding-xlarge">
-            <button id="clear-global" class="btn color-yellow hover-shadow">Atualizar Assets Globais</button>
+        <div class="left padding-medium padding-16">
+            <i class="material-icons" title="atualiza os arquivos de CSS, JS, FONT, IMG">info</i>
+            <button id="clear-global" class="btn hover-shadow">Atualizar Assets</button>
+        </div>
+        <div class="left padding-medium padding-16">
+            <button id="envelopar-lib" class="btn hover-shadow">
+                <i class="material-icons" title="carrega arquivos de desenvolvimento local para subir para o controlador de versão">info</i>
+                Envelopar Biblioteca
+            </button>
         </div>
     </div>
 </section>
@@ -55,4 +63,4 @@
 </section>
 *}
 
-<script src="{$home}{$vendor}dashboard/public/assets/desenvolvimento.min.js?v={$version}"></script>
+<script src="{$home}{$vendor}dashboard/public/assets/desenvolvimento.js?v={$version}"></script>

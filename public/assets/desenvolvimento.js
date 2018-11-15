@@ -21,27 +21,34 @@ $(function () {
         })
     });
 
+    $("#envelopar-lib").off("click").on("click", function () {
+        toast("Envelopando...", 3000);
+        post("dashboard", "settings/enveloparBiblioteca", {}, function (g) {
+            if (g === "1") {
+                toast("Tudo Pronto!", 2000);
+            } else{
+                toast("Erro ao envelopar", 3000, "toast-error");
+            }
+        });
+    });
+
     $("#clear-cache").off("click").on("click", function () {
         toast("Atualizando Sistema...", 3000);
         post("dashboard", "cache/update", {}, function (g) {
-            if (g === "1") {
-                toast("Recarregando Arquivos...", 4000);
-                setTimeout(function () {
-                    location.reload();
-                }, 700);
-            }
+            toast("Recarregando Arquivos...", 4000);
+            setTimeout(function () {
+                location.reload();
+            }, 700);
         });
     });
 
     $("#clear-global").off("click").on("click", function () {
         toast("Atualizando Assets", 2000);
         post("dashboard", "cache/global", {}, function (g) {
-            if (g === "1") {
-                toast("Recarregando Assets...", 4000);
-                setTimeout(function () {
-                    location.reload();
-                }, 700);
-            }
+            toast("Recarregando Assets...", 4000);
+            setTimeout(function () {
+                location.reload();
+            }, 700);
         });
     });
 });
