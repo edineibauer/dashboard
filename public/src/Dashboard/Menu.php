@@ -189,11 +189,16 @@ class Menu
      */
     public function getMenuNotAllow()
     {
+        $file = [];
+        $permission = json_decode(file_get_contents(PATH_HOME . "_config/menu_not_show.json"), true);
+        if(!empty($_SESSION['userlogin']) && !empty($permission[$_SESSION['userlogin']['setor']]))
+            $file = $permission[$_SESSION['userlogin']['setor']];
+        elseif(empty($_SESSION['userlogin']) && !empty($permission[0]))
+            $file = $permission[0];
+
         $path = "public/dash/-menu.json";
         if (!empty($_SESSION['userlogin']))
             $pathSession = "public/dash/{$_SESSION['userlogin']['setor']}/-menu.json";
-
-        $file = [];
 
         if (file_exists(PATH_HOME . $path))
             $file = $this->addNotShow(PATH_HOME . $path, $file, PATH_HOME);
