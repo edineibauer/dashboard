@@ -210,6 +210,7 @@ class UpdateDashboard
         $this->createCoreFont($f['font'], $f['icon'], 'fonts');
 
         $this->copyInstallTemplate();
+        $this->copyCustomSystem();
     }
 
     /**
@@ -243,6 +244,24 @@ class UpdateDashboard
 
         if(!file_exists(PATH_HOME . "entity/general/general_info.json"))
             Config::writeFile(PATH_HOME . "entity/general/general_info.json", "[]");
+    }
+
+    /**
+     * Copia arquivos personalizados das libs para o sistema,
+     * arquivos como tema, cabeçalho e outras personalizações
+     */
+    private function copyCustomSystem()
+    {
+        //Para cada biblioteca
+        foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
+
+            // copia tema
+            if(file_exists(PATH_HOME . VENDOR . $lib . "/public/assets/theme.min.css")){
+                if(file_exists(PATH_HOME . "assetsPublic/theme.min.css"))
+                    rename(PATH_HOME . "assetsPublic/theme.min.css", PATH_HOME . "assetsPublic/theme-recovery.min.css");
+                copy(PATH_HOME . VENDOR . $lib . "/public/assets/theme.min.css", PATH_HOME . "assetsPublic/theme.min.css");
+            }
+        }
     }
 
     private function getAccessFile()
