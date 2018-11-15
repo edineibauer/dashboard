@@ -181,11 +181,19 @@ class UpdateDashboard
                 unlink(PATH_HOME . "assetsPublic/view/{$item}");
         }
 
-        if (file_exists(PATH_HOME . "cacheImage"))
-            unlink(PATH_HOME . "cacheImage");
+        if (file_exists(PATH_HOME . "cacheImage")) {
+            foreach (PATH_HOME . "cacheImage" as $item)
+                unlink(PATH_HOME . "cacheImage/{$item}");
 
-        if (file_exists(PATH_HOME . "templates_c"))
+            unlink(PATH_HOME . "cacheImage");
+        }
+
+        if (file_exists(PATH_HOME . "templates_c")) {
+            foreach (PATH_HOME . "templates_c" as $item)
+                unlink(PATH_HOME . "templates_c/{$item}");
+
             unlink(PATH_HOME . "templates_c");
+        }
 
         //gera core novamente
         $f = [];
