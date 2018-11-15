@@ -261,6 +261,14 @@ class UpdateDashboard
                     rename(PATH_HOME . "assetsPublic/theme.min.css", PATH_HOME . "assetsPublic/theme-recovery.min.css");
                 copy(PATH_HOME . VENDOR . $lib . "/public/assets/theme.min.css", PATH_HOME . "assetsPublic/theme.min.css");
             }
+
+            //Remove index caso alguma biblioteca já possua
+            if(file_exists(PATH_HOME . VENDOR . $lib . "/public/view/index.php") && file_exists(PATH_HOME . "public/view/index.php")){
+                if(preg_match("/<h1>Parabéns, tudo funcionando de acordo!<\/h1>/i", file_get_contents(PATH_HOME . "public/view/index.php"))) {
+                    unlink(PATH_HOME . "public/view/index.php");
+                    unlink(PATH_HOME . "public/param/index.json");
+                }
+            }
         }
     }
 

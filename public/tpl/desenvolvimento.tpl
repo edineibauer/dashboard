@@ -11,17 +11,21 @@
 
     <div class="container">
         <div class="left padding-medium padding-16">
-            <i class="material-icons" title="atualiza a versão do sistema forçadamente">info</i>
-            <button id="clear-cache" class="btn hover-shadow">Atualizar Versão</button>
+            <button id="clear-cache" class="btn hover-shadow">
+                <i class="material-icons" title="atualiza a versão do sistema forçadamente">info</i>
+                <span class="left padding-tiny">Atualizar Versão</span>
+            </button>
         </div>
         <div class="left padding-medium padding-16">
-            <i class="material-icons" title="atualiza os arquivos de CSS, JS, FONT, IMG">info</i>
-            <button id="clear-global" class="btn hover-shadow">Atualizar Assets</button>
+            <button id="clear-global" class="btn hover-shadow">
+                <i class="material-icons" title="atualiza os arquivos de CSS, JS, FONT, IMG">info</i>
+                <span class="left padding-tiny">Atualizar Assets</span>
+            </button>
         </div>
         <div class="left padding-medium padding-16">
             <button id="envelopar-lib" class="btn hover-shadow">
-                <i class="material-icons" title="carrega arquivos de desenvolvimento local para subir para o controlador de versão">info</i>
-                Envelopar Biblioteca
+                <i class="material-icons left padding-right" title="carrega arquivos de desenvolvimento local para subir para o controlador de versão">info</i>
+                <span class="left padding-tiny">Envelopar Biblioteca</span>
             </button>
         </div>
     </div>
