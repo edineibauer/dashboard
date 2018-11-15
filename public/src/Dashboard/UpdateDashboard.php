@@ -218,32 +218,32 @@ class UpdateDashboard
      */
     private function copyInstallTemplate()
     {
-        Config::writeFile(PATH_HOME . "index.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/index.txt"));
-        Config::writeFile(PATH_HOME . "tim.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/tim.txt"));
-        Config::writeFile(PATH_HOME . "apiGet.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/apiGet.txt"));
-        Config::writeFile(PATH_HOME . "apiGetPublic.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/apiGetPublic.txt"));
-        Config::writeFile(PATH_HOME . "apiSet.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/apiSet.txt"));
-        Config::writeFile(PATH_HOME . "apiRequest.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/apiRequest.txt"));
-        Config::writeFile(PATH_HOME . "public/view/index.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/viewIndex.txt"));
-        Config::writeFile(PATH_HOME . "public/cron/index.php", str_replace('{$path_home}', PATH_HOME, file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/cronIndex.txt")));
+        Config::writeFile("index.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/index.txt"));
+        Config::writeFile("tim.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/tim.txt"));
+        Config::writeFile("apiGet.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/apiGet.txt"));
+        Config::writeFile("apiGetPublic.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/apiGetPublic.txt"));
+        Config::writeFile("apiSet.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/apiSet.txt"));
+        Config::writeFile("apiRequest.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/apiRequest.txt"));
+        Config::writeFile("public/view/index.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/viewIndex.txt"));
+        Config::writeFile("public/cron/index.php", str_replace('{$path_home}', PATH_HOME, file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/cronIndex.txt")));
 
         //Bloqueios por .htaccess
-        Config::writeFile(PATH_HOME . "_config/.htaccess", "Deny from all");
-        Config::writeFile(PATH_HOME . "entity/.htaccess", "Deny from all");
-        Config::writeFile(PATH_HOME . "public/react/.htaccess", "Deny from all");
-        Config::writeFile(PATH_HOME . "public/cron/.htaccess", "Deny from all");
-        Config::writeFile(PATH_HOME . "public/api/.htaccess", "Deny from all");
-        Config::writeFile(PATH_HOME . "vendor/.htaccess", $this->getAccessFile());
+        Config::writeFile("_config/.htaccess", "Deny from all");
+        Config::writeFile("entity/.htaccess", "Deny from all");
+        Config::writeFile("public/react/.htaccess", "Deny from all");
+        Config::writeFile("public/cron/.htaccess", "Deny from all");
+        Config::writeFile("public/api/.htaccess", "Deny from all");
+        Config::writeFile("vendor/.htaccess", $this->getAccessFile());
         Config::createHtaccess(DOMINIO, WWW, SSL);
 
         if(!file_exists(PATH_HOME . "_config/entity_not_show.json"))
-            Config::writeFile(PATH_HOME . "_config/entity_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
+            Config::writeFile("_config/entity_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
 
         if(!file_exists(PATH_HOME . "_config/menu_not_show.json"))
-            Config::writeFile(PATH_HOME . "_config/menu_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
+            Config::writeFile("_config/menu_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
 
         if(!file_exists(PATH_HOME . "entity/general/general_info.json"))
-            Config::writeFile(PATH_HOME . "entity/general/general_info.json", "[]");
+            Config::writeFile("entity/general/general_info.json", "[]");
     }
 
     /**
