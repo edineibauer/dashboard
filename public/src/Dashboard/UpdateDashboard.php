@@ -238,7 +238,7 @@ class UpdateDashboard
         if(!file_exists(PATH_HOME . "_config/entity_not_show.json"))
             Config\Config::writeFile(PATH_HOME . "_config/entity_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
 
-        if(!file_exists(PATH_HOME . "_config/entity_not_show.json"))
+        if(!file_exists(PATH_HOME . "_config/menu_not_show.json"))
             Config\Config::writeFile(PATH_HOME . "_config/menu_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
 
         if(!file_exists(PATH_HOME . "entity/general/general_info.json"))
