@@ -234,7 +234,7 @@ class UpdateDashboard
         Config::writeFile("public/cron/.htaccess", "Deny from all");
         Config::writeFile("public/api/.htaccess", "Deny from all");
         Config::writeFile("vendor/.htaccess", $this->getAccessFile());
-        Config::createHtaccess(DOMINIO, WWW, SSL);
+        Config::createHtaccess();
 
         if(!file_exists(PATH_HOME . "_config/entity_not_show.json"))
             Config::writeFile("_config/entity_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
@@ -262,9 +262,12 @@ class UpdateDashboard
                 copy(PATH_HOME . VENDOR . $lib . "/public/assets/theme.min.css", PATH_HOME . "assetsPublic/theme.min.css");
             }
 
+            if(!empty($_SESSION['userlogin']))
+                $libNot = Config::getMenuNotAllow()[$_SESSION['userlogin']['setor']];
+
             //Remove index caso alguma biblioteca já possua
             if(file_exists(PATH_HOME . VENDOR . $lib . "/public/view/index.php") && file_exists(PATH_HOME . "public/view/index.php")){
-                if(preg_match("/<h1>Parabéns, tudo funcionando de acordo!<\/h1>/i", file_get_contents(PATH_HOME . "public/view/index.php"))) {
+                if(preg_match("/<h1>Parabéns, tudo funcionando de acordo!<\/h1>/i", file_get_contents(PATH_HOME . "public/view/index.php")) && (!isset($libNot) || !in_array($lib, $libNot))) {
                     unlink(PATH_HOME . "public/view/index.php");
                     unlink(PATH_HOME . "public/param/index.json");
                 }
