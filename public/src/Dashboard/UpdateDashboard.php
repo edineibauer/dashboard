@@ -225,11 +225,6 @@ class UpdateDashboard
         Config::writeFile("apiSet.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/apiSet.txt"));
         Config::writeFile("apiRequest.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/apiRequest.txt"));
 
-        if (!file_exists(PATH_HOME . "public/view/index.php")) {
-            Config::writeFile("public/view/index.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/viewIndex.txt"));
-            Config::writeFile("public/cron/index.php", str_replace('{$path_home}', PATH_HOME, file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/cronIndex.txt")));
-        }
-
         //Bloqueios por .htaccess
         Config::writeFile("_config/.htaccess", "Deny from all");
         Config::writeFile("entity/.htaccess", "Deny from all");
