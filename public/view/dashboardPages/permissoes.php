@@ -5,8 +5,13 @@ use \Config\Config;
 $dados['dominio'] = VENDOR . "dashboard/public/";
 $dados['version'] = VERSION;
 
-$menuNotShow = Config::getMenuNotAllowAll();
-$setorAllow = Config::getEntityNotAllow();
+$menuNotShow = [];
+if (file_exists(PATH_HOME . "public/dash/-menu.json"))
+    $menuNotShow = json_decode(file_get_contents(PATH_HOME . "public/dash/-menu.json"), true);
+
+$setorAllow = [];
+if (file_exists(PATH_HOME . "public/entity/-entity.json"))
+    $setorAllow = json_decode(file_get_contents(PATH_HOME . "public/entity/-entity.json"), true);
 
 $tpl = new \Helpers\Template("dashboard");
 $dic = new \Entity\Dicionario("usuarios");
