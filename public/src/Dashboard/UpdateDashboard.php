@@ -253,12 +253,9 @@ class UpdateDashboard
         //Para cada biblioteca
         foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
 
-            // copia tema
-            if (file_exists(PATH_HOME . VENDOR . $lib . "/public/assets/theme.min.css")) {
-                if (file_exists(PATH_HOME . "assetsPublic/theme.min.css"))
-                    rename(PATH_HOME . "assetsPublic/theme.min.css", PATH_HOME . "assetsPublic/theme-recovery.min.css");
-                copy(PATH_HOME . VENDOR . $lib . "/public/assets/theme.min.css", PATH_HOME . "assetsPublic/theme.min.css");
-            }
+            // copia tema caso não exista no projeto mas exista nas libs
+            if (!file_exists(PATH_HOME . "public/assets/theme.min.css") && file_exists(PATH_HOME . VENDOR . $lib . "/public/assets/theme.min.css"))
+                copy(PATH_HOME . VENDOR . $lib . "/public/assets/theme.min.css", PATH_HOME . "public/assets/theme.min.css");
 
             $libNot = Config::getMenuNotAllow();
 
@@ -333,23 +330,9 @@ class UpdateDashboard
                 }, $data)))[0];
 
                 if (!empty($datum['arquivos'])) {
-                    if ($item === "theme") {
-                        foreach ($datum['arquivos'] as $file) {
-                            if ($file['type'] === "text/css") {
-                                if (!file_exists(PATH_HOME . "assetsPublic/theme.min.css")) {
-                                    $mini = new Minify\CSS($file['content']);
-                                    $mini->minify(PATH_HOME . "assetsPublic/theme.min.css");
-                                    $minifier->add($file['content']);
-                                } else {
-                                    $minifier->add(file_get_contents(PATH_HOME . "assetsPublic/theme.min.css"));
-                                }
-                            }
-                        }
-                    } else {
-                        foreach ($datum['arquivos'] as $file) {
-                            if ($file['type'] === "text/css")
-                                $minifier->add($file['content']);
-                        }
+                    foreach ($datum['arquivos'] as $file) {
+                        if ($file['type'] === "text/css")
+                            $minifier->add($file['content']);
                     }
                 }
             }
@@ -532,7 +515,7 @@ class UpdateDashboard
         $this->createFaviconSizes($dados);
 
         //Create Manifest
-        $theme = explode("}", explode(".theme{", file_get_contents(PATH_HOME . "assetsPublic/theme.min.css"))[1])[0];
+        $theme = explode("}", explode(".theme{", file_get_contents(PATH_HOME . "public/assets/theme.min.css"))[1])[0];
         $themeBack = explode("!important", explode("background-color:", $theme)[1])[0];
         $themeColor = explode("!important", explode("color:", $theme)[1])[0];
         $faviconName = pathinfo($dados['favicon'], PATHINFO_FILENAME);
