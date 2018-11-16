@@ -224,8 +224,11 @@ class UpdateDashboard
         Config::writeFile("apiGetPublic.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/apiGetPublic.txt"));
         Config::writeFile("apiSet.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/apiSet.txt"));
         Config::writeFile("apiRequest.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/apiRequest.txt"));
-        Config::writeFile("public/view/index.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/viewIndex.txt"));
-        Config::writeFile("public/cron/index.php", str_replace('{$path_home}', PATH_HOME, file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/cronIndex.txt")));
+
+        if (!file_exists(PATH_HOME . "public/view/index.php")) {
+            Config::writeFile("public/view/index.php", file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/viewIndex.txt"));
+            Config::writeFile("public/cron/index.php", str_replace('{$path_home}', PATH_HOME, file_get_contents(PATH_HOME . VENDOR . "config/public/installTemplates/cronIndex.txt")));
+        }
 
         //Bloqueios por .htaccess
         Config::writeFile("_config/.htaccess", "Deny from all");
@@ -236,13 +239,13 @@ class UpdateDashboard
         Config::writeFile("vendor/.htaccess", $this->getAccessFile());
         Config::createHtaccess();
 
-        if(!file_exists(PATH_HOME . "_config/entity_not_show.json"))
+        if (!file_exists(PATH_HOME . "_config/entity_not_show.json"))
             Config::writeFile("_config/entity_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
 
-        if(!file_exists(PATH_HOME . "_config/menu_not_show.json"))
+        if (!file_exists(PATH_HOME . "_config/menu_not_show.json"))
             Config::writeFile("_config/menu_not_show.json", '{"1":[],"2":[],"3":[],"0":[]}');
 
-        if(!file_exists(PATH_HOME . "entity/general/general_info.json"))
+        if (!file_exists(PATH_HOME . "entity/general/general_info.json"))
             Config::writeFile("entity/general/general_info.json", "[]");
     }
 
@@ -256,8 +259,8 @@ class UpdateDashboard
         foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
 
             // copia tema
-            if(file_exists(PATH_HOME . VENDOR . $lib . "/public/assets/theme.min.css")){
-                if(file_exists(PATH_HOME . "assetsPublic/theme.min.css"))
+            if (file_exists(PATH_HOME . VENDOR . $lib . "/public/assets/theme.min.css")) {
+                if (file_exists(PATH_HOME . "assetsPublic/theme.min.css"))
                     rename(PATH_HOME . "assetsPublic/theme.min.css", PATH_HOME . "assetsPublic/theme-recovery.min.css");
                 copy(PATH_HOME . VENDOR . $lib . "/public/assets/theme.min.css", PATH_HOME . "assetsPublic/theme.min.css");
             }
@@ -265,8 +268,8 @@ class UpdateDashboard
             $libNot = Config::getMenuNotAllow();
 
             //Remove index caso alguma biblioteca já possua
-            if(file_exists(PATH_HOME . VENDOR . $lib . "/public/view/index.php") && file_exists(PATH_HOME . "public/view/index.php")){
-                if(preg_match("/<h1>Parabéns, tudo funcionando de acordo!<\/h1>/i", file_get_contents(PATH_HOME . "public/view/index.php")) && (!isset($libNot) || !in_array($lib, $libNot))) {
+            if (file_exists(PATH_HOME . VENDOR . $lib . "/public/view/index.php") && file_exists(PATH_HOME . "public/view/index.php")) {
+                if (preg_match("/<h1>Parabéns, tudo funcionando de acordo!<\/h1>/i", file_get_contents(PATH_HOME . "public/view/index.php")) && (!isset($libNot) || !in_array($lib, $libNot))) {
                     unlink(PATH_HOME . "public/view/index.php");
                     unlink(PATH_HOME . "public/param/index.json");
                 }
