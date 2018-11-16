@@ -184,15 +184,11 @@ class UpdateDashboard
         if (file_exists(PATH_HOME . "cacheImage")) {
             foreach (Helper::listFolder(PATH_HOME . "cacheImage") as $item)
                 unlink(PATH_HOME . "cacheImage/{$item}");
-
-            unlink(PATH_HOME . "cacheImage");
         }
 
         if (file_exists(PATH_HOME . "templates_c")) {
             foreach (Helper::listFolder(PATH_HOME . "templates_c") as $item)
                 unlink(PATH_HOME . "templates_c/{$item}");
-
-            unlink(PATH_HOME . "templates_c");
         }
 
         //gera core novamente
