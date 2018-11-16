@@ -7,12 +7,12 @@ $file = [];
 if (file_exists($fileName))
     $file = json_decode(file_get_contents($fileName), true);
 
-if($action) {
-    if (!in_array($entity, $file[$setor]))
+if ($action) {
+    if (!isset($file[$setor]) || !in_array($entity, $file[$setor]))
         $file[$setor][] = $entity;
-} else {
-    if(in_array($entity, $file[$setor]))
-        $file[$setor] = array_diff($file[$setor], [$entity]);
+
+} elseif (in_array($entity, $file[$setor])) {
+    $file[$setor] = array_diff($file[$setor], [$entity]);
 }
 
 $f = fopen($fileName, "w");
