@@ -262,8 +262,7 @@ class UpdateDashboard
                 copy(PATH_HOME . VENDOR . $lib . "/public/assets/theme.min.css", PATH_HOME . "assetsPublic/theme.min.css");
             }
 
-            if(!empty($_SESSION['userlogin']))
-                $libNot = Config::getMenuNotAllow()[$_SESSION['userlogin']['setor']];
+            $libNot = Config::getMenuNotAllow();
 
             //Remove index caso alguma biblioteca já possua
             if(file_exists(PATH_HOME . VENDOR . $lib . "/public/view/index.php") && file_exists(PATH_HOME . "public/view/index.php")){
