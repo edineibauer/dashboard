@@ -12,13 +12,13 @@
     <div class="container">
         <div class="left padding-medium padding-16">
             <button id="clear-cache" class="btn hover-shadow">
-                <i class="material-icons" title="atualiza a versão do sistema forçadamente">info</i>
+                <i class="material-icons left padding-right" title="atualiza a versão do sistema forçadamente">info</i>
                 <span class="left padding-tiny">Atualizar Versão</span>
             </button>
         </div>
         <div class="left padding-medium padding-16">
             <button id="clear-global" class="btn hover-shadow">
-                <i class="material-icons" title="atualiza os arquivos de CSS, JS, FONT, IMG">info</i>
+                <i class="material-icons left padding-right" title="atualiza os arquivos de CSS, JS, FONT, IMG">info</i>
                 <span class="left padding-tiny">Atualizar Assets</span>
             </button>
         </div>
