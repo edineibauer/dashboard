@@ -322,6 +322,7 @@ class UpdateDashboard
     {
         if (!file_exists(PATH_HOME . "assetsPublic/{$name}.min.css")) {
             Helper::createFolderIfNoExist(PATH_HOME . "assetsPublic");
+
             $minifier = new Minify\CSS("");
 
             foreach ($cssList as $item) {
@@ -336,6 +337,9 @@ class UpdateDashboard
                     }
                 }
             }
+
+            if(file_exists(PATH_HOME . "public/assets/theme.min.css"))
+                $minifier->add(PATH_HOME . "public/assets/theme.min.css");
 
             $minifier->minify(PATH_HOME . "assetsPublic/{$name}.min.css");
         }
