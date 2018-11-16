@@ -1,9 +1,13 @@
 <?php
+
+use \Config\Config;
+
 $dados['dominio'] = VENDOR . "dashboard/public/";
 $dados['version'] = VERSION;
 
-$menuNotShow = \Helpers\Check::getMenuNotAllow();
-$setorAllow = \Helpers\Check::getEntityNotAllow();
+$menuNotShow = Config::getMenuNotAllowAll();
+$setorAllow = Config::getEntityNotAllow();
+
 $tpl = new \Helpers\Template("dashboard");
 $dic = new \Entity\Dicionario("usuarios");
 $allow = $dic->search('column', 'setor')->getAllow();
