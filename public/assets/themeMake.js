@@ -254,7 +254,7 @@ function restoreTheme() {
         if (d === "no") {
             toast("tema anterior não encontrado", 3000, "toast-warning");
         } else {
-            $("link[href='" + HOME + "assetsPublic/theme.min.css?v=" + VERSION +"]'").attr("href", HOME + "assetsPublic/theme.min.css?v=99" + Math.ceil(Math.random() * 1000));
+            $("link[href='" + HOME + "public/assets/theme.min.css?v=" + VERSION +"]'").attr("href", HOME + "public/assets/theme.min.css?v=99" + Math.ceil(Math.random() * 1000));
             location.href = HOME + "dashboard";
         }
     });
@@ -264,7 +264,7 @@ function saveTheme() {
     if(localStorage.txt) {
         toast("Aplicando Tema", 8000, "toast-success");
         post('dashboard', 'tema/saveTheme', {txt: localStorage.txt}, function () {
-            $("link[href='" + HOME + "assetsPublic/theme.min.css?v=" + VERSION +"]'").attr("href", HOME + "assetsPublic/theme.min.css?v=99" + Math.ceil(Math.random() * 1000));
+            $("link[href='" + HOME + "public/assets/theme.min.css?v=" + VERSION +"]'").attr("href", HOME + "public/assets/theme.min.css?v=99" + Math.ceil(Math.random() * 1000));
             location.href = HOME + "dashboard";
         });
     } else {
