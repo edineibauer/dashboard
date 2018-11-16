@@ -182,14 +182,14 @@ class UpdateDashboard
         }
 
         if (file_exists(PATH_HOME . "cacheImage")) {
-            foreach (PATH_HOME . "cacheImage" as $item)
+            foreach (Helper::listFolder(PATH_HOME . "cacheImage") as $item)
                 unlink(PATH_HOME . "cacheImage/{$item}");
 
             unlink(PATH_HOME . "cacheImage");
         }
 
         if (file_exists(PATH_HOME . "templates_c")) {
-            foreach (PATH_HOME . "templates_c" as $item)
+            foreach (Helper::listFolder(PATH_HOME . "templates_c") as $item)
                 unlink(PATH_HOME . "templates_c/{$item}");
 
             unlink(PATH_HOME . "templates_c");
