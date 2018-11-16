@@ -334,9 +334,11 @@ class UpdateDashboard
                 }
             }
 
-            if(file_exists(PATH_HOME . "public/assets/theme.min.css"))
-                $minifier->add(PATH_HOME . "public/assets/theme.min.css");
+            //copia theme padrão para pasta do site
+            if (!file_exists(PATH_HOME . "public/assets/theme.min.css") && file_exists(PATH_HOME . VENDOR . "dashboard/public/assets/theme.min.css"))
+                copy(PATH_HOME . VENDOR . "dashboard/public/assets/theme.min.css", PATH_HOME . "public/assets/theme.min.css");
 
+            $minifier->add(PATH_HOME . "public/assets/theme.min.css");
             $minifier->minify(PATH_HOME . "assetsPublic/{$name}.min.css");
         }
     }
