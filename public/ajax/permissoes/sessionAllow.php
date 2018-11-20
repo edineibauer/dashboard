@@ -10,10 +10,11 @@ if (file_exists($fileName))
 if ($action) {
     if (!isset($file[$setor]) || !in_array($entity, $file[$setor]))
         $file[$setor][] = $entity;
-} elseif (in_array($entity, $file[$setor])) {
+} elseif (!empty($file[$setor]) && in_array($entity, $file[$setor])) {
     $file[$setor] = array_diff($file[$setor], [$entity]);
 }
 
-$f = fopen($fileName, "w");
+\Helpers\Helper::createFolderIfNoExist(PATH_HOME . "public/entity");
+$f = fopen($fileName, "w+");
 fwrite($f, json_encode($file));
 fclose($f);

@@ -15,6 +15,7 @@ if ($action) {
     $file[$setor] = array_diff($file[$setor], [$entity]);
 }
 
+\Helpers\Helper::createFolderIfNoExist(PATH_HOME . "public/dash");
 $f = fopen($fileName, "w");
 fwrite($f, json_encode($file));
 fclose($f);
