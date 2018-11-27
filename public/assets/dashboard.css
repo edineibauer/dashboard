@@ -6,6 +6,7 @@ html {
     z-index: 21;
     top: inherit;
     padding-bottom:45px;
+    border-top: solid 1px #dddddd;
 }
 
 .menu-dashboard-lista {
