@@ -1,1 +1,3 @@
-["dashboard_note"]
+{
+  "*": ["dashboard_note"]
+}
