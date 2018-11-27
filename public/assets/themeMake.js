@@ -192,7 +192,7 @@ function createTheme() {
     txt += ".theme-border-hover:hover {border-color:" + theme1.d0 + " !important}<br>";
 
     /* SWITCH STYLE */
-    if(theme1.td0 !== "#ffffff") {
+    if(theme1.d0 !== "#ffffff") {
         txt += ".switch input:checked + .slider {background-color:" + theme1.l2 + "!important}<br>";
         txt += ".switch input:checked + .slider:after {background-color:" + theme1.d0 + "!important}<br>";
 
