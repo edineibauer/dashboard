@@ -498,8 +498,6 @@ class UpdateDashboard
                 if (preg_match('/\.php$/i', $view)) {
                     $listData[] = HOME . str_replace(['.php', 'index'], '', $view);
                     $listData[] = HOME . "get/" . str_replace('.php', '', $view);
-                    if (file_exists(PATH_HOME . "{$path}view/data/{$view}"))
-                        $listData[] = HOME . "get/data/" . str_replace('.php', '', $view);
                 }
             }
         }
@@ -578,6 +576,13 @@ class UpdateDashboard
 
         //Cache Content Link Control
         list($listAssets, $listData) = $this->checkCacheContent("public/", $listAssets, $listData, $dados['version']);
+
+        //Cache Content from libs
+        $entidadesNot = Config::getEntityNotAllow();
+        foreach (Helper::listFolder(PATH_HOME . VENDOR) as $lib) {
+            if(!in_array($lib, $entidadesNot) && !empty(PATH_HOME . VENDOR . "{$lib}/public/view"))
+                list($listAssets, $listData) = $this->checkCacheContent(VENDOR . "{$lib}/public/", $listAssets, $listData, $dados['version']);
+        }
 
         $f = fopen(PATH_HOME . "service-worker.js", "w");
 
