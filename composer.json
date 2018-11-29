@@ -11,6 +11,7 @@
   ],
   "require": {
     "php": "^7.1",
+    "conn/ui-dev": "*",
     "conn/session-control": "*",
     "conn/table": "*",
     "conn/form-crud": "*",
