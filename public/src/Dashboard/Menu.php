@@ -41,7 +41,6 @@ class Menu
     private function start()
     {
         $this->geral();
-        $this->gerenciarEntidades();
         $this->listEntity();
         $this->listRelationContent();
         $this->custom();
@@ -50,15 +49,6 @@ class Menu
     private function geral()
     {
         $this->menu['geralNotCopy'] = ["icon" => "timeline", "title" => "Dashboard", "action" => "page", "file" => "dashboardPages/panel", "lib" => "dashboard"];
-    }
-
-    /**
-     * Editor de Entidades para Adm
-     */
-    private function gerenciarEntidades()
-    {
-        if ($_SESSION['userlogin']['setor'] === '1')
-            $this->menu[] = ["icon" => "accessibility", "title" => "Gerenciar Entidades", "action" => "link", "file" => HOME . "entidades"];
     }
 
     private function listRelationContent()
