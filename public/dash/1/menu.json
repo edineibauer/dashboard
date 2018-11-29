@@ -1,37 +1,9 @@
 [
   {
-    "icon": "format_paint",
-    "title": "Tema",
-    "action": "page",
-    "lib": "dashboard",
-    "file": "dashboardPages/tema"
-  },
-  {
-    "icon": "settings",
-    "title": "Configurações",
-    "action": "page",
-    "lib": "dashboard",
-    "file": "dashboardPages/configuracoes"
-  },
-  {
-    "icon": "settings_input_component",
-    "title": "Integrações",
-    "action": "page",
-    "lib": "dashboard",
-    "file": "dashboardPages/integracoes"
-  },
-  {
     "icon": "settings_ethernet",
-    "title": "Desenvolvimento",
-    "action": "page",
-    "lib": "dashboard",
-    "file": "dashboardPages/desenvolvimento"
-  },
-  {
-    "icon": "block",
-    "title": "Permissões",
-    "action": "page",
-    "lib": "dashboard",
-    "file": "dashboardPages/permissoes"
+    "title": "DEV",
+    "action": "link",
+    "lib": "ui-dev",
+    "file": "UIDev"
   }
 ]

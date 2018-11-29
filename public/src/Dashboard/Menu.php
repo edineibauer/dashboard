@@ -58,7 +58,7 @@ class Menu
     private function gerenciarEntidades()
     {
         if ($_SESSION['userlogin']['setor'] === '1')
-            $this->menu[] = ["icon" => "accessibility", "title" => "Gerenciar Entidades", "action" => "link", "link" => HOME . "entidades"];
+            $this->menu[] = ["icon" => "accessibility", "title" => "Gerenciar Entidades", "action" => "link", "file" => HOME . "entidades"];
     }
 
     private function listRelationContent()
