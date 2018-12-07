@@ -176,6 +176,12 @@ class UpdateDashboard
         if (file_exists(PATH_HOME . "assetsPublic/fonts.min.css"))
             unlink(PATH_HOME . "assetsPublic/fonts.min.css");
 
+        if (file_exists(PATH_HOME . "assetsPublic/appCore.min.js"))
+            unlink(PATH_HOME . "assetsPublic/appCore.min.js");
+
+        if (file_exists(PATH_HOME . "assetsPublic/loadingScreen.min.js"))
+            unlink(PATH_HOME . "assetsPublic/loadingScreen.min.js");
+
         if (file_exists(PATH_HOME . "assetsPublic/view")) {
             foreach (Helper::listFolder(PATH_HOME . "assetsPublic/view") as $item)
                 unlink(PATH_HOME . "assetsPublic/view/{$item}");
