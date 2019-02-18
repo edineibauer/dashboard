@@ -168,6 +168,12 @@ class UpdateDashboard
         if (file_exists(PATH_HOME . "assetsPublic/core.min.css"))
             unlink(PATH_HOME . "assetsPublic/core.min.css");
 
+        if (file_exists(PATH_HOME . "assetsPublic/tableCore.min.js"))
+            unlink(PATH_HOME . "assetsPublic/tableCore.min.js");
+
+        if (file_exists(PATH_HOME . "assetsPublic/tableCore.min.css"))
+            unlink(PATH_HOME . "assetsPublic/tableCore.min.css");
+
         if (file_exists(PATH_HOME . "assetsPublic/fonts.min.css"))
             unlink(PATH_HOME . "assetsPublic/fonts.min.css");
 
