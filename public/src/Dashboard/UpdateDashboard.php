@@ -199,9 +199,9 @@ class UpdateDashboard
 
         $list = implode('/', array_unique(array_merge($f['js'], $f['css'])));
         $data = json_decode(file_get_contents(REPOSITORIO . "app/library/{$list}"), true);
-        if ($data['response'] === 1 && !empty($data['data'])) {
-            $this->createCoreJs($f['js'], $data['data'], 'core');
-            $this->createCoreCss($f['css'], $data['data'], 'core');
+        if (!empty($data)) {
+            $this->createCoreJs($f['js'], $data, 'core');
+            $this->createCoreCss($f['css'], $data, 'core');
         }
 
         $this->createCoreFont($f['font'], $f['icon'], 'fonts');
