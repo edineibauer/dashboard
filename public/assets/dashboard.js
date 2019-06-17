@@ -13,7 +13,10 @@ function mainLoading() {
 function requestDashboardContent(file) {
     mainLoading();
     get(file, function (data) {
-        setDashboardContent(data.content)
+        setDashboardContent(data.content);
+
+        if (data.js.length)
+            $.cachedScript(data.js + "?v=" + VERSION);
     })
 }
 
